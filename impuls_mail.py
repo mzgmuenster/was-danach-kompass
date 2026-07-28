@@ -1152,10 +1152,10 @@ def baue_mail(d, idx):
     tage = tage_bis_abi(d)
 
     knoepfe = "".join(f"""
-        <tr><td style="padding:0 0 8px">
-          <a href="{APP_URL}?i={idx}&a={j}" style="display:block;padding:14px 16px;
-             background:#ffffff;border:1px solid #d7d2c8;border-radius:12px;
-             color:#151b23;text-decoration:none;font:600 16px/1.35 {SANS}">{o['t']}</a>
+        <tr><td style="padding:0 0 9px">
+          <a href="{APP_URL}?i={idx}&a={j}" style="display:block;padding:15px 17px;
+             background:#1c2231;border:1px solid #39445a;border-radius:14px;
+             color:#f2f5f9;text-decoration:none;font:600 16px/1.35 {SANS}">{o['t']}</a>
         </td></tr>""" for j, o in enumerate(q["optionen"]))
 
     fenster = aktives_fenster(d)
@@ -1163,19 +1163,19 @@ def baue_mail(d, idx):
     if fenster:
         rest = (datetime.date.fromisoformat(fenster["bis"]) - d).days
         fristzeile = f"""
-      <tr><td style="padding:6px 0 0">
-        <div style="background:#fdeceb;border:1px solid #f3cbc8;border-radius:10px;
-             padding:11px 14px;font:14px/1.5 {SANS};color:#7c1b16">
-          <b>Frist läuft:</b> {fenster['titel']} — noch {rest} Tage.
+      <tr><td style="padding:14px 0 0">
+        <div style="background:#241a1e;border:1px solid #5c2b32;border-radius:12px;
+             padding:12px 15px;font:14px/1.5 {SANS};color:#fda4af">
+          <b style="color:#fecdd3">Frist läuft:</b> {fenster['titel']} — noch {rest} Tage.
         </div>
       </td></tr>"""
 
     willkommen = ""
     if tag_nr(d) == 0:
         willkommen = f"""
-      <tr><td style="padding:0 0 16px">
-        <div style="background:#f2f8f7;border:1px solid #cfe6e3;border-radius:12px;
-             padding:14px 16px;font:15px/1.55 {SANS};color:#3d4b5a">
+      <tr><td style="padding:0 0 18px">
+        <div style="background:#13231f;border:1px solid #1f4f48;border-radius:14px;
+             padding:15px 17px;font:15px/1.55 {SANS};color:#aeb9c9">
           Ab heute kommt jeden Morgen eine Frage — 30 Stück bis zum Abi.
           Antippen genügt, dauert zehn Sekunden. Am Ende zeigt dir der Kompass, was sich abzeichnet.
           Wenn es nervt: sag Bescheid, dann ist es weg.
@@ -1184,31 +1184,43 @@ def baue_mail(d, idx):
 
     html_body = f"""<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#fbf9f6">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fbf9f6">
-<tr><td align="center" style="padding:22px 14px 36px">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"></head>
+<body style="margin:0;padding:0;background:#0d1017">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0d1017">
+<tr><td align="center" style="padding:24px 14px 40px">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px">
 
-    <tr><td style="padding:0 0 14px;font:800 14px {SANS};color:#151b23;letter-spacing:-.02em">
-      was danach? <span style="color:#1f6f6b">Kompass</span>
-      <span style="float:right;font:600 12px {SANS};color:#8b95a3">Frage {idx+1}/{len(IMPULSE)} · noch {tage} Tage</span>
+    <tr><td style="padding:0 0 16px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td width="30" valign="bottom" style="padding-right:10px">
+          <img src="{APP_URL}jakob.png" width="26" height="32" alt=""
+               style="display:block;border:0;outline:none"></td>
+        <td valign="bottom" style="font:800 15px {SANS};color:#f2f5f9;letter-spacing:-.02em">
+          was danach? <span style="color:#2dd4bf">Kompass</span></td>
+        <td valign="bottom" align="right" style="font:700 12px {SANS};color:#7d8899">
+          Frage {idx+1}/{len(IMPULSE)} &middot; noch {tage} Tage</td>
+      </tr></table>
     </td></tr>
+
+    <tr><td style="background:#161b26;border:1px solid #28303f;border-radius:18px;padding:24px 22px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 {willkommen}
-    <tr><td style="padding:0 0 16px;font:800 24px/1.25 {SANS};color:#151b23;letter-spacing:-.02em">
-      {q['frage']}
-    </td></tr>
-
-    <tr><td>
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{knoepfe}</table>
-    </td></tr>
-
-    <tr><td style="padding:6px 0 0;font:14px/1.5 {SANS};color:#6b7b8c">
-      <a href="{APP_URL}?i={idx}" style="color:#1f6f6b">Eigene Antwort schreiben</a>
-      &nbsp;·&nbsp;
-      <a href="{APP_URL}#auswertung" style="color:#1f6f6b">Auswertung ansehen</a>
-    </td></tr>
+        <tr><td style="padding:0 0 18px;font:800 25px/1.24 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {q['frage']}
+        </td></tr>
+        <tr><td>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{knoepfe}</table>
+        </td></tr>
+        <tr><td style="padding:8px 0 0;font:14px/1.5 {SANS};color:#7d8899">
+          <a href="{APP_URL}?i={idx}" style="color:#2dd4bf;text-decoration:none">Eigene Antwort</a>
+          &nbsp;·&nbsp;
+          <a href="{APP_URL}#auswertung" style="color:#2dd4bf;text-decoration:none">Auswertung</a>
+        </td></tr>
 {fristzeile}
+      </table>
+    </td></tr>
+
   </table>
 </td></tr></table>
 </body></html>"""

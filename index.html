@@ -13,6 +13,7 @@
   --ink:#f2f5f9; --ink-2:#aeb9c9; --ink-3:#7d8899;
   --a1:#2dd4bf; --a2:#fb923c; --a3:#a78bfa; --a4:#a3e635;
   --shadow:0 2px 4px rgba(0,0,0,.3),0 18px 40px -22px rgba(0,0,0,.8);
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --r:18px;
 }
 *{box-sizing:border-box}
@@ -48,6 +49,27 @@ nav.tabs a{border:1px solid var(--line);background:var(--card);color:var(--ink-2
 nav.tabs a:hover{border-color:var(--line-2);color:var(--ink)}
 nav.tabs a[aria-selected="true"]{background:var(--a1);color:#07110f;border-color:var(--a1)}
 
+/* ---- Kopf mit Silhouette ---- */
+header.top{position:relative;overflow:hidden}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.herotext{flex:1 1 auto;min-width:0}
+.sil{flex:0 0 auto;width:clamp(96px,20vw,164px);color:var(--a1);opacity:.9;
+  filter:drop-shadow(0 0 34px rgba(45,212,191,.35));align-self:flex-end;margin-bottom:-4px}
+.sil svg{display:block;width:100%;height:auto}
+.sil path{fill:url(#silfill)}
+
+/* ---- So funktioniert das ---- */
+.wie{display:grid;gap:10px;margin:0 0 24px}
+@media(min-width:760px){.wie{grid-template-columns:repeat(3,1fr)}}
+.wiebox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px}
+.wiebox b{display:block;font-size:14.5px;margin-bottom:3px;letter-spacing:-.01em}
+.wiebox span{font-size:14px;color:var(--ink-2);line-height:1.5}
+.wiebox i{font-style:normal;font-weight:800;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--a1);display:block;margin-bottom:6px}
+.hinweis{border-left:3px solid var(--a1);background:var(--card);border-radius:0 14px 14px 0;
+  padding:14px 18px;margin:0 0 20px;font-size:15px;color:var(--ink-2);max-width:66ch}
+.hinweis b{color:var(--ink)}
+
 .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
   padding:22px 24px;box-shadow:var(--shadow)}
 .nojs{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.35);border-radius:12px;
@@ -64,15 +86,15 @@ nav.tabs a[aria-selected="true"]{background:var(--a1);color:#07110f;border-color
 .opts{display:grid;gap:9px;margin:0 0 14px;padding:0;list-style:none}
 .opt{display:block;width:100%;text-align:left;border:1px solid var(--line-2);
   background:var(--card);color:var(--ink);border-radius:14px;padding:14px 16px;
-  font:600 16px/1.35 inherit;cursor:pointer;transition:.14s}
+  font:600 16px/1.35 var(--sans);cursor:pointer;transition:.14s}
 .opt:hover{border-color:var(--a1);transform:translateY(-1px)}
 .opt.gewaehlt{background:var(--a1);color:#07110f;border-color:var(--a1);font-weight:750}
 .frei{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  color:var(--ink);padding:12px 14px;font:15px/1.5 inherit;resize:vertical;min-height:64px}
+  color:var(--ink);padding:12px 14px;font:15px/1.5 var(--sans);resize:vertical;min-height:64px}
 .frei::placeholder{color:var(--ink-3)}
 .qfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
 .btn{border:1px solid var(--a1);background:var(--a1);color:#07110f;border-radius:999px;
-  padding:11px 20px;font:750 15px inherit;cursor:pointer;text-decoration:none;display:inline-block}
+  padding:11px 20px;font:750 15px var(--sans);cursor:pointer;text-decoration:none;display:inline-block}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
 .ok{color:var(--a4);font-weight:700;font-size:14.5px}
 .balken{height:6px;border-radius:3px;background:var(--card-2);overflow:hidden;margin:10px 0 4px}
@@ -187,8 +209,17 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:v
 <div class="wrap">
 
 <header class="top">
-  <h1>Was danach?<br><span>Kompass</span></h1>
-  <p class="sub">30 Fragen bis zum Abi. Antippen genügt. Am Ende siehst du, was sich zeigt.</p>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <linearGradient id="silfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2dd4bf"/><stop offset="55%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#0d1017"/></linearGradient></defs></svg>
+  <div class="hero">
+    <div class="herotext">
+      <h1>Was danach?<br><span>Kompass</span></h1>
+      <p class="sub">30 Fragen bis zum Abi. Antippen genügt. Am Ende siehst du, was sich zeigt.</p>
+    </div>
+    <div class="sil" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 428 524"><path d="M16.4 519.8C16.6 518.5 17.4 512.1 18.0 505.5C18.6 498.9 19.3 492.1 19.5 490.5C20.1 484.8 23.9 467.4 26.3 459.0C29.5 447.7 30.4 441.4 28.9 440.5C27.5 439.6 23.7 444.2 22.0 449.0C19.7 455.6 12.7 469.5 9.2 474.2C2.7 483.4 1.0 479.7 3.4 461.1C4.3 454.0 5.0 447.0 5.0 445.3C5.0 443.7 6.3 440.4 7.8 437.9C11.9 431.4 14.7 422.2 16.9 407.4C18.0 400.2 19.8 390.9 21.0 386.7C22.1 382.5 23.0 378.1 23.0 377.0C23.0 376.0 24.1 371.7 25.4 367.7C26.7 363.6 29.0 355.4 30.5 349.4C35.4 329.3 39.9 317.8 44.7 312.8L48.3 309.1L47.6 296.8C46.3 273.9 44.9 278.0 59.5 263.9C73.2 250.7 81.0 245.3 98.6 236.6C105.9 233.0 109.6 230.3 116.6 223.5C121.5 218.8 126.6 214.7 128.0 214.5C138.6 212.4 154.2 205.6 160.8 200.3C163.7 197.9 166.8 196.0 167.6 196.0C169.8 196.0 176.2 192.5 178.4 190.1C179.5 188.9 180.6 188.0 181.1 188.0C182.3 188.0 201.4 175.0 202.7 173.3C203.6 172.1 204.0 167.5 204.0 158.6C204.0 143.6 203.7 143.1 195.5 137.7C191.3 135.0 190.2 133.6 188.9 129.5C187.0 123.5 186.5 111.1 187.9 106.7C188.5 104.9 189.1 91.8 189.2 76.5L189.5 49.5L192.3 44.0C200.2 28.4 202.9 25.3 214.6 17.9C225.6 11.1 235.8 6.3 242.8 4.6C246.1 3.8 249.3 2.9 249.9 2.6C250.5 2.2 252.6 3.0 254.7 4.4C260.5 8.4 267.5 9.6 273.0 7.5C283.7 3.3 290.5 4.5 300.6 12.2C303.7 14.6 308.7 18.2 311.7 20.2C319.3 25.3 320.9 26.9 322.6 31.0C323.4 32.9 325.2 35.7 326.6 37.1C328.8 39.4 329.0 40.0 327.9 41.9C326.7 43.7 326.9 44.3 329.2 46.7C333.8 51.7 334.2 53.3 333.8 66.8L333.5 79.5L328.2 85.8C323.0 91.8 316.0 103.8 316.0 106.4C316.0 107.1 314.7 110.4 313.0 113.7C311.4 117.0 309.6 122.0 309.0 124.9C307.0 135.4 303.9 143.7 301.0 146.5C299.4 148.1 296.9 152.4 295.4 156.1C294.0 159.9 290.2 167.0 286.9 172.1C279.2 183.6 280.3 185.3 297.6 189.1C317.9 193.5 336.9 208.1 357.5 235.2C371.8 254.0 372.0 254.7 369.4 275.6C368.9 280.0 369.3 281.9 372.5 289.6C377.2 301.1 379.1 306.3 383.0 318.7C384.8 324.4 387.5 330.8 389.1 333.0C390.7 335.2 392.0 337.2 392.0 337.5C392.0 338.7 398.5 351.7 400.0 353.5C401.9 355.8 409.7 372.6 413.0 381.5C414.3 384.8 416.3 389.8 417.5 392.5C420.3 398.6 423.8 409.0 425.0 414.8C425.5 417.1 425.7 431.4 425.5 446.8C424.9 479.9 423.8 485.3 415.9 495.0C414.3 496.9 413.0 499.0 413.0 499.8C413.0 500.5 412.3 502.2 411.4 503.5C410.4 505.0 409.5 509.3 409.1 513.8L408.5 521.5L212.2 521.8L16.0 522.0L16.4 519.8Z" fill="currentColor"/></svg></div>
+  </div>
 </header>
 
 <nav class="tabs">
@@ -200,6 +231,17 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:v
 </nav>
 
 <section class="block" id="heute">
+  <div class="wie">
+    <div class="wiebox"><i>Jeden Morgen</i><b>Eine Frage antippen</b>
+      <span>Vier Möglichkeiten, eine auswählen. Zehn Sekunden. Das sammelt, wofür du dich
+      tatsächlich entscheidest.</span></div>
+    <div class="wiebox"><i>Wann du willst</i><b>Die Regler stellen</b>
+      <span>Sieben Schieber für dein Wunschbild: wie weit weg, wie viel Rahmen, wie viel Geld.
+      Sie sortieren die 22 Wege nach Passung.</span></div>
+    <div class="wiebox"><i>Am Ende</i><b>Auswertung lesen</b>
+      <span>Dort trifft beides aufeinander — was du dir wünschst und was du gewählt hast.
+      Wo es auseinandergeht, wird es interessant.</span></div>
+  </div>
   <p class="nojs">Die Antwortfunktion braucht JavaScript. Unten stehen trotzdem alle 30 Fragen.</p>
   <div class="qcard" id="qcard"></div>
   <ul class="qlist">
@@ -240,7 +282,10 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <section class="block" id="regler">
   <h2>Wie soll es sich anfühlen?</h2>
-  <p class="lede">Regler schieben — die Wege sortieren sich nach Passung. Haken bei <em>wichtig</em> zählt doppelt.</p>
+  <div class="hinweis"><b>Die Regler sind dein Wunschbild.</b> Sie fragen nicht, was du tun sollst,
+    sondern wie sich das nächste Jahr anfühlen soll. Jeder der 22 Wege unten hat dieselben sieben Werte
+    hinterlegt — je näher er an deiner Einstellung liegt, desto weiter oben steht er.
+    Haken bei <em>wichtig</em> zählt doppelt.</div>
   <div class="panel">
     <div class="slidergrid" id="sliders">
 <div class="slider" data-slider="ferne">
@@ -784,7 +829,9 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <section class="block" id="auswertung">
   <h2>Was sich zeigt</h2>
-  <p class="lede">Keine Rangliste, keine Empfehlung. Nur das, was in deinen Antworten auffällt.</p>
+  <div class="hinweis"><b>Hier trifft Wunsch auf Wahl.</b> Die Regler sagen, was du dir vorstellst.
+    Die Antworten zeigen, wofür du dich tatsächlich entscheidest. Beides zusammen ergibt ein Bild —
+    keine Rangliste, keine Empfehlung, nur das, was auffällt.</div>
   <div class="aw">
     <div class="panel awfull" id="fortschritt"></div>
     <div class="panel awfull"><div class="spiegel" id="spiegel"></div>
