@@ -12,16 +12,25 @@ jobs:
         with:
           python-version: "3.12"
       - name: SMTP-Konfiguration aus Secrets erzeugen
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          TO_EMAILS: ${{ secrets.TO_EMAILS }}
         run: |
-          cat > smtp_config.json <<EOF
-          {
-            "smtp_server": "${{ secrets.SMTP_SERVER }}",
-            "smtp_port": "${{ secrets.SMTP_PORT }}",
-            "smtp_user": "${{ secrets.SMTP_USER }}",
-            "smtp_password": "${{ secrets.SMTP_PASSWORD }}",
-            "from_email": "${{ secrets.FROM_EMAIL }}",
-            "to_emails": ${{ secrets.TO_EMAILS }}
-          }
-          EOF
+          python3 - <<'PY'
+          import json, os
+          keys = ["smtp_server", "smtp_port", "smtp_user", "smtp_password", "from_email"]
+          cfg = {k: os.environ.get(k.upper(), "").strip() for k in keys}
+          roh = os.environ.get("TO_EMAILS", "").strip()
+          try:
+              cfg["to_emails"] = json.loads(roh)
+          except Exception:
+              cfg["to_emails"] = [a.strip().strip('"').strip("'") for a in roh.strip("[]").split(",") if a.strip()]
+          open("smtp_config.json", "w").write(json.dumps(cfg, ensure_ascii=False))
+          print("Empfaenger:", cfg["to_emails"])
+          PY
       - name: Impuls verschicken
         run: python3 impuls_mail.py
