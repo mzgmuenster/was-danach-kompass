@@ -1281,8 +1281,9 @@ $('#reset').addEventListener('click',function(){
 /* --- Impuls des Tages --- */
 var items=$$('.qitem'), N=items.length;
 function tagIndex(){
-  var d=new Date(), s=new Date(d.getFullYear(),0,0);
-  return Math.floor((d-s)/86400000) % N;
+  var start=new Date(2026,6,29);
+  var d=new Date(); d.setHours(0,0,0,0);
+  return Math.max(0, Math.round((d-start)/86400000)) % N;
 }
 var qi=tagIndex();
 function zeigeQ(){ items.forEach(function(li,i){li.className='qitem'+(i===qi?' on':'');}); }

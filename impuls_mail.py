@@ -445,6 +445,7 @@ IMPULSE = [
 
 FRISTEN = {
  "abitur": "2027-05-15",
+ "start": "2026-07-29",
  "fenster": [
   {
    "von": "2026-07-01",
@@ -557,9 +558,19 @@ def heute():
     return datetime.date.today()
 
 
+def startdatum():
+    return datetime.date.fromisoformat(FRISTEN.get("start", "2026-07-29"))
+
+
+def tag_nr(d):
+    """Wievielter Tag seit dem Start? 0 = allererster Tag."""
+    return (d - startdatum()).days
+
+
 def impuls_index(d):
-    """Gleiche Formel wie in der Web-App: Tag im Jahr modulo Anzahl Impulse."""
-    return d.timetuple().tm_yday % len(IMPULSE)
+    """Der Reihe nach ab dem Startdatum. Tag 1 zeigt Impuls 1.
+    Gleiche Formel wie in der Web-App, damit Mail und Seite uebereinstimmen."""
+    return max(0, tag_nr(d)) % len(IMPULSE)
 
 
 def aktives_fenster(d):
@@ -643,6 +654,25 @@ def baue_mail(d, idx):
         </div>
       </td></tr>"""
 
+    # --- Begruessung, nur am allerersten Tag ---
+    willkommen = ""
+    if tag_nr(d) == 0:
+        willkommen = f"""
+      <tr><td style="padding:22px 28px 0">
+        <div style="background:#f2f8f7;border:1px solid #cfe6e3;border-radius:12px;padding:16px 18px">
+          <div style="font:700 11px/1.4 Helvetica,Arial,sans-serif;letter-spacing:.09em;
+               text-transform:uppercase;color:#1f6f6b">Was ist das hier?</div>
+          <div style="font:15px/1.6 Helvetica,Arial,sans-serif;color:#3d4b5a;margin-top:6px">
+            Ab heute kommt jeden Morgen eine kleine Frage — bis zum Abi im Mai 2027.
+            Keine muss beantwortet werden, es reicht, sie einmal gedacht zu haben.
+            Dazu gibt es einen <b>Kompass</b>: eine Seite mit 22 möglichen Wegen nach der Schule,
+            von Work &amp; Travel über Freiwilligendienst bis Ausbildung — mit Reglern zum Sortieren
+            und allen Anmeldefristen. Nichts davon ist ein Plan. Es ist eine Landkarte.<br><br>
+            Wenn es nervt: einfach sagen, dann wird es abgestellt.
+          </div>
+        </div>
+      </td></tr>"""
+
     weiterlink = ""
     if q.get("link"):
         weiterlink = f"""<a href="{q['link']}" style="display:inline-block;padding:9px 16px;
@@ -667,7 +697,7 @@ def baue_mail(d, idx):
     <tr><td style="padding:24px 28px 0">
       <div style="font:700 11px/1.4 Helvetica,Arial,sans-serif;letter-spacing:.09em;
            text-transform:uppercase;color:#6b7b8c">
-        Impuls {idx+1} · {d.strftime('%d.%m.%Y')} · {abi}</div>
+        {'Erster Impuls' if tag_nr(d) == 0 else f'Impuls {idx+1}'} · {d.strftime('%d.%m.%Y')} · {abi}</div>
     </td></tr>
 
     <tr><td style="padding:10px 28px 0">
@@ -678,7 +708,7 @@ def baue_mail(d, idx):
     <tr><td style="padding:12px 28px 0">
       <div style="font:16px/1.6 Helvetica,Arial,sans-serif;color:#3d4b5a">{q['idee']}</div>
     </td></tr>
-{reglerblock}{fristblock}
+{willkommen}{reglerblock}{fristblock}
     <tr><td style="padding:22px 28px 26px">
       {weiterlink}<a href="{link}" style="display:inline-block;padding:9px 16px;
         background:#151b23;border:1px solid #151b23;border-radius:999px;color:#ffffff;
@@ -702,6 +732,10 @@ def baue_mail(d, idx):
 
 {q['idee']}
 """
+    if tag_nr(d) == 0:
+        text = ("Ab heute kommt jeden Morgen eine kleine Frage - bis zum Abi im Mai 2027.\n"
+                "Keine muss beantwortet werden. Dazu gibt es den Kompass: 22 Wege nach der\n"
+                "Schule, mit Reglern und allen Fristen. Wenn es nervt: einfach sagen.\n\n") + text
     if q.get("regler"):
         text += f"\nRegler des Tages: {REGLER[q['regler']]['t']} ({REGLER[q['regler']]['l']} <-> {REGLER[q['regler']]['r']})\n"
     if fenster:
@@ -735,6 +769,8 @@ def main():
         idx = int(sys.argv[sys.argv.index("--tag") + 1]) % len(IMPULSE)
     html_body, text = baue_mail(d, idx)
     betreff = IMPULSE[idx]["frage"]
+    if tag_nr(d) == 0:
+        betreff = "Ab heute: jeden Morgen eine kleine Frage"
     if len(betreff) > 70:
         betreff = betreff[:67].rsplit(" ", 1)[0] + " …"
 
