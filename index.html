@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Was danach — Kompass</title>
+<meta name="description" content="Was danach — Kompass: 22 Wege nach dem Abi, Fristen und ein Impuls pro Tag.">
+<meta name="theme-color" content="#0d1017">
+<style>
+:root{
+  --bg:#0d1017; --bg-2:#12161f; --card:#161b26; --card-2:#1c2231;
+  --line:#28303f; --line-2:#39445a;
+  --ink:#f2f5f9; --ink-2:#aeb9c9; --ink-3:#7d8899;
+  --a1:#2dd4bf; --a2:#fb923c; --a3:#a78bfa; --a4:#a3e635;
+  --shadow:0 2px 4px rgba(0,0,0,.3),0 18px 40px -22px rgba(0,0,0,.8);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);
+  font:16.5px/1.6 ui-sans-serif,-apple-system,"Segoe UI Variable","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 460px at 12% -8%, rgba(45,212,191,.14), transparent 62%),
+                   radial-gradient(760px 420px at 92% 2%, rgba(167,139,250,.13), transparent 60%);
+  background-attachment:fixed}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px 90px}
+header.top{padding:52px 0 26px;margin-bottom:6px}
+h1{font-size:clamp(38px,8.5vw,68px);line-height:.99;margin:0 0 14px;letter-spacing:-.045em;font-weight:850}
+h1 span{background:linear-gradient(96deg,var(--a1) 8%,var(--a3) 62%,var(--a2) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--ink-2);max-width:56ch;margin:0;font-size:17.5px}
+.hint{color:var(--ink-3);font-size:14px;margin-top:12px}
+h2{font-size:clamp(24px,3.6vw,32px);margin:0 0 8px;letter-spacing:-.032em;font-weight:800}
+.lede{color:var(--ink-2);margin:0 0 20px;max-width:64ch}
+a{color:var(--a1)}
+a.more{font-size:13.5px;font-weight:700;text-decoration:none;border-bottom:1.5px solid currentColor}
+section.block{margin:0 0 62px;scroll-margin-top:80px}
+em{color:var(--ink);font-style:italic}
+strong,b{color:var(--ink)}
+
+nav.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 30px;padding:12px 0}
+.js nav.tabs{position:sticky;top:0;z-index:20;background:rgba(13,16,23,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);margin-left:-18px;margin-right:-18px;padding:12px 18px}
+nav.tabs a{border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+  padding:10px 17px;border-radius:999px;font-size:14.5px;font-weight:700;cursor:pointer;
+  text-decoration:none;display:inline-block;transition:.16s}
+nav.tabs a:hover{border-color:var(--line-2);color:var(--ink);transform:translateY(-1px)}
+nav.tabs a[aria-selected="true"]{background:var(--a1);color:#07110f;border-color:var(--a1);
+  box-shadow:0 6px 20px -8px rgba(45,212,191,.7)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 24px;box-shadow:var(--shadow)}
+.slider{padding:15px 0;border-bottom:1px solid var(--line)}
+.slider:last-child{border-bottom:0}
+.slider.focus{background:var(--card-2);border-radius:14px;padding:15px 16px;
+  box-shadow:0 0 0 2px var(--a1) inset;border-bottom-color:transparent}
+.slabel{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+.slabel b{font-size:16px;font-weight:750;letter-spacing:-.01em}
+.wicht{font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:6px;
+  cursor:pointer;user-select:none;white-space:nowrap}
+.wicht input{accent-color:var(--a1);width:16px;height:16px;margin:0}
+.ends{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-3);margin-top:3px;gap:12px}
+input[type=range]{width:100%;accent-color:var(--a1);height:30px;margin:2px 0 0;
+  background:transparent;cursor:grab}
+.slidergrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:880px){.slidergrid{grid-template-columns:1fr 1fr;gap:0 40px}}
+.filterrow{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;align-items:center}
+.chip{border:1px solid var(--line);background:var(--card-2);border-radius:999px;padding:7px 14px;
+  font-size:13.5px;font-weight:600;cursor:pointer;color:var(--ink-2);transition:.14s}
+.chip:hover{border-color:var(--line-2);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#0d1017;border-color:var(--ink)}
+.reset{margin-left:auto;background:none;border:0;color:var(--ink-3);font-size:13.5px;
+  cursor:pointer;text-decoration:underline}
+.nojs{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.35);border-radius:12px;
+  padding:13px 15px;font-size:14px;color:#fbbf24;margin:0 0 18px}
+.js .nojs{display:none}
+
+.cards{display:grid;gap:16px;margin-top:22px}
+@media(min-width:780px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 22px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px;
+  position:relative;overflow:hidden;transition:.18s}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--kat,var(--a1))}
+.card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.card h3{margin:0;font-size:20px;letter-spacing:-.028em;padding-right:62px;font-weight:780;line-height:1.22}
+.match{position:absolute;top:19px;right:19px;font-size:13px;font-weight:800;color:var(--ink-3);
+  background:var(--card-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;display:none}
+.js .match{display:block}
+.match.high{color:#07110f;background:var(--a1);border-color:var(--a1);
+  box-shadow:0 4px 16px -6px rgba(45,212,191,.8)}
+.katlabel{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--kat,var(--a1))}
+.ich{margin:0;font-size:16px;color:var(--ink);line-height:1.5}
+.ich::before{content:"\201E"}.ich::after{content:"\201C"}
+.meta{display:flex;flex-wrap:wrap;gap:7px}
+.tag{font-size:12.5px;background:var(--card-2);border:1px solid var(--line);border-radius:999px;
+  padding:3px 11px;color:var(--ink-2);font-weight:600}
+.facts{font-size:14px;color:var(--ink-2);display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:2px 0 0}
+.facts dt{color:var(--ink-3);font-weight:700;font-size:13px}
+.facts dd{margin:0}
+.frist{font-size:14px;border-radius:12px;padding:11px 13px;line-height:1.5}
+.f-hot{background:rgba(251,113,133,.11);color:#fda4af;border:1px solid rgba(251,113,133,.32)}
+.f-warm{background:rgba(251,146,60,.1);color:#fdba74;border:1px solid rgba(251,146,60,.3)}
+.f-cool{background:rgba(74,222,128,.09);color:#86efac;border:1px solid rgba(74,222,128,.28)}
+.schritt{font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+.schritt b{color:var(--a1);font-weight:750}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--card);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:940px}
+th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--card-2);font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--ink-3);white-space:nowrap;font-weight:800}
+.js th{cursor:pointer;position:sticky;top:0}
+.js th:hover{color:var(--a1)}
+tbody tr:hover{background:var(--card-2)}
+td.name{font-weight:750;min-width:200px;color:var(--ink)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.pill{font-size:11.5px;border-radius:999px;padding:3px 10px;white-space:nowrap;display:inline-block;font-weight:750}
+.p-hot{background:rgba(251,113,133,.16);color:#fda4af}
+.p-warm{background:rgba(251,146,60,.15);color:#fdba74}
+.p-cool{background:rgba(74,222,128,.14);color:#86efac}
+
+.tl{position:relative;margin:22px 0 0;padding-left:30px}
+.tl::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(180deg,var(--a1),var(--a3),var(--a2))}
+.ev{position:relative;margin-bottom:26px}
+.ev::before{content:"";position:absolute;left:-27px;top:7px;width:14px;height:14px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--dot,var(--a1));box-shadow:0 0 0 4px rgba(13,16,23,.9)}
+.ev .when{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dot,var(--a1))}
+.ev h4{margin:4px 0 5px;font-size:19px;letter-spacing:-.025em;font-weight:750}
+.ev p{margin:0;color:var(--ink-2);font-size:15.5px;max-width:70ch}
+.note{background:rgba(251,146,60,.09);border:1px solid rgba(251,146,60,.3);border-radius:var(--r);
+  padding:18px 20px;margin:22px 0;font-size:15.5px;color:#fdba74}
+.note b{color:#fed7aa}
+.note.blue{background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.3);color:#c7d2fe}
+.note.blue b{color:#e0e7ff}
+
+.qlist{display:grid;gap:14px;margin-top:20px;padding:0;list-style:none}
+.qitem{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 24px;box-shadow:var(--shadow)}
+.js .qitem{display:none}
+.js .qitem.on{display:block;max-width:660px;padding:32px 30px;
+  background:linear-gradient(152deg,var(--card-2),var(--card));border-color:var(--line-2)}
+.qnum{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:800}
+.qtext{font-size:22px;line-height:1.28;margin:9px 0 12px;letter-spacing:-.03em;font-weight:780}
+.js .qitem.on .qtext{font-size:clamp(25px,4.6vw,32px)}
+.qidee{color:var(--ink-2);margin:0 0 12px;font-size:16.5px}
+.qbtns{display:none;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.js .qbtns{display:flex}
+.btn{border:1px solid var(--a1);background:var(--a1);color:#07110f;border-radius:999px;
+  padding:11px 20px;font-size:15px;font-weight:750;cursor:pointer;text-decoration:none;
+  display:inline-block;transition:.15s}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.ghost:hover{border-color:var(--ink-3)}
+footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--line);color:var(--ink-3);font-size:13.5px}
+@media print{nav.tabs,.filterrow,.qbtns,.nojs{display:none}table{min-width:0;font-size:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Was danach?<br><span>Kompass</span></h1>
+  <p class="sub">Abi im Mai 2027. Danach erst mal etwas, das nicht Schule ist — und dann in Ruhe rausfinden, wohin. Das hier ist keine Entscheidung, sondern eine Landkarte.</p>
+  <p class="hint">Kein Login, nichts wird gespeichert oder verschickt. Schieben, lesen, wieder zumachen.</p>
+</header>
+
+<nav class="tabs">
+  <a href="#regler" aria-selected="true">Regler</a>
+  <a href="#tabelle">Alle Wege (Tabelle)</a>
+  <a href="#fahrplan">Fahrplan &amp; Fristen</a>
+  <a href="#impulse">Impulse</a>
+</nav>
+
+<section class="block" id="regler">
+  <h2>Stell ein, wie es sich anfühlen soll</h2>
+  <p class="lede">Nicht „was soll ich werden“, sondern: wie soll das nächste Jahr sich anfühlen. Regler schieben, Wege sortieren sich. Haken bei <em>wichtig</em> = zählt doppelt.</p>
+  <p class="nojs">Die Regler brauchen JavaScript. Ohne JavaScript siehst du unten trotzdem alle 22 Wege, nur ohne Sortierung nach Passung.</p>
+  <div class="panel">
+    <div class="slidergrid" id="sliders">
+<div class="slider" data-slider="ferne">
+  <div class="slabel"><b>Wie weit weg?</b>
+    <label class="wicht"><input type="checkbox" data-w="ferne"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="80" data-k="ferne" aria-label="Wie weit weg?">
+  <div class="ends"><span>Münster und Umgebung</span><span>anderer Kontinent</span></div>
+</div>
+<div class="slider" data-slider="struktur">
+  <div class="slabel"><b>Wie viel Rahmen?</b>
+    <label class="wicht"><input type="checkbox" data-w="struktur"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="45" data-k="struktur" aria-label="Wie viel Rahmen?">
+  <div class="ends"><span>alles selbst bauen</span><span>Programm nimmt mich an die Hand</span></div>
+</div>
+<div class="slider" data-slider="geld">
+  <div class="slabel"><b>Geld</b>
+    <label class="wicht"><input type="checkbox" data-w="geld"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="55" data-k="geld" aria-label="Geld">
+  <div class="ends"><span>darf etwas kosten</span><span>soll etwas einbringen</span></div>
+</div>
+<div class="slider" data-slider="menschen">
+  <div class="slabel"><b>Wie viel Menschen?</b>
+    <label class="wicht"><input type="checkbox" data-w="menschen"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="45" data-k="menschen" aria-label="Wie viel Menschen?">
+  <div class="ends"><span>viel Zeit für mich</span><span>ständig im Team, viel reden</span></div>
+</div>
+<div class="slider" data-slider="tempo">
+  <div class="slabel"><b>Tempo und Ungewissheit</b>
+    <label class="wicht"><input type="checkbox" data-w="tempo"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="65" data-k="tempo" aria-label="Tempo und Ungewissheit">
+  <div class="ends"><span>ruhig und planbar</span><span>unvorhersehbar, jeden Tag neu</span></div>
+</div>
+<div class="slider" data-slider="beruf">
+  <div class="slabel"><b>Wie beruflich konkret?</b>
+    <label class="wicht"><input type="checkbox" data-w="beruf"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="50" data-k="beruf" aria-label="Wie beruflich konkret?">
+  <div class="ends"><span>einfach leben</span><span>soll auf einen Beruf einzahlen</span></div>
+</div>
+<div class="slider" data-slider="sport">
+  <div class="slabel"><b>Sport im Alltag</b>
+    <label class="wicht"><input type="checkbox" data-w="sport"> wichtig</label></div>
+  <input type="range" min="0" max="100" step="1" value="65" data-k="sport" aria-label="Sport im Alltag">
+  <div class="ends"><span>nebensächlich</span><span>jeden Tag in Bewegung</span></div>
+</div>
+    </div>
+    <div class="filterrow" id="filters">
+      <span style="font-size:13.5px;color:var(--ink-3);font-weight:600">Dauer:</span>
+      <button class="chip" data-v="" aria-pressed="true">egal</button><button class="chip" data-v="3" aria-pressed="false">bis 3 Monate</button><button class="chip" data-v="6" aria-pressed="false">bis 6 Monate</button><button class="chip" data-v="12" aria-pressed="false">bis 12 Monate</button><button class="chip" data-v="99" aria-pressed="false">länger</button>
+      <button class="reset" id="reset">alles zurücksetzen</button>
+    </div>
+  </div>
+  <div class="cards" id="cards">
+<article class="card" style="--kat:#2dd4bf" data-i="0" data-d="12" data-p-ferne="95" data-p-struktur="10" data-p-geld="75" data-p-menschen="55" data-p-tempo="85" data-p-beruf="20" data-p-sport="60">
+  <span class="match" data-match></span>
+  <div class="katlabel">Unterwegs</div>
+  <h3>Work &amp; Travel Australien</h3>
+  <p class="ich">Ich lande in Sydney, kenne niemanden, und in drei Wochen weiß ich, ob ich das kann.</p>
+  <div class="meta"><span class="tag">allein losziehen</span><span class="tag">jobbt sich durch</span><span class="tag">Farm, Bar, Baustelle</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>3–12 Monate</dd>
+    <dt>Geld</dt><dd>verdient sich; Startkapital ca. 3.500 €</dd>
+    <dt>Kindergeld</dt><dd>nein</dd>
+  </dl>
+  <div class="frist f-cool">Visum online, oft Zusage am selben Tag. Mind. 4 Wochen vor Abflug. Alter 18–35, 635 AUD.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Einmal die Visums-Seite öffnen und schauen, was tatsächlich verlangt wird. Zehn Minuten. <a class="more" href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/work-holiday-417" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#2dd4bf" data-i="1" data-d="12" data-p-ferne="95" data-p-struktur="15" data-p-geld="65" data-p-menschen="50" data-p-tempo="75" data-p-beruf="15" data-p-sport="80">
+  <span class="match" data-match></span>
+  <div class="katlabel">Unterwegs</div>
+  <h3>Work &amp; Travel Neuseeland</h3>
+  <p class="ich">Kleiner als Australien, grüner, weniger Deutsche — und man kann jeden Tag draußen sein.</p>
+  <div class="meta"><span class="tag">Natur</span><span class="tag">Sport</span><span class="tag">Saisonjobs</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>6–12 Monate</dd>
+    <dt>Geld</dt><dd>verdient sich; Startkapital ca. 4.000 €</dd>
+    <dt>Kindergeld</dt><dd>nein</dd>
+  </dl>
+  <div class="frist f-warm">Working-Holiday-Visum online, Alter 18–30, jährliches Kontingent — im Zweifel früh im Kalenderjahr beantragen.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Drei Fotos von Neuseeland anschauen und ehrlich prüfen: reizt mich das Land oder nur die Idee? <a class="more" href="https://www.immigration.govt.nz/new-zealand-visas/visas/visa/working-holiday-visa" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#2dd4bf" data-i="2" data-d="12" data-p-ferne="95" data-p-struktur="30" data-p-geld="45" data-p-menschen="35" data-p-tempo="65" data-p-beruf="20" data-p-sport="40">
+  <span class="match" data-match></span>
+  <div class="katlabel">Unterwegs</div>
+  <h3>Working Holiday Japan</h3>
+  <p class="ich">Ramen, Konbini um drei Uhr nachts, Arcade-Hallen — und ein Land, in dem man wenig reden muss und trotzdem dazugehört.</p>
+  <div class="meta"><span class="tag">Essen</span><span class="tag">Gaming-Kultur</span><span class="tag">wenig reden müssen</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>bis 12 Monate</dd>
+    <dt>Geld</dt><dd>Jobs möglich, aber begrenzt; ca. 2.000–3.000 € Nachweis nötig</dd>
+    <dt>Kindergeld</dt><dd>nein</dd>
+  </dl>
+  <div class="frist f-warm">Antrag beim Konsulat (Düsseldorf ist zuständig für NRW): frühestens 1 Jahr, spätestens 3 Wochen vor Abreise. Alter 18–30. Motivationsschreiben + Reiseplan nötig.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Nachsehen, was das Konsulat Düsseldorf an Unterlagen will — das Motivationsschreiben ist die eigentliche Hürde. <a class="more" href="https://www.dus.emb-japan.go.jp/itpr_de/Workingholidayvisum.html" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#2dd4bf" data-i="3" data-d="12" data-p-ferne="85" data-p-struktur="25" data-p-geld="70" data-p-menschen="55" data-p-tempo="70" data-p-beruf="20" data-p-sport="90">
+  <span class="match" data-match></span>
+  <div class="katlabel">Unterwegs</div>
+  <h3>Working Holiday Kanada (IEC)</h3>
+  <p class="ich">Snowboardsaison in Whistler, danach quer durchs Land. Englisch, sicher, und trotzdem weit weg.</p>
+  <div class="meta"><span class="tag">Wintersaison</span><span class="tag">Snowboard</span><span class="tag">Englisch</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>bis 12 Monate</dd>
+    <dt>Geld</dt><dd>verdient sich; Startkapital ca. 3.000 €</dd>
+    <dt>Kindergeld</dt><dd>nein</dd>
+  </dl>
+  <div class="frist f-warm">Pool-Verfahren mit Einladungsrunden — Profil möglichst früh im Jahr anlegen, Einladungen kommen zufällig. Alter 18–35.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Prüfen, wann die nächste IEC-Saison öffnet. Das Profil anzulegen kostet nichts. <a class="more" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/iec.html" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#2dd4bf" data-i="4" data-d="4" data-p-ferne="90" data-p-struktur="5" data-p-geld="10" data-p-menschen="60" data-p-tempo="90" data-p-beruf="10" data-p-sport="55">
+  <span class="match" data-match></span>
+  <div class="katlabel">Unterwegs</div>
+  <h3>Backpacking Südostasien auf eigene Faust</h3>
+  <p class="ich">Drei Monate, ein Rucksack, Streetfood, und niemand fragt mich, was ich später mal werde.</p>
+  <div class="meta"><span class="tag">Essen</span><span class="tag">günstig</span><span class="tag">maximale Freiheit</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>6 Wochen – 4 Monate</dd>
+    <dt>Geld</dt><dd>kostet ca. 800–1.200 €/Monat inkl. Flug</dd>
+    <dt>Kindergeld</dt><dd>in der 4-Monats-Übergangszeit ja</dd>
+  </dl>
+  <div class="frist f-cool">Fast kein Vorlauf. Visa meist bei Einreise oder online. Nur Impfungen brauchen 6–8 Wochen.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Beim Hausarzt fragen, welche Impfungen für Südostasien fehlen — das ist das Einzige mit Vorlauf. <a class="more" href="https://www.auswaertiges-amt.de/de/service/laender" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a3e635" data-i="5" data-d="12" data-p-ferne="100" data-p-struktur="85" data-p-geld="35" data-p-menschen="85" data-p-tempo="45" data-p-beruf="45" data-p-sport="40">
+  <span class="match" data-match></span>
+  <div class="katlabel">Dienst</div>
+  <h3>weltwärts — Freiwilligendienst Afrika, Asien, Lateinamerika</h3>
+  <p class="ich">Ein Jahr an einem Ort bleiben statt durchreisen. Ich lerne eine Sprache richtig und werde gebraucht.</p>
+  <div class="meta"><span class="tag">Afrika/Asien/Südamerika</span><span class="tag">Kindergeld läuft weiter</span><span class="tag">betreut</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>6–24 Monate, meist 12</dd>
+    <dt>Geld</dt><dd>zu 75 % staatlich gefördert; Unterkunft, Essen, Versicherung inklusive; eigener Spenderkreis üblich (ca. 1.800–3.000 €)</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-hot">HARTE FRIST: Bewerbung ca. 12 Monate vor Ausreise. Für Ausreise Sommer 2027 startet die reguläre Bewerbungsphase im September 2026, Fristen enden zwischen 30.09. und 30.06. Plätze werden laufend vergeben — früh ist besser.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Einmal die weltwärts-Börse nach Ländern filtern. Nur schauen, nichts anklicken, was verpflichtet. <a class="more" href="https://www.weltwaerts.de/de/einsatzplatz-suche.html" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a3e635" data-i="6" data-d="12" data-p-ferne="80" data-p-struktur="85" data-p-geld="35" data-p-menschen="80" data-p-tempo="40" data-p-beruf="45" data-p-sport="35">
+  <span class="match" data-match></span>
+  <div class="katlabel">Dienst</div>
+  <h3>IJFD — Internationaler Jugendfreiwilligendienst</h3>
+  <p class="ich">Wie weltwärts, aber auch Europa, USA oder Israel möglich — und oft etwas weniger Bewerbungsstress.</p>
+  <div class="meta"><span class="tag">weltweit</span><span class="tag">auch USA/Israel</span><span class="tag">Kindergeld läuft weiter</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>6–18 Monate, meist 12</dd>
+    <dt>Geld</dt><dd>gefördert; Unterkunft und Verpflegung gestellt; Eigenanteil je nach Träger</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-hot">Träger-abhängig. Für Ausreise Sommer 2027 laufen die Fristen von August 2026 (ICJA, DJiA) über den Schwerpunkt September–November 2026 bis in den Mai 2027. Es gibt kein zentrales Portal — jeder Träger einzeln.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Auf rausvonzuhaus.de zwei, drei Träger vergleichen. Im Herbst 2026 gibt es überall Infotage. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/internationaler-jugendfreiwilligendienst" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a3e635" data-i="7" data-d="12" data-p-ferne="25" data-p-struktur="85" data-p-geld="30" data-p-menschen="80" data-p-tempo="35" data-p-beruf="50" data-p-sport="100">
+  <span class="match" data-match></span>
+  <div class="katlabel">Dienst</div>
+  <h3>Freiwilligendienst im Sport (FSJ Sport, In- oder Ausland)</h3>
+  <p class="ich">Ich stehe jeden Tag in der Halle, mache Trainerscheine und weiß am Ende, ob ich mit Menschen arbeiten will.</p>
+  <div class="meta"><span class="tag">Sport</span><span class="tag">Trainerlizenz</span><span class="tag">in Münster möglich</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>12 Monate (ab Sept.)</dd>
+    <dt>Geld</dt><dd>Taschengeld ca. 300–450 €/Monat, Sozialversicherung läuft</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-warm">Bewerbung beim Landessportbund NRW ab ca. Herbst/Winter 2026 für Start September 2027. Beliebte Stellen sind im Frühjahr weg.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Beim eigenen Verein fragen, ob die eine FSJ-Stelle haben. Das ist ein Zwei-Minuten-Gespräch. <a class="more" href="https://www.sportjugend-nrw.de/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a3e635" data-i="8" data-d="12" data-p-ferne="5" data-p-struktur="75" data-p-geld="35" data-p-menschen="75" data-p-tempo="25" data-p-beruf="45" data-p-sport="30">
+  <span class="match" data-match></span>
+  <div class="katlabel">Dienst</div>
+  <h3>Bundesfreiwilligendienst / FSJ in Münster</h3>
+  <p class="ich">Ich bleibe erst mal hier, verdiene ein bisschen, wohne noch zu Hause und habe abends Zeit zum Nachdenken.</p>
+  <div class="meta"><span class="tag">nah</span><span class="tag">flexibel</span><span class="tag">Sicherheitsnetz</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>6–18 Monate</dd>
+    <dt>Geld</dt><dd>Taschengeld ca. 300–450 €/Monat</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-cool">Laufend, aber gute Stellen zum September sind ab Frühjahr 2027 knapp. Realistisch: Januar–März 2027 kümmern.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Nichts. Das geht auch noch im Frühjahr 2027 — deshalb steht es hier nur als Sicherheitsnetz. <a class="more" href="https://www.bundesfreiwilligendienst.de/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a3e635" data-i="9" data-d="12" data-p-ferne="15" data-p-struktur="100" data-p-geld="70" data-p-menschen="70" data-p-tempo="60" data-p-beruf="35" data-p-sport="95">
+  <span class="match" data-match></span>
+  <div class="katlabel">Dienst</div>
+  <h3>Freiwilliger Wehrdienst</h3>
+  <p class="ich">Sport, klare Ansagen, keine Sinnfragen für ein paar Monate — und ich weiß danach, was ich aushalte.</p>
+  <div class="meta"><span class="tag">Sport</span><span class="tag">Struktur</span><span class="tag">bezahlt</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>6–23 Monate</dd>
+    <dt>Geld</dt><dd>Sold; deutlich mehr als jedes FSJ</dd>
+    <dt>Kindergeld</dt><dd>in der Regel nein (aber eigener Sold)</dd>
+  </dl>
+  <div class="frist f-cool">Der Fragebogen kommt ohnehin mit 18 und ist für Männer Pflicht. Musterung ab 1.7.2027, Jahrgang 2008. Bewerbung jederzeit möglich — Zeitpunkt frei wählbar.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Nur zur Kenntnis nehmen, dass der Fragebogen kommt und beantwortet werden muss. Alles Weitere hat Zeit. <a class="more" href="https://www.bundeswehr.de/de/menschen-karrieren/neuer-wehrdienst" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#fb923c" data-i="10" data-d="3" data-p-ferne="10" data-p-struktur="70" data-p-geld="55" data-p-menschen="60" data-p-tempo="35" data-p-beruf="95" data-p-sport="10">
+  <span class="match" data-match></span>
+  <div class="katlabel">Arbeiten &amp; Geld</div>
+  <h3>Praktikum bei Bank, Sparkasse oder Vermögensverwaltung</h3>
+  <p class="ich">Sechs Wochen zuschauen, was die Leute den ganzen Tag wirklich tun — bevor ich drei Jahre darauf verwette.</p>
+  <div class="meta"><span class="tag">Finanzen</span><span class="tag">kurz</span><span class="tag">risikoarm</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>4–12 Wochen</dd>
+    <dt>Geld</dt><dd>meist 500–1.200 €/Monat</dd>
+    <dt>Kindergeld</dt><dd>in der Übergangszeit ja</dd>
+  </dl>
+  <div class="frist f-cool">Kaum Vorlauf, aber: Sommerpraktika werden oft 3–6 Monate vorher vergeben. Für Sommer 2027 also ab Winter 2026/27 fragen.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Eine einzige E-Mail an die Sparkasse Münster oder ein Family Office: „Ich mache 2027 Abitur und interessiere mich für Kapitalmärkte. Gibt es bei Ihnen Praktikumsplätze?“ Mehr nicht. <a class="more" href="https://www.sparkasse.de/karriere.html" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#fb923c" data-i="11" data-d="6" data-p-ferne="25" data-p-struktur="55" data-p-geld="55" data-p-menschen="50" data-p-tempo="60" data-p-beruf="90" data-p-sport="10">
+  <span class="match" data-match></span>
+  <div class="katlabel">Arbeiten &amp; Geld</div>
+  <h3>Praktikum in einem Fintech / bei einem Broker</h3>
+  <p class="ich">Näher an dem, was mich an Finanzen wirklich interessiert — Produkte, Daten, Märkte, nicht Filialgeschäft.</p>
+  <div class="meta"><span class="tag">Finanzen</span><span class="tag">Daten</span><span class="tag">Startup</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>2–6 Monate</dd>
+    <dt>Geld</dt><dd>meist 800–1.500 €/Monat</dd>
+    <dt>Kindergeld</dt><dd>in der Übergangszeit ja</dd>
+  </dl>
+  <div class="frist f-cool">Sehr kurzfristig möglich, Initiativbewerbungen funktionieren. Berlin, Frankfurt, München, Amsterdam.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Zwei Fintechs raussuchen, deren Produkt er selbst benutzt. Bei denen bewerben, nicht bei den bekanntesten. <a class="more" href="https://www.stepstone.de/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#fb923c" data-i="12" data-d="6" data-p-ferne="90" data-p-struktur="60" data-p-geld="20" data-p-menschen="65" data-p-tempo="60" data-p-beruf="85" data-p-sport="30">
+  <span class="match" data-match></span>
+  <div class="katlabel">Arbeiten &amp; Geld</div>
+  <h3>Auslandspraktikum im Finanzsektor (Kapstadt, Singapur, Dubai)</h3>
+  <p class="ich">Fernweh und Lebenslauf in einem. Ich arbeite in einem Büro, in dem sonst niemand Deutsch spricht.</p>
+  <div class="meta"><span class="tag">Finanzen</span><span class="tag">weit weg</span><span class="tag">Lebenslauf</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>2–6 Monate</dd>
+    <dt>Geld</dt><dd>meist unbezahlt; Vermittlung + Unterkunft 1.500–4.000 €</dd>
+    <dt>Kindergeld</dt><dd>in der Übergangszeit ja</dd>
+  </dl>
+  <div class="frist f-warm">Vermittlungsorganisationen brauchen 3–6 Monate Vorlauf (Visum!). Für Herbst 2027 also ab Frühjahr 2027.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Auf rausvonzuhaus.de nach „Praktikum im Ausland“ filtern und schauen, ob eine Stadt Lust macht. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/praktikum-im-ausland" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#fb923c" data-i="13" data-d="6" data-p-ferne="60" data-p-struktur="45" data-p-geld="60" data-p-menschen="75" data-p-tempo="70" data-p-beruf="25" data-p-sport="100">
+  <span class="match" data-match></span>
+  <div class="katlabel">Arbeiten &amp; Geld</div>
+  <h3>Saisonjob mit Sport: Ski-, Surf- oder Tauchlehrer</h3>
+  <p class="ich">Ich mache eine Lizenz, arbeite eine Saison damit — und werde fürs Draußensein bezahlt.</p>
+  <div class="meta"><span class="tag">Sport</span><span class="tag">bezahlt</span><span class="tag">Saison</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>3–6 Monate pro Saison</dd>
+    <dt>Geld</dt><dd>Ausbildung 1.500–3.500 €, danach bezahlte Saison</dd>
+    <dt>Kindergeld</dt><dd>nein</dd>
+  </dl>
+  <div class="frist f-warm">Ausbildungskurse (z. B. Skilehrer Österreich, Surflehrer Portugal) sind für die Wintersaison ab Frühsommer ausgebucht. Vorlauf 4–8 Monate.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Eine Sportart auswählen, die er ohnehin liebt, und nachsehen, was eine Lizenz kostet. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/jobben-im-ausland" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#fb923c" data-i="14" data-d="6" data-p-ferne="35" data-p-struktur="65" data-p-geld="65" data-p-menschen="70" data-p-tempo="80" data-p-beruf="40" data-p-sport="40">
+  <span class="match" data-match></span>
+  <div class="katlabel">Arbeiten &amp; Geld</div>
+  <h3>Arbeiten in einer richtig guten Küche</h3>
+  <p class="ich">Ich liebe gutes Essen. Einmal von der anderen Seite sehen, wie es entsteht — und ob mich das packt.</p>
+  <div class="meta"><span class="tag">Essen</span><span class="tag">Handwerk</span><span class="tag">Tempo</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>1–6 Monate</dd>
+    <dt>Geld</dt><dd>bezahlt, oft mit Kost und Logis</dd>
+    <dt>Kindergeld</dt><dd>in der Übergangszeit ja</dd>
+  </dl>
+  <div class="frist f-cool">Praktisch kein Vorlauf im Inland. Für Italien, Spanien, Japan: 2–3 Monate.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> In seinem Lieblingsrestaurant in Münster fragen, ob er zwei Wochen in der Küche mitlaufen darf. <a class="more" href="https://www.dehoga-bundesverband.de/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#2dd4bf" data-i="15" data-d="6" data-p-ferne="70" data-p-struktur="35" data-p-geld="30" data-p-menschen="60" data-p-tempo="45" data-p-beruf="10" data-p-sport="75">
+  <span class="match" data-match></span>
+  <div class="katlabel">Unterwegs</div>
+  <h3>WWOOF / Farmarbeit gegen Kost und Logis</h3>
+  <p class="ich">Kaum Geld nötig, körperliche Arbeit, gutes Essen direkt vom Feld, echte Menschen statt Hostelbekanntschaften.</p>
+  <div class="meta"><span class="tag">Essen</span><span class="tag">körperlich</span><span class="tag">sehr günstig</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>2 Wochen – 6 Monate</dd>
+    <dt>Geld</dt><dd>Unterkunft und Essen frei, kein Lohn; nur Anreise kostet</dd>
+    <dt>Kindergeld</dt><dd>nein</dd>
+  </dl>
+  <div class="frist f-cool">Mitgliedschaft ca. 30 €, dann direkt an Höfe schreiben. Vorlauf 4–8 Wochen.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Auf wwoof.net ein Land anklicken und lesen, was die Höfe suchen. <a class="more" href="https://wwoof.net/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a78bfa" data-i="16" data-d="3" data-p-ferne="85" data-p-struktur="65" data-p-geld="15" data-p-menschen="70" data-p-tempo="50" data-p-beruf="45" data-p-sport="35">
+  <span class="match" data-match></span>
+  <div class="katlabel">Lernen</div>
+  <h3>Sprachkurs mit Zertifikat (Spanisch in Lateinamerika)</h3>
+  <p class="ich">Acht Wochen Sprachschule in Medellín oder Guatemala — danach kann ich wirklich etwas, das bleibt.</p>
+  <div class="meta"><span class="tag">Sprache</span><span class="tag">günstiger als gedacht</span><span class="tag">Kindergeld möglich</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>4–12 Wochen</dd>
+    <dt>Geld</dt><dd>ca. 1.200–2.500 € inkl. Unterkunft</dd>
+    <dt>Kindergeld</dt><dd>ja, ab 10 Unterrichtsstunden pro Woche</dd>
+  </dl>
+  <div class="frist f-cool">Vorlauf 6–10 Wochen. Praktisch jederzeit buchbar.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Nachsehen, was ein Monat Sprachschule in Kolumbien kostet — die Zahl überrascht meistens positiv. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/sprachreise" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a78bfa" data-i="17" data-d="36" data-p-ferne="5" data-p-struktur="100" data-p-geld="90" data-p-menschen="70" data-p-tempo="50" data-p-beruf="100" data-p-sport="10">
+  <span class="match" data-match></span>
+  <div class="katlabel">Lernen</div>
+  <h3>Duales Studium BWL / Banking &amp; Sales</h3>
+  <p class="ich">Ich verdiene ab Tag eins Geld, habe nach drei Jahren einen Bachelor und einen Job — aber keine Auszeit davor.</p>
+  <div class="meta"><span class="tag">Finanzen</span><span class="tag">bezahlt</span><span class="tag">kein Gap Year</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>3 Jahre ab Sept. 2027</dd>
+    <dt>Geld</dt><dd>ca. 1.200–1.500 €/Monat Vergütung</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-hot">ACHTUNG, JETZT: Stellen zum 01.09.2027 sind bereits ausgeschrieben. Bewerbungsschluss meist Herbst 2026, teils schon September. Das ist die einzige Option mit echtem Zeitdruck.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Einmal eine echte Stellenanzeige zum 01.09.2027 lesen. Nicht um sich zu bewerben — um zu spüren, ob es zieht oder abstößt. <a class="more" href="https://www.sparkasse.de/karriere/schueler-und-schulabgaenger/duales-studium.html" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a78bfa" data-i="18" data-d="36" data-p-ferne="5" data-p-struktur="95" data-p-geld="85" data-p-menschen="75" data-p-tempo="45" data-p-beruf="95" data-p-sport="5">
+  <span class="match" data-match></span>
+  <div class="katlabel">Lernen</div>
+  <h3>Ausbildung Bankkaufmann / Investmentfondskaufmann</h3>
+  <p class="ich">Kürzer als ein Studium, praktischer, und ich kann danach immer noch studieren — mit Geld auf dem Konto.</p>
+  <div class="meta"><span class="tag">Finanzen</span><span class="tag">praktisch</span><span class="tag">bezahlt</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>2,5–3 Jahre</dd>
+    <dt>Geld</dt><dd>ca. 1.150–1.300 €/Monat</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-hot">Wie beim dualen Studium: Bewerbung ein Jahr vorher, also Herbst 2026 für Start September 2027.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Mit jemandem sprechen, der das gemacht hat. Nicht mit einem Berater — mit einem Azubi. <a class="more" href="https://www.sparkasse.de/karriere/schueler-und-schulabgaenger.html" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a78bfa" data-i="19" data-d="36" data-p-ferne="15" data-p-struktur="70" data-p-geld="10" data-p-menschen="55" data-p-tempo="40" data-p-beruf="80" data-p-sport="20">
+  <span class="match" data-match></span>
+  <div class="katlabel">Lernen</div>
+  <h3>Studium BWL / VWL / Wirtschaftsinformatik (z. B. WWU Münster)</h3>
+  <p class="ich">Münster hat eine der besten BWL-Fakultäten des Landes. Ich könnte zu Hause wohnen bleiben — oder genau deswegen nicht.</p>
+  <div class="meta"><span class="tag">Finanzen</span><span class="tag">Münster</span><span class="tag">später entscheidbar</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>3 Jahre Bachelor</dd>
+    <dt>Geld</dt><dd>kostet; BAföG oder Nebenjob</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-cool">Bewerbung für das Wintersemester bis 15. Juli. Wichtig: Man kann sich auch 2027 bewerben, den Platz annehmen und dann beurlauben lassen — oder sich erst 2028 bewerben. Die Abinote verfällt nicht.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Nichts vor Frühjahr 2027. Aber gut zu wissen: ein Gap Year kostet keinen Studienplatz. <a class="more" href="https://www.uni-muenster.de/studium/bewerbung/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#a78bfa" data-i="20" data-d="12" data-p-ferne="25" data-p-struktur="60" data-p-geld="10" data-p-menschen="55" data-p-tempo="30" data-p-beruf="65" data-p-sport="15">
+  <span class="match" data-match></span>
+  <div class="katlabel">Lernen</div>
+  <h3>Orientierungsstudium / Studium Fundamentale</h3>
+  <p class="ich">Ein oder zwei Semester in mehrere Fächer gleichzeitig reinschauen, mit echten Scheinen, die später angerechnet werden.</p>
+  <div class="meta"><span class="tag">Orientierung</span><span class="tag">zählt als Studium</span><span class="tag">Kindergeld</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>1–2 Semester</dd>
+    <dt>Geld</dt><dd>nur Semesterbeitrag</dd>
+    <dt>Kindergeld</dt><dd>ja</dd>
+  </dl>
+  <div class="frist f-cool">Wie normale Studienbewerbung: 15. Juli für das Wintersemester. Angebote gibt es u. a. in Bochum, Aachen, Paderborn, Darmstadt.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Auf o-studium.de nachsehen, welche Hochschule in NRW so etwas anbietet. <a class="more" href="https://o-studium.de/orientierungsstudienprogramm-finden/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+<article class="card" style="--kat:#fb923c" data-i="21" data-d="6" data-p-ferne="20" data-p-struktur="55" data-p-geld="45" data-p-menschen="55" data-p-tempo="65" data-p-beruf="70" data-p-sport="15">
+  <span class="match" data-match></span>
+  <div class="katlabel">Arbeiten &amp; Geld</div>
+  <h3>Praktikum in der Games-Branche</h3>
+  <p class="ich">Ich spiele ohnehin. Einmal sehen, ob das auch ein Beruf sein kann — Publishing, Community, Esports, Analytics.</p>
+  <div class="meta"><span class="tag">Gaming</span><span class="tag">Köln ist nah</span><span class="tag">überraschend viele Jobs</span></div>
+  <dl class="facts">
+    <dt>Dauer</dt><dd>2–6 Monate</dd>
+    <dt>Geld</dt><dd>oft bezahlt, 600–1.200 €/Monat</dd>
+    <dt>Kindergeld</dt><dd>in der Übergangszeit ja</dd>
+  </dl>
+  <div class="frist f-cool">Kaum Vorlauf. Köln, Hamburg, Berlin. Gamescom im August ist der beste Kontaktort.</div>
+  <div class="schritt"><b>Erster kleiner Schritt:</b> Einmal zur Gamescom nach Köln fahren — aber in den Business-Bereich, nicht in die Publikumshallen. <a class="more" href="https://www.game.de/" target="_blank" rel="noopener">Quelle öffnen</a></div>
+</article>
+  </div>
+  <div class="panel" id="leer" style="display:none;margin-top:16px">Mit dieser Dauer passt nichts. Filter wieder auf „egal“ stellen.</div>
+</section>
+
+<section class="block" id="tabelle">
+  <h2>Alle Wege im Überblick</h2>
+  <p class="lede">Die Spalte <em>Anmeldung / Vorlauf</em> ist die entscheidende: sie sagt, wann etwas <em>spätestens</em> passieren muss, nicht wann es losgeht. Mit JavaScript lassen sich die Spalten durch Klick sortieren.</p>
+  <div class="tablewrap">
+    <table id="tbl">
+      <thead><tr>
+        <th>Weg</th><th>Art</th><th>Aus Jakobs Sicht</th><th>Dauer</th>
+        <th>Geld</th><th>Anmeldung / Vorlauf</th><th>Kindergeld</th><th>Erster kleiner Schritt</th>
+      </tr></thead>
+      <tbody>
+<tr>
+  <td class="name"><span class="dot" style="background:#2dd4bf"></span>Work &amp; Travel Australien</td>
+  <td>Unterwegs</td>
+  <td style="min-width:250px">Ich lande in Sydney, kenne niemanden, und in drei Wochen weiß ich, ob ich das kann.</td>
+  <td data-sort="12">3–12 Monate</td>
+  <td style="min-width:170px">verdient sich; Startkapital ca. 3.500 €</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Visum online, oft Zusage am selben Tag. Mind. 4 Wochen vor Abflug. Alter 18–35, 635 AUD.</td>
+  <td>nein</td>
+  <td style="min-width:230px">Einmal die Visums-Seite öffnen und schauen, was tatsächlich verlangt wird. Zehn Minuten. <a class="more" href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/work-holiday-417" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#2dd4bf"></span>Work &amp; Travel Neuseeland</td>
+  <td>Unterwegs</td>
+  <td style="min-width:250px">Kleiner als Australien, grüner, weniger Deutsche — und man kann jeden Tag draußen sein.</td>
+  <td data-sort="12">6–12 Monate</td>
+  <td style="min-width:170px">verdient sich; Startkapital ca. 4.000 €</td>
+  <td style="min-width:290px" data-sort="1">
+    <span class="pill p-warm">Vorlauf einplanen</span><br>Working-Holiday-Visum online, Alter 18–30, jährliches Kontingent — im Zweifel früh im Kalenderjahr beantragen.</td>
+  <td>nein</td>
+  <td style="min-width:230px">Drei Fotos von Neuseeland anschauen und ehrlich prüfen: reizt mich das Land oder nur die Idee? <a class="more" href="https://www.immigration.govt.nz/new-zealand-visas/visas/visa/working-holiday-visa" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#2dd4bf"></span>Working Holiday Japan</td>
+  <td>Unterwegs</td>
+  <td style="min-width:250px">Ramen, Konbini um drei Uhr nachts, Arcade-Hallen — und ein Land, in dem man wenig reden muss und trotzdem dazugehört.</td>
+  <td data-sort="12">bis 12 Monate</td>
+  <td style="min-width:170px">Jobs möglich, aber begrenzt; ca. 2.000–3.000 € Nachweis nötig</td>
+  <td style="min-width:290px" data-sort="1">
+    <span class="pill p-warm">Vorlauf einplanen</span><br>Antrag beim Konsulat (Düsseldorf ist zuständig für NRW): frühestens 1 Jahr, spätestens 3 Wochen vor Abreise. Alter 18–30. Motivationsschreiben + Reiseplan nötig.</td>
+  <td>nein</td>
+  <td style="min-width:230px">Nachsehen, was das Konsulat Düsseldorf an Unterlagen will — das Motivationsschreiben ist die eigentliche Hürde. <a class="more" href="https://www.dus.emb-japan.go.jp/itpr_de/Workingholidayvisum.html" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#2dd4bf"></span>Working Holiday Kanada (IEC)</td>
+  <td>Unterwegs</td>
+  <td style="min-width:250px">Snowboardsaison in Whistler, danach quer durchs Land. Englisch, sicher, und trotzdem weit weg.</td>
+  <td data-sort="12">bis 12 Monate</td>
+  <td style="min-width:170px">verdient sich; Startkapital ca. 3.000 €</td>
+  <td style="min-width:290px" data-sort="1">
+    <span class="pill p-warm">Vorlauf einplanen</span><br>Pool-Verfahren mit Einladungsrunden — Profil möglichst früh im Jahr anlegen, Einladungen kommen zufällig. Alter 18–35.</td>
+  <td>nein</td>
+  <td style="min-width:230px">Prüfen, wann die nächste IEC-Saison öffnet. Das Profil anzulegen kostet nichts. <a class="more" href="https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada/iec.html" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#2dd4bf"></span>Backpacking Südostasien auf eigene Faust</td>
+  <td>Unterwegs</td>
+  <td style="min-width:250px">Drei Monate, ein Rucksack, Streetfood, und niemand fragt mich, was ich später mal werde.</td>
+  <td data-sort="4">6 Wochen – 4 Monate</td>
+  <td style="min-width:170px">kostet ca. 800–1.200 €/Monat inkl. Flug</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Fast kein Vorlauf. Visa meist bei Einreise oder online. Nur Impfungen brauchen 6–8 Wochen.</td>
+  <td>in der 4-Monats-Übergangszeit ja</td>
+  <td style="min-width:230px">Beim Hausarzt fragen, welche Impfungen für Südostasien fehlen — das ist das Einzige mit Vorlauf. <a class="more" href="https://www.auswaertiges-amt.de/de/service/laender" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a3e635"></span>weltwärts — Freiwilligendienst Afrika, Asien, Lateinamerika</td>
+  <td>Dienst</td>
+  <td style="min-width:250px">Ein Jahr an einem Ort bleiben statt durchreisen. Ich lerne eine Sprache richtig und werde gebraucht.</td>
+  <td data-sort="12">6–24 Monate, meist 12</td>
+  <td style="min-width:170px">zu 75 % staatlich gefördert; Unterkunft, Essen, Versicherung inklusive; eigener Spenderkreis üblich (ca. 1.800–3.000 €)</td>
+  <td style="min-width:290px" data-sort="0">
+    <span class="pill p-hot">jetzt handeln</span><br>HARTE FRIST: Bewerbung ca. 12 Monate vor Ausreise. Für Ausreise Sommer 2027 startet die reguläre Bewerbungsphase im September 2026, Fristen enden zwischen 30.09. und 30.06. Plätze werden laufend vergeben — früh ist besser.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Einmal die weltwärts-Börse nach Ländern filtern. Nur schauen, nichts anklicken, was verpflichtet. <a class="more" href="https://www.weltwaerts.de/de/einsatzplatz-suche.html" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a3e635"></span>IJFD — Internationaler Jugendfreiwilligendienst</td>
+  <td>Dienst</td>
+  <td style="min-width:250px">Wie weltwärts, aber auch Europa, USA oder Israel möglich — und oft etwas weniger Bewerbungsstress.</td>
+  <td data-sort="12">6–18 Monate, meist 12</td>
+  <td style="min-width:170px">gefördert; Unterkunft und Verpflegung gestellt; Eigenanteil je nach Träger</td>
+  <td style="min-width:290px" data-sort="0">
+    <span class="pill p-hot">jetzt handeln</span><br>Träger-abhängig. Für Ausreise Sommer 2027 laufen die Fristen von August 2026 (ICJA, DJiA) über den Schwerpunkt September–November 2026 bis in den Mai 2027. Es gibt kein zentrales Portal — jeder Träger einzeln.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Auf rausvonzuhaus.de zwei, drei Träger vergleichen. Im Herbst 2026 gibt es überall Infotage. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/internationaler-jugendfreiwilligendienst" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a3e635"></span>Freiwilligendienst im Sport (FSJ Sport, In- oder Ausland)</td>
+  <td>Dienst</td>
+  <td style="min-width:250px">Ich stehe jeden Tag in der Halle, mache Trainerscheine und weiß am Ende, ob ich mit Menschen arbeiten will.</td>
+  <td data-sort="12">12 Monate (ab Sept.)</td>
+  <td style="min-width:170px">Taschengeld ca. 300–450 €/Monat, Sozialversicherung läuft</td>
+  <td style="min-width:290px" data-sort="1">
+    <span class="pill p-warm">Vorlauf einplanen</span><br>Bewerbung beim Landessportbund NRW ab ca. Herbst/Winter 2026 für Start September 2027. Beliebte Stellen sind im Frühjahr weg.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Beim eigenen Verein fragen, ob die eine FSJ-Stelle haben. Das ist ein Zwei-Minuten-Gespräch. <a class="more" href="https://www.sportjugend-nrw.de/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a3e635"></span>Bundesfreiwilligendienst / FSJ in Münster</td>
+  <td>Dienst</td>
+  <td style="min-width:250px">Ich bleibe erst mal hier, verdiene ein bisschen, wohne noch zu Hause und habe abends Zeit zum Nachdenken.</td>
+  <td data-sort="12">6–18 Monate</td>
+  <td style="min-width:170px">Taschengeld ca. 300–450 €/Monat</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Laufend, aber gute Stellen zum September sind ab Frühjahr 2027 knapp. Realistisch: Januar–März 2027 kümmern.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Nichts. Das geht auch noch im Frühjahr 2027 — deshalb steht es hier nur als Sicherheitsnetz. <a class="more" href="https://www.bundesfreiwilligendienst.de/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a3e635"></span>Freiwilliger Wehrdienst</td>
+  <td>Dienst</td>
+  <td style="min-width:250px">Sport, klare Ansagen, keine Sinnfragen für ein paar Monate — und ich weiß danach, was ich aushalte.</td>
+  <td data-sort="12">6–23 Monate</td>
+  <td style="min-width:170px">Sold; deutlich mehr als jedes FSJ</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Der Fragebogen kommt ohnehin mit 18 und ist für Männer Pflicht. Musterung ab 1.7.2027, Jahrgang 2008. Bewerbung jederzeit möglich — Zeitpunkt frei wählbar.</td>
+  <td>in der Regel nein (aber eigener Sold)</td>
+  <td style="min-width:230px">Nur zur Kenntnis nehmen, dass der Fragebogen kommt und beantwortet werden muss. Alles Weitere hat Zeit. <a class="more" href="https://www.bundeswehr.de/de/menschen-karrieren/neuer-wehrdienst" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#fb923c"></span>Praktikum bei Bank, Sparkasse oder Vermögensverwaltung</td>
+  <td>Arbeiten &amp; Geld</td>
+  <td style="min-width:250px">Sechs Wochen zuschauen, was die Leute den ganzen Tag wirklich tun — bevor ich drei Jahre darauf verwette.</td>
+  <td data-sort="3">4–12 Wochen</td>
+  <td style="min-width:170px">meist 500–1.200 €/Monat</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Kaum Vorlauf, aber: Sommerpraktika werden oft 3–6 Monate vorher vergeben. Für Sommer 2027 also ab Winter 2026/27 fragen.</td>
+  <td>in der Übergangszeit ja</td>
+  <td style="min-width:230px">Eine einzige E-Mail an die Sparkasse Münster oder ein Family Office: „Ich mache 2027 Abitur und interessiere mich für Kapitalmärkte. Gibt es bei Ihnen Praktikumsplätze?“ Mehr nicht. <a class="more" href="https://www.sparkasse.de/karriere.html" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#fb923c"></span>Praktikum in einem Fintech / bei einem Broker</td>
+  <td>Arbeiten &amp; Geld</td>
+  <td style="min-width:250px">Näher an dem, was mich an Finanzen wirklich interessiert — Produkte, Daten, Märkte, nicht Filialgeschäft.</td>
+  <td data-sort="6">2–6 Monate</td>
+  <td style="min-width:170px">meist 800–1.500 €/Monat</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Sehr kurzfristig möglich, Initiativbewerbungen funktionieren. Berlin, Frankfurt, München, Amsterdam.</td>
+  <td>in der Übergangszeit ja</td>
+  <td style="min-width:230px">Zwei Fintechs raussuchen, deren Produkt er selbst benutzt. Bei denen bewerben, nicht bei den bekanntesten. <a class="more" href="https://www.stepstone.de/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#fb923c"></span>Auslandspraktikum im Finanzsektor (Kapstadt, Singapur, Dubai)</td>
+  <td>Arbeiten &amp; Geld</td>
+  <td style="min-width:250px">Fernweh und Lebenslauf in einem. Ich arbeite in einem Büro, in dem sonst niemand Deutsch spricht.</td>
+  <td data-sort="6">2–6 Monate</td>
+  <td style="min-width:170px">meist unbezahlt; Vermittlung + Unterkunft 1.500–4.000 €</td>
+  <td style="min-width:290px" data-sort="1">
+    <span class="pill p-warm">Vorlauf einplanen</span><br>Vermittlungsorganisationen brauchen 3–6 Monate Vorlauf (Visum!). Für Herbst 2027 also ab Frühjahr 2027.</td>
+  <td>in der Übergangszeit ja</td>
+  <td style="min-width:230px">Auf rausvonzuhaus.de nach „Praktikum im Ausland“ filtern und schauen, ob eine Stadt Lust macht. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/praktikum-im-ausland" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#fb923c"></span>Saisonjob mit Sport: Ski-, Surf- oder Tauchlehrer</td>
+  <td>Arbeiten &amp; Geld</td>
+  <td style="min-width:250px">Ich mache eine Lizenz, arbeite eine Saison damit — und werde fürs Draußensein bezahlt.</td>
+  <td data-sort="6">3–6 Monate pro Saison</td>
+  <td style="min-width:170px">Ausbildung 1.500–3.500 €, danach bezahlte Saison</td>
+  <td style="min-width:290px" data-sort="1">
+    <span class="pill p-warm">Vorlauf einplanen</span><br>Ausbildungskurse (z. B. Skilehrer Österreich, Surflehrer Portugal) sind für die Wintersaison ab Frühsommer ausgebucht. Vorlauf 4–8 Monate.</td>
+  <td>nein</td>
+  <td style="min-width:230px">Eine Sportart auswählen, die er ohnehin liebt, und nachsehen, was eine Lizenz kostet. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/jobben-im-ausland" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#fb923c"></span>Arbeiten in einer richtig guten Küche</td>
+  <td>Arbeiten &amp; Geld</td>
+  <td style="min-width:250px">Ich liebe gutes Essen. Einmal von der anderen Seite sehen, wie es entsteht — und ob mich das packt.</td>
+  <td data-sort="6">1–6 Monate</td>
+  <td style="min-width:170px">bezahlt, oft mit Kost und Logis</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Praktisch kein Vorlauf im Inland. Für Italien, Spanien, Japan: 2–3 Monate.</td>
+  <td>in der Übergangszeit ja</td>
+  <td style="min-width:230px">In seinem Lieblingsrestaurant in Münster fragen, ob er zwei Wochen in der Küche mitlaufen darf. <a class="more" href="https://www.dehoga-bundesverband.de/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#2dd4bf"></span>WWOOF / Farmarbeit gegen Kost und Logis</td>
+  <td>Unterwegs</td>
+  <td style="min-width:250px">Kaum Geld nötig, körperliche Arbeit, gutes Essen direkt vom Feld, echte Menschen statt Hostelbekanntschaften.</td>
+  <td data-sort="6">2 Wochen – 6 Monate</td>
+  <td style="min-width:170px">Unterkunft und Essen frei, kein Lohn; nur Anreise kostet</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Mitgliedschaft ca. 30 €, dann direkt an Höfe schreiben. Vorlauf 4–8 Wochen.</td>
+  <td>nein</td>
+  <td style="min-width:230px">Auf wwoof.net ein Land anklicken und lesen, was die Höfe suchen. <a class="more" href="https://wwoof.net/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a78bfa"></span>Sprachkurs mit Zertifikat (Spanisch in Lateinamerika)</td>
+  <td>Lernen</td>
+  <td style="min-width:250px">Acht Wochen Sprachschule in Medellín oder Guatemala — danach kann ich wirklich etwas, das bleibt.</td>
+  <td data-sort="3">4–12 Wochen</td>
+  <td style="min-width:170px">ca. 1.200–2.500 € inkl. Unterkunft</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Vorlauf 6–10 Wochen. Praktisch jederzeit buchbar.</td>
+  <td>ja, ab 10 Unterrichtsstunden pro Woche</td>
+  <td style="min-width:230px">Nachsehen, was ein Monat Sprachschule in Kolumbien kostet — die Zahl überrascht meistens positiv. <a class="more" href="https://www.rausvonzuhaus.de/auswahl/programm/sprachreise" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a78bfa"></span>Duales Studium BWL / Banking &amp; Sales</td>
+  <td>Lernen</td>
+  <td style="min-width:250px">Ich verdiene ab Tag eins Geld, habe nach drei Jahren einen Bachelor und einen Job — aber keine Auszeit davor.</td>
+  <td data-sort="36">3 Jahre ab Sept. 2027</td>
+  <td style="min-width:170px">ca. 1.200–1.500 €/Monat Vergütung</td>
+  <td style="min-width:290px" data-sort="0">
+    <span class="pill p-hot">jetzt handeln</span><br>ACHTUNG, JETZT: Stellen zum 01.09.2027 sind bereits ausgeschrieben. Bewerbungsschluss meist Herbst 2026, teils schon September. Das ist die einzige Option mit echtem Zeitdruck.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Einmal eine echte Stellenanzeige zum 01.09.2027 lesen. Nicht um sich zu bewerben — um zu spüren, ob es zieht oder abstößt. <a class="more" href="https://www.sparkasse.de/karriere/schueler-und-schulabgaenger/duales-studium.html" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a78bfa"></span>Ausbildung Bankkaufmann / Investmentfondskaufmann</td>
+  <td>Lernen</td>
+  <td style="min-width:250px">Kürzer als ein Studium, praktischer, und ich kann danach immer noch studieren — mit Geld auf dem Konto.</td>
+  <td data-sort="36">2,5–3 Jahre</td>
+  <td style="min-width:170px">ca. 1.150–1.300 €/Monat</td>
+  <td style="min-width:290px" data-sort="0">
+    <span class="pill p-hot">jetzt handeln</span><br>Wie beim dualen Studium: Bewerbung ein Jahr vorher, also Herbst 2026 für Start September 2027.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Mit jemandem sprechen, der das gemacht hat. Nicht mit einem Berater — mit einem Azubi. <a class="more" href="https://www.sparkasse.de/karriere/schueler-und-schulabgaenger.html" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a78bfa"></span>Studium BWL / VWL / Wirtschaftsinformatik (z. B. WWU Münster)</td>
+  <td>Lernen</td>
+  <td style="min-width:250px">Münster hat eine der besten BWL-Fakultäten des Landes. Ich könnte zu Hause wohnen bleiben — oder genau deswegen nicht.</td>
+  <td data-sort="36">3 Jahre Bachelor</td>
+  <td style="min-width:170px">kostet; BAföG oder Nebenjob</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Bewerbung für das Wintersemester bis 15. Juli. Wichtig: Man kann sich auch 2027 bewerben, den Platz annehmen und dann beurlauben lassen — oder sich erst 2028 bewerben. Die Abinote verfällt nicht.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Nichts vor Frühjahr 2027. Aber gut zu wissen: ein Gap Year kostet keinen Studienplatz. <a class="more" href="https://www.uni-muenster.de/studium/bewerbung/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#a78bfa"></span>Orientierungsstudium / Studium Fundamentale</td>
+  <td>Lernen</td>
+  <td style="min-width:250px">Ein oder zwei Semester in mehrere Fächer gleichzeitig reinschauen, mit echten Scheinen, die später angerechnet werden.</td>
+  <td data-sort="12">1–2 Semester</td>
+  <td style="min-width:170px">nur Semesterbeitrag</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Wie normale Studienbewerbung: 15. Juli für das Wintersemester. Angebote gibt es u. a. in Bochum, Aachen, Paderborn, Darmstadt.</td>
+  <td>ja</td>
+  <td style="min-width:230px">Auf o-studium.de nachsehen, welche Hochschule in NRW so etwas anbietet. <a class="more" href="https://o-studium.de/orientierungsstudienprogramm-finden/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+<tr>
+  <td class="name"><span class="dot" style="background:#fb923c"></span>Praktikum in der Games-Branche</td>
+  <td>Arbeiten &amp; Geld</td>
+  <td style="min-width:250px">Ich spiele ohnehin. Einmal sehen, ob das auch ein Beruf sein kann — Publishing, Community, Esports, Analytics.</td>
+  <td data-sort="6">2–6 Monate</td>
+  <td style="min-width:170px">oft bezahlt, 600–1.200 €/Monat</td>
+  <td style="min-width:290px" data-sort="2">
+    <span class="pill p-cool">entspannt</span><br>Kaum Vorlauf. Köln, Hamburg, Berlin. Gamescom im August ist der beste Kontaktort.</td>
+  <td>in der Übergangszeit ja</td>
+  <td style="min-width:230px">Einmal zur Gamescom nach Köln fahren — aber in den Business-Bereich, nicht in die Publikumshallen. <a class="more" href="https://www.game.de/" target="_blank" rel="noopener">Link</a></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">Kindergeld: 259 €/Monat, bis zum 25. Geburtstag — aber nur bei Ausbildung, Studium oder <em>anerkanntem</em> Freiwilligendienst. Reines Reisen zählt als Urlaub. Zwischen zwei Abschnitten sind bis zu 4 volle Kalendermonate Lücke unschädlich.</p>
+</section>
+
+<section class="block" id="fahrplan">
+  <h2>Rückwärts gerechnet vom Abi</h2>
+  <p class="lede">Gute Nachricht zuerst: fast nichts muss jetzt entschieden werden. Es gibt genau <strong>eine</strong> Tür, die schon 2026 zufällt — und drei Termine, die man kennen muss.</p>
+  <div class="note"><b>Die eine Tür, die jetzt aufgeht und zugeht:</b> Wer im September 2027 ein <em>duales Studium</em> oder eine <em>Ausbildung</em> bei Bank, Sparkasse oder Versicherung anfangen will, bewirbt sich in der Regel ein volles Jahr vorher — also <b>Sommer bis Spätherbst 2026</b>. Stellen für den 01.09.2027 sind bereits ausgeschrieben. Das ist die einzige Option, bei der „später kümmern“ wirklich zu spät wäre. <em>Aber:</em> sie ist auch die einzige, die keine Auszeit davor vorsieht.</div>
+  <div class="tl">
+<div class="ev" style="--dot:#fb7185">
+  <div class="when">jetzt — Sommer/Herbst 2026</div><h4>Duales Studium &amp; Ausbildung zum 01.09.2027</h4><p>Die einzige echte Frist im Jahr 2026. Wer diesen Weg will, bewirbt sich jetzt. Wer ihn nicht will, kann diesen Punkt für immer abhaken — und hat dann bis Herbst Ruhe.</p></div>
+<div class="ev" style="--dot:#fb923c">
+  <div class="when">August – November 2026</div><h4>Freiwilligendienste im Ausland für Ausreise Sommer 2027</h4><p>Der eigentliche Engpass. ICJA und DJiA schließen teils schon im August, der Schwerpunkt liegt September bis November. weltwärts startet die reguläre Bewerbungsphase für Sommer 2027 im September 2026. Es gibt kein zentrales Portal: jeder Träger einzeln. Im Herbst laufen überall Infotage — der günstigste Zeitpunkt, unverbindlich zu schnuppern.</p></div>
+<div class="ev" style="--dot:#a3e635">
+  <div class="when">Herbst 2026 – Frühjahr 2027</div><h4>Alles andere: entspannt</h4><p>FSJ und BFD im Inland, FSJ im Sport, Praktika, Sprachkurse, Work &amp; Travel — das lässt sich alles noch im Winter oder Frühjahr 2027 organisieren. Restplätze bei Freiwilligendiensten gibt es bis in den Juni hinein.</p></div>
+<div class="ev" style="--dot:#2dd4bf">
+  <div class="when">Mai / Juni 2027</div><h4>Abitur</h4><p>Und dann erst einmal: nichts. Das ist kein verlorener Monat, das ist Teil des Plans.</p></div>
+<div class="ev" style="--dot:#a78bfa">
+  <div class="when">bis 15. Juli 2027</div><h4>Studienbewerbung — optional</h4><p>Wer will, bewirbt sich „auf Vorrat“ zum Wintersemester 2027/28. Man kann einen Platz annehmen und sich beurlauben lassen, oder ihn verfallen lassen und sich 2028 neu bewerben. Die Abinote bleibt gültig. Kein Grund zur Eile.</p></div>
+<div class="ev" style="--dot:#818cf8">
+  <div class="when">ab 1. Juli 2027</div><h4>Musterung Jahrgang 2008 beginnt</h4><p>Pflichttermin. Wenn ein längerer Auslandsaufenthalt geplant ist, sollte er nicht ausgerechnet in diesem Fenster starten — oder die Genehmigung für den Auslandsaufenthalt liegt vorher vor.</p></div>
+<div class="ev" style="--dot:#2dd4bf">
+  <div class="when">September / Oktober 2027</div><h4>Ausreise, Dienstbeginn, oder was auch immer</h4><p>Der klassische Startmonat für Freiwilligendienste. Bis dahin liegen vier freie Monate — genug für Südostasien, einen Saisonjob oder ein Praktikum.</p></div>
+<div class="ev" style="--dot:#a78bfa">
+  <div class="when">ab Herbst 2028</div><h4>Studium oder Ausbildung, dann mit Entscheidung</h4><p>Nach einem Jahr draußen weiß man in der Regel deutlich besser, was man will. Das ist der eigentliche Sinn der Übung.</p></div>
+  </div>
+  <div class="note blue"><b>Wehrdienst.</b> Das Wehrdienst-Modernisierungsgesetz gilt seit 1.1.2026. Alle 18-jährigen Männer bekommen einen Fragebogen; das Ausfüllen ist für sie <b>verpflichtend</b>. Die <b>Musterung</b> ist ebenfalls Pflicht und beginnt <b>ab 1. Juli 2027</b> mit dem Jahrgang 2008. Außerdem: Männer zwischen 17 und 45 müssen Auslandsaufenthalte <b>über drei Monate</b> beim Karrierecenter der Bundeswehr genehmigen lassen — solange der Wehrdienst freiwillig ist, gilt die Genehmigung als erteilt, und das Gesetz sieht keine Sanktionen vor.</div>
+  <h2 style="margin-top:34px">Zwei Muster, die gut funktionieren</h2>
+  <div class="cards">
+<article class="card" style="--kat:#2dd4bf">
+  <div class="katlabel">Unterwegs</div><h3>Muster A: Erst raus, dann klar sehen</h3>
+  <p class="ich">Juni bis September 2027 reisen oder jobben, ab Oktober zwölf Monate Freiwilligendienst in Südamerika oder Ostafrika, Herbst 2028 Studium.</p><dl class="facts"><dt>Was jetzt zu tun ist</dt><dd>Nichts. Ab September 2026 Träger vergleichen.</dd><dt>Kritischer Termin</dt><dd>Bewerbung bis spätestens Winter 2026/27</dd><dt>Kindergeld</dt><dd>läuft durch</dd><dt>Risiko</dt><dd>Musterungstermin ab Juli 2027 — Auslandsgenehmigung einholen</dd></dl></article>
+<article class="card" style="--kat:#fb923c">
+  <div class="katlabel">Arbeiten &amp; Geld</div><h3>Muster B: Erst schauen, dann weg</h3>
+  <p class="ich">Nach dem Abi zwei Praktika im Finanzbereich, dazwischen sechs Wochen Südostasien, ab Januar 2028 Work &amp; Travel Australien, Studium ab Herbst 2028 oder 2029.</p><dl class="facts"><dt>Was jetzt zu tun ist</dt><dd>Eine E-Mail schreiben. Wirklich nur eine.</dd><dt>Kritischer Termin</dt><dd>keiner — alles kurzfristig machbar</dd><dt>Kindergeld</dt><dd>nur in den Übergangsmonaten</dd><dt>Risiko</dt><dd>ohne Rahmen zerfasert das Jahr leicht</dd></dl></article>
+  </div>
+</section>
+
+<section class="block" id="impulse">
+  <h2>Ein Impuls pro Tag</h2>
+  <p class="lede">60 kleine Fragen. Jeden Morgen kommt eine per Mail. Keine muss beantwortet werden — es reicht, sie einmal gedacht zu haben.</p>
+  <ul class="qlist">
+<li class="qitem" data-q="0">
+  <div class="qnum">Impuls 1 von 60</div>
+  <div class="qtext">Wenn Geld keine Rolle spielte — wo würdest du morgen hinfliegen?</div>
+  <p class="qidee">Nicht: wo wäre am sinnvollsten. Wo würdest du hin, wenn niemand danach fragt, was es dir gebracht hat. Ein Land, ein Gedanke, fertig.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div><div class="qbtns"><a class="btn" href="https://www.rausvonzuhaus.de/" target="_blank" rel="noopener">Programme nach Ländern durchklicken</a></div>
+</li>
+<li class="qitem" data-q="1">
+  <div class="qnum">Impuls 2 von 60</div>
+  <div class="qtext">Was hast du zuletzt freiwillig recherchiert, ohne dass jemand es von dir wollte?</div>
+  <p class="qidee">Das ist meistens ein besserer Hinweis auf einen Beruf als jeder Test. Denk kurz nach, was es war — und was daran gereizt hat.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div><div class="qbtns"><a class="btn" href="https://www.arbeitsagentur.de/bildung/check-u-das-erkundungstool" target="_blank" rel="noopener">Check-U der Arbeitsagentur</a></div>
+</li>
+<li class="qitem" data-q="2">
+  <div class="qnum">Impuls 3 von 60</div>
+  <div class="qtext">Willst du im nächsten Jahr eher gebraucht werden oder eher frei sein?</div>
+  <p class="qidee">Beides ist ehrenwert. Aber die Antwort trennt Freiwilligendienst von Work &amp; Travel — das ist die wichtigste Weiche überhaupt.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div><div class="qbtns"><a class="btn" href="https://www.weltwaerts.de/" target="_blank" rel="noopener">weltwärts ansehen</a></div>
+</li>
+<li class="qitem" data-q="3">
+  <div class="qnum">Impuls 4 von 60</div>
+  <div class="qtext">Wie viel Struktur brauchst du, um nicht zu versacken?</div>
+  <p class="qidee">Ehrliche Antwort, nicht die anständige. Manche brauchen ein Programm, manche ersticken darin. Beides ist okay.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div><div class="qbtns"><a class="btn" href="https://www.ijgd.de/" target="_blank" rel="noopener">ijgd — betreute Dienste</a></div>
+</li>
+<li class="qitem" data-q="4">
+  <div class="qnum">Impuls 5 von 60</div>
+  <div class="qtext">Was würdest du an einem Freitagabend in Nairobi machen?</div>
+  <p class="qidee">Wenn dir dazu nichts einfällt, ist das kein schlechtes Zeichen — nur ein Hinweis, heute fünf Minuten darüber zu lesen.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div><div class="qbtns"><a class="btn" href="https://www.auswaertiges-amt.de/de/service/laender" target="_blank" rel="noopener">Länderinformationen</a></div>
+</li>
+<li class="qitem" data-q="5">
+  <div class="qnum">Impuls 6 von 60</div>
+  <div class="qtext">Wie viel Geld brauchst du im Monat, um zufrieden zu sein?</div>
+  <p class="qidee">Rechne es einmal wirklich aus: Miete, Essen, Handy, Sport, Rest. Die Zahl entscheidet mehr über deine Optionen als jede Neigung.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Geld</div>
+</li>
+<li class="qitem" data-q="6">
+  <div class="qnum">Impuls 7 von 60</div>
+  <div class="qtext">Was war der beste Tag deines letzten Jahres — und was hast du da gemacht?</div>
+  <p class="qidee">Nicht der lustigste. Der beste. Der Unterschied ist der ganze Punkt.</p>
+  
+</li>
+<li class="qitem" data-q="7">
+  <div class="qnum">Impuls 8 von 60</div>
+  <div class="qtext">Interessieren dich an Finanzen die Zahlen oder die Menschen mit Geld?</div>
+  <p class="qidee">Das ist der Unterschied zwischen Analyst und Berater. Beides sind Berufe, aber völlig verschiedene Leben.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div><div class="qbtns"><a class="btn" href="https://www.bundesbank.de/de/service/schule-und-bildung" target="_blank" rel="noopener">Bundesbank für Einsteiger</a></div>
+</li>
+<li class="qitem" data-q="8">
+  <div class="qnum">Impuls 9 von 60</div>
+  <div class="qtext">Könntest du drei Monate lang jeden Tag mit Fremden sprechen?</div>
+  <p class="qidee">Work &amp; Travel ist ununterbrochene Kontaktaufnahme: Jobs, Betten, Mitfahrgelegenheiten. Das muss man wollen, nicht nur aushalten.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Menschen?</div><div class="qbtns"><a class="btn" href="https://www.auslandsjob.de/work-and-travel/" target="_blank" rel="noopener">Work &amp; Travel im Überblick</a></div>
+</li>
+<li class="qitem" data-q="9">
+  <div class="qnum">Impuls 10 von 60</div>
+  <div class="qtext">Was kannst du besser als die meisten in deiner Stufe?</div>
+  <p class="qidee">Frag notfalls jemanden, der dich kennt. Selbstbild und Fremdbild liegen hier fast immer auseinander — und das Fremdbild stimmt öfter.</p>
+  
+</li>
+<li class="qitem" data-q="10">
+  <div class="qnum">Impuls 11 von 60</div>
+  <div class="qtext">Wärst du lieber in einem Team von zwanzig oder allein mit einer Aufgabe?</div>
+  <p class="qidee">Diese eine Frage sortiert die halbe Liste. Schieb heute nur den Menschen-Regler und schau, was oben landet.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Menschen?</div>
+</li>
+<li class="qitem" data-q="11">
+  <div class="qnum">Impuls 12 von 60</div>
+  <div class="qtext">Welches Land isst so, wie du gerne isst?</div>
+  <p class="qidee">Kein Scherz. Ein Jahr am falschen Esstisch ist ein sehr langes Jahr. Denk an drei Gerichte, die du nie satt hast.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div>
+</li>
+<li class="qitem" data-q="12">
+  <div class="qnum">Impuls 13 von 60</div>
+  <div class="qtext">Wenn du ein Jahr Zeit hättest und danach niemand fragt, was du gemacht hast — was machst du?</div>
+  <p class="qidee">Die Antwort darauf ist meistens die ehrlichste, die es gibt. Merk sie dir.</p>
+  
+</li>
+<li class="qitem" data-q="13">
+  <div class="qnum">Impuls 14 von 60</div>
+  <div class="qtext">Was magst du an Computerspielen wirklich: das Gewinnen, das Optimieren oder die Leute?</div>
+  <p class="qidee">Optimieren führt zu Analytics und Trading. Leute führt zu Community und Produkt. Gewinnen führt zu Sport. Alle drei sind echte Wege.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div><div class="qbtns"><a class="btn" href="https://www.game.de/" target="_blank" rel="noopener">game — Verband der Games-Branche</a></div>
+</li>
+<li class="qitem" data-q="14">
+  <div class="qnum">Impuls 15 von 60</div>
+  <div class="qtext">Wie fühlt sich für dich ein guter Chef an?</div>
+  <p class="qidee">Wer das weiß, erkennt im Praktikum innerhalb von zwei Tagen, ob eine Firma passt. Ohne diese Vorstellung braucht man Monate.</p>
+  
+</li>
+<li class="qitem" data-q="15">
+  <div class="qnum">Impuls 16 von 60</div>
+  <div class="qtext">Was ist für dich schlimmer: Langeweile oder Überforderung?</div>
+  <p class="qidee">Das entscheidet zwischen Verwaltung und Startup, zwischen Farm und Großstadt. Es gibt keine falsche Antwort, nur eine ehrliche.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Tempo und Ungewissheit</div>
+</li>
+<li class="qitem" data-q="16">
+  <div class="qnum">Impuls 17 von 60</div>
+  <div class="qtext">Wen kennst du, dessen Leben du mit 30 gerne hättest?</div>
+  <p class="qidee">Und was hat diese Person mit 19 gemacht? Man darf sie fragen. Die meisten erzählen gerne — und die Antwort ist selten das, was man denkt.</p>
+  
+</li>
+<li class="qitem" data-q="17">
+  <div class="qnum">Impuls 18 von 60</div>
+  <div class="qtext">Willst du nach dem Jahr wieder nach Münster zurück?</div>
+  <p class="qidee">Wenn ja: wähle ruhig nah. Wenn nein: nutze das Jahr, um woanders anzudocken. Das ist ein echter strategischer Unterschied.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div>
+</li>
+<li class="qitem" data-q="18">
+  <div class="qnum">Impuls 19 von 60</div>
+  <div class="qtext">Was würdest du tun, wenn dein Auslandsjahr nach zwei Monaten schiefgeht?</div>
+  <p class="qidee">Wer darauf eine Antwort hat, fährt entspannter. Alle guten Träger haben Notfallpläne — die Frage danach ist ein Qualitätstest.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div><div class="qbtns"><a class="btn" href="https://www.rausvonzuhaus.de/" target="_blank" rel="noopener">Träger vergleichen</a></div>
+</li>
+<li class="qitem" data-q="19">
+  <div class="qnum">Impuls 20 von 60</div>
+  <div class="qtext">Wie viel willst du verdienen — und wie viel Sinn brauchst du dafür?</div>
+  <p class="qidee">Es gibt eine Kurve zwischen beidem. Deine sieht anders aus als die deiner Eltern, und das ist völlig in Ordnung.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Geld</div>
+</li>
+<li class="qitem" data-q="20">
+  <div class="qnum">Impuls 21 von 60</div>
+  <div class="qtext">Was ist dein Sport — und könntest du damit ein Jahr lang Geld verdienen?</div>
+  <p class="qidee">Trainerschein, Skilehrer, Surfcamp, FSJ im Sport. Das gibt es alles wirklich, und es ist näher als es klingt.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Sport im Alltag</div><div class="qbtns"><a class="btn" href="https://www.sportjugend-nrw.de/" target="_blank" rel="noopener">Sportjugend NRW</a></div>
+</li>
+<li class="qitem" data-q="21">
+  <div class="qnum">Impuls 22 von 60</div>
+  <div class="qtext">Wann hast du zuletzt etwas ohne Anleitung von Anfang bis Ende gemacht?</div>
+  <p class="qidee">Das ist die eigentliche Kompetenz, die ein Jahr draußen trainiert. Und die einzige, die im Lebenslauf niemand fälschen kann.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div>
+</li>
+<li class="qitem" data-q="22">
+  <div class="qnum">Impuls 23 von 60</div>
+  <div class="qtext">Afrika, Asien oder Amerika — und warum eigentlich nicht die anderen beiden?</div>
+  <p class="qidee">Die Begründung ist interessanter als die Wahl. Sag sie dir heute einmal laut.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div><div class="qbtns"><a class="btn" href="https://www.weltwaerts.de/de/einsatzplatz-suche.html" target="_blank" rel="noopener">weltwärts-Börse</a></div>
+</li>
+<li class="qitem" data-q="23">
+  <div class="qnum">Impuls 24 von 60</div>
+  <div class="qtext">Was würdest du später über dieses Jahr erzählen wollen?</div>
+  <p class="qidee">Ein Satz. Wenn er sich gut anfühlt, ist der Weg richtig. Wenn er sich nach Pflichtübung anhört, such weiter.</p>
+  
+</li>
+<li class="qitem" data-q="24">
+  <div class="qnum">Impuls 25 von 60</div>
+  <div class="qtext">Wie viel Heimweh verträgst du?</div>
+  <p class="qidee">Zwölf Monate weltwärts sind etwas völlig anderes als sechs Wochen Backpacking. Beides ist legitim — aber man sollte es vorher wissen.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div>
+</li>
+<li class="qitem" data-q="25">
+  <div class="qnum">Impuls 26 von 60</div>
+  <div class="qtext">Was interessiert dich an Geld: es zu haben, es zu vermehren oder zu verstehen, wie es funktioniert?</div>
+  <p class="qidee">Der dritte Fall ist der beste Grund, VWL zu studieren. Der zweite führt zu Asset Management. Der erste ist kein Berufswunsch.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div><div class="qbtns"><a class="btn" href="https://www.bundesbank.de/de/service/schule-und-bildung" target="_blank" rel="noopener">Bundesbank für Einsteiger</a></div>
+</li>
+<li class="qitem" data-q="26">
+  <div class="qnum">Impuls 27 von 60</div>
+  <div class="qtext">Wenn du jetzt ein Jahr im Ausland wärst — was würde dir aus Münster fehlen?</div>
+  <p class="qidee">Schreib die Liste im Kopf durch. Sie ist meistens kürzer, als man denkt — und genau das ist die beruhigende Nachricht.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div>
+</li>
+<li class="qitem" data-q="27">
+  <div class="qnum">Impuls 28 von 60</div>
+  <div class="qtext">Was wolltest du mit zwölf werden — und was war daran gut?</div>
+  <p class="qidee">Nicht der Beruf zählt, sondern was dich daran angezogen hat. Das ist oft noch da.</p>
+  
+</li>
+<li class="qitem" data-q="28">
+  <div class="qnum">Impuls 29 von 60</div>
+  <div class="qtext">Wärst du bereit, ein Jahr lang deutlich schlechter zu essen, wenn der Rest stimmt?</div>
+  <p class="qidee">Ehrliche Antwort. Sie sortiert einige Länder aus, und das ist gut so.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div>
+</li>
+<li class="qitem" data-q="29">
+  <div class="qnum">Impuls 30 von 60</div>
+  <div class="qtext">Was ist der kleinste Schritt, den du diese Woche machen könntest?</div>
+  <p class="qidee">Eine E-Mail. Ein Anruf. Eine Website öffnen. Mehr braucht es nicht, um in Bewegung zu kommen — und mehr sollte es auch nicht sein.</p>
+  
+</li>
+<li class="qitem" data-q="30">
+  <div class="qnum">Impuls 31 von 60</div>
+  <div class="qtext">Was macht ein Investmentbanker eigentlich zwischen 9 und 18 Uhr?</div>
+  <p class="qidee">Sieh dir heute eine einzige Stellenanzeige an und lies nur den Abschnitt &#x27;Ihre Aufgaben&#x27;. Konkreter geht Berufsorientierung nicht.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div><div class="qbtns"><a class="btn" href="https://www.stepstone.de/" target="_blank" rel="noopener">Eine echte Stellenanzeige lesen</a></div>
+</li>
+<li class="qitem" data-q="31">
+  <div class="qnum">Impuls 32 von 60</div>
+  <div class="qtext">Wie lange hältst du es aus, wenn niemand dir sagt, was zu tun ist?</div>
+  <p class="qidee">Backpacking ist genau das, jeden Tag. Für manche ist es Freiheit, für andere die Hölle. Schieb den Rahmen-Regler heute mal ganz nach links.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div>
+</li>
+<li class="qitem" data-q="32">
+  <div class="qnum">Impuls 33 von 60</div>
+  <div class="qtext">Was kostet dich ein Monat Südostasien wirklich?</div>
+  <p class="qidee">Such heute zwei echte Zahlen: ein Hostelbett in Chiang Mai und ein Essen auf der Straße. Danach kennst du dein Budget.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Geld</div>
+</li>
+<li class="qitem" data-q="33">
+  <div class="qnum">Impuls 34 von 60</div>
+  <div class="qtext">Welche Sprache würdest du gerne wirklich können?</div>
+  <p class="qidee">Nicht &#x27;gut finden&#x27; — können. Spanisch öffnet ganz Lateinamerika, Französisch halb Afrika. Ein Jahr reicht dafür tatsächlich.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div><div class="qbtns"><a class="btn" href="https://www.rausvonzuhaus.de/auswahl/programm/sprachreise" target="_blank" rel="noopener">Sprachreisen mit Zertifikat</a></div>
+</li>
+<li class="qitem" data-q="34">
+  <div class="qnum">Impuls 35 von 60</div>
+  <div class="qtext">Wie viele Stunden warst du gestern draußen?</div>
+  <p class="qidee">Wenn die Zahl klein ist und dich das stört: es gibt Wege, bei denen sie zwölf ist. Farm, Saisonjob, Trainerstelle.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Sport im Alltag</div><div class="qbtns"><a class="btn" href="https://wwoof.net/" target="_blank" rel="noopener">WWOOF — Arbeit gegen Kost und Logis</a></div>
+</li>
+<li class="qitem" data-q="35">
+  <div class="qnum">Impuls 36 von 60</div>
+  <div class="qtext">Was würdest du machen, wenn du zwei Jahre statt einem hättest?</div>
+  <p class="qidee">Die Antwort verrät, ob dein Plan zu klein oder zu groß gedacht ist. Beides ist wertvoll zu wissen.</p>
+  
+</li>
+<li class="qitem" data-q="36">
+  <div class="qnum">Impuls 37 von 60</div>
+  <div class="qtext">Wenn du morgen ein Praktikum anfangen könntest — wo?</div>
+  <p class="qidee">Nenn eine Firma. Nicht eine Branche, eine Firma. Wenn dir keine einfällt, ist das die eigentliche Aufgabe für diese Woche.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div>
+</li>
+<li class="qitem" data-q="37">
+  <div class="qnum">Impuls 38 von 60</div>
+  <div class="qtext">Bist du eher jemand, der plant, oder jemand, der loszieht?</div>
+  <p class="qidee">Weder noch ist besser. Aber Planer sollten sich für ein Programm bewerben, Loszieher für ein Visum.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Tempo und Ungewissheit</div>
+</li>
+<li class="qitem" data-q="38">
+  <div class="qnum">Impuls 39 von 60</div>
+  <div class="qtext">Was war das Letzte, bei dem du die Zeit vergessen hast?</div>
+  <p class="qidee">Das ist die brauchbarste Definition von Talent, die es gibt. Und sie kostet keine 300 Euro Berufstest.</p>
+  
+</li>
+<li class="qitem" data-q="39">
+  <div class="qnum">Impuls 40 von 60</div>
+  <div class="qtext">Willst du nach dem Jahr sofort studieren — oder erst arbeiten?</div>
+  <p class="qidee">Man darf sich 2027 auf einen Studienplatz bewerben und ihn liegen lassen. Die Abinote verfällt nicht. Das nimmt viel Druck raus.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div><div class="qbtns"><a class="btn" href="https://www.hochschulstart.de/" target="_blank" rel="noopener">Hochschulstart — Fristen</a></div>
+</li>
+<li class="qitem" data-q="40">
+  <div class="qnum">Impuls 41 von 60</div>
+  <div class="qtext">Wie gut kannst du allein sein?</div>
+  <p class="qidee">Nicht &#x27;gerne&#x27;, sondern &#x27;gut&#x27;. Die ersten zwei Wochen im Ausland sind für fast alle einsam. Wer das weiß, hält es leichter aus.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Menschen?</div>
+</li>
+<li class="qitem" data-q="41">
+  <div class="qnum">Impuls 42 von 60</div>
+  <div class="qtext">Was würdest du tun, wenn du wüsstest, dass du nicht scheitern kannst?</div>
+  <p class="qidee">Alte Frage, aber sie funktioniert. Die erste Antwort zählt, nicht die vernünftige zweite.</p>
+  
+</li>
+<li class="qitem" data-q="42">
+  <div class="qnum">Impuls 43 von 60</div>
+  <div class="qtext">Wie viel Verantwortung willst du mit 19 haben?</div>
+  <p class="qidee">In manchen Freiwilligendiensten unterrichtest du nach drei Wochen eine Klasse allein. Für manche ist das das Beste am ganzen Jahr.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div><div class="qbtns"><a class="btn" href="https://www.weltwaerts.de/de/einsatzplatz-suche.html" target="_blank" rel="noopener">Einsatzplätze ansehen</a></div>
+</li>
+<li class="qitem" data-q="43">
+  <div class="qnum">Impuls 44 von 60</div>
+  <div class="qtext">Was würdest du deinem besten Freund raten, wenn er in deiner Lage wäre?</div>
+  <p class="qidee">Merkwürdigerweise ist man für andere klüger als für sich. Nimm den Rat heute selbst an.</p>
+  
+</li>
+<li class="qitem" data-q="44">
+  <div class="qnum">Impuls 45 von 60</div>
+  <div class="qtext">Was ist dir wichtiger: viel sehen oder etwas verstehen?</div>
+  <p class="qidee">Backpacking ist viel sehen. Ein Jahr an einem Ort ist etwas verstehen. Das ist der eigentliche Unterschied zwischen den beiden Hauptwegen.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Tempo und Ungewissheit</div>
+</li>
+<li class="qitem" data-q="45">
+  <div class="qnum">Impuls 46 von 60</div>
+  <div class="qtext">Wie viel Geld hast du bis zum Abi zusammen — realistisch?</div>
+  <p class="qidee">Rechne es heute einmal aus. Diese Zahl entscheidet, ob Australien oder Portugal, und das ist keine schlechte Nachricht, nur eine klare.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Geld</div>
+</li>
+<li class="qitem" data-q="46">
+  <div class="qnum">Impuls 47 von 60</div>
+  <div class="qtext">Was ist der beste Rat, den dir jemand über Arbeit gegeben hat?</div>
+  <p class="qidee">Und stimmt er noch? Man darf Ratschläge kündigen.</p>
+  
+</li>
+<li class="qitem" data-q="47">
+  <div class="qnum">Impuls 48 von 60</div>
+  <div class="qtext">Könntest du dir vorstellen, mit den Händen zu arbeiten?</div>
+  <p class="qidee">Küche, Farm, Werkstatt, Bau. Viele, die es probiert haben, reden Jahre später noch davon. Und es bezahlt sich meistens.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Sport im Alltag</div>
+</li>
+<li class="qitem" data-q="48">
+  <div class="qnum">Impuls 49 von 60</div>
+  <div class="qtext">Wo warst du zuletzt richtig stolz auf dich?</div>
+  <p class="qidee">Denk an die Situation, nicht an das Ergebnis. Was hast du da getan, was andere nicht getan hätten?</p>
+  
+</li>
+<li class="qitem" data-q="49">
+  <div class="qnum">Impuls 50 von 60</div>
+  <div class="qtext">Wenn dein Jahr ein Titel wäre — wie hieße es?</div>
+  <p class="qidee">&#x27;Endlich raus&#x27;. &#x27;Herausfinden, ob Finanzen es sind&#x27;. &#x27;Einmal weit weg&#x27;. Der Titel verrät den Zweck, und der Zweck verrät den Weg.</p>
+  
+</li>
+<li class="qitem" data-q="50">
+  <div class="qnum">Impuls 51 von 60</div>
+  <div class="qtext">Wie viele Menschen kennst du, die etwas mit Geld machen?</div>
+  <p class="qidee">Wenn es weniger als zwei sind: das ist die Lücke. Ein einziges Gespräch ersetzt zehn Websites.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div>
+</li>
+<li class="qitem" data-q="51">
+  <div class="qnum">Impuls 52 von 60</div>
+  <div class="qtext">Was hältst du davon, ein halbes Jahr lang jeden Tag früh aufzustehen?</div>
+  <p class="qidee">Fast jede Saisonarbeit und jeder Freiwilligendienst bedeutet genau das. Wer es hasst, sollte anders planen — das ist kein Makel.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div>
+</li>
+<li class="qitem" data-q="52">
+  <div class="qnum">Impuls 53 von 60</div>
+  <div class="qtext">Was ist dein Lieblingsessen — und wo kommt es her?</div>
+  <p class="qidee">Manchmal ist das die ehrlichste Landkarte, die man hat. Folge ihr heute einmal fünf Minuten.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie weit weg?</div>
+</li>
+<li class="qitem" data-q="53">
+  <div class="qnum">Impuls 54 von 60</div>
+  <div class="qtext">Was würde dich im Rückblick ärgern, wenn du es nicht gemacht hättest?</div>
+  <p class="qidee">Reue funktioniert asymmetrisch: Man bereut fast nie das Gemachte, fast immer das Gelassene.</p>
+  
+</li>
+<li class="qitem" data-q="54">
+  <div class="qnum">Impuls 55 von 60</div>
+  <div class="qtext">Bist du bereit, ein Jahr weniger Geld zu haben als deine Freunde?</div>
+  <p class="qidee">Wer duale Ausbildung macht, verdient ab Tag eins. Wer reist, gibt aus. Beide holen es später ein — aber das Jahr fühlt sich unterschiedlich an.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Geld</div>
+</li>
+<li class="qitem" data-q="55">
+  <div class="qnum">Impuls 56 von 60</div>
+  <div class="qtext">Wie wichtig ist dir, dass jemand am anderen Ende auf dich wartet?</div>
+  <p class="qidee">Ein Freiwilligendienst hat eine Gastfamilie und einen Mentor. Work &amp; Travel hat ein Hostelbett. Das ist ein riesiger Unterschied am ersten Abend.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie viel Rahmen?</div>
+</li>
+<li class="qitem" data-q="56">
+  <div class="qnum">Impuls 57 von 60</div>
+  <div class="qtext">Was hast du in den letzten Ferien am liebsten gemacht?</div>
+  <p class="qidee">Nicht das Highlight — das Normale. Der Alltag verrät mehr über passende Wege als der Höhepunkt.</p>
+  
+</li>
+<li class="qitem" data-q="57">
+  <div class="qnum">Impuls 58 von 60</div>
+  <div class="qtext">Wenn du eine Firma gründen müsstest — was würde sie machen?</div>
+  <p class="qidee">Auch wenn du nie gründen willst: die Antwort zeigt, welches Problem dich beschäftigt. Und Probleme sind der Anfang von Berufen.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Wie beruflich konkret?</div>
+</li>
+<li class="qitem" data-q="58">
+  <div class="qnum">Impuls 59 von 60</div>
+  <div class="qtext">Wie viel Ungewissheit hältst du aus, ohne schlecht zu schlafen?</div>
+  <p class="qidee">Das ist keine Charakterfrage, sondern eine praktische. Wer schlecht schläft, bucht besser mit Rahmen — und hat trotzdem ein volles Jahr.</p>
+  <div class="qnum" style="color:var(--a1)">Regler des Tages: Tempo und Ungewissheit</div>
+</li>
+<li class="qitem" data-q="59">
+  <div class="qnum">Impuls 60 von 60</div>
+  <div class="qtext">Was wäre schön genug, um im September 2027 dafür aufzustehen?</div>
+  <p class="qidee">Das ist der Monat, in dem die meisten Wege starten. Ein Bild davon zu haben, hilft mehr als jede Liste.</p>
+  
+</li>
+  </ul>
+  <div class="qbtns" style="margin-top:18px">
+    <button class="btn ghost" id="qnext">Nächster Impuls</button>
+    <button class="btn ghost" id="qtoday">Der von heute</button>
+    <button class="btn ghost" id="qall">Alle Impulse zeigen</button>
+  </div>
+</section>
+
+<footer>
+  Stand: Juli 2026 · 22 Wege · 60 Impulse. Fristen ändern sich — die Links führen immer zur Originalquelle.<br>
+  Alles nur Vorschläge. Nichts davon ist ein Plan.
+</footer>
+</div>
+<script>
+document.documentElement.className += ' js';
+var $=function(s){return document.querySelector(s)}, $$=function(s){return [].slice.call(document.querySelectorAll(s))};
+var REGLER=[{"k": "ferne"}, {"k": "struktur"}, {"k": "geld"}, {"k": "menschen"}, {"k": "tempo"}, {"k": "beruf"}, {"k": "sport"}], START={"ferne": 80, "struktur": 45, "geld": 55, "menschen": 45, "tempo": 65, "beruf": 50, "sport": 65};
+var state={u:{},w:{},dauer:null};
+for(var k in START){state.u[k]=START[k];state.w[k]=false;}
+
+/* --- Tabs --- */
+var secs=$$('section.block'), links=$$('nav.tabs a');
+function show(id){
+  secs.forEach(function(s){s.hidden = (s.id!==id);});
+  links.forEach(function(a){a.setAttribute('aria-selected', a.getAttribute('href')==='#'+id);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+links.forEach(function(a){a.addEventListener('click',function(ev){ev.preventDefault();show(a.getAttribute('href').slice(1));});});
+show('regler');
+
+/* --- Regler --- */
+function score(card){
+  var sum=0, tot=0;
+  REGLER.forEach(function(r){
+    var wt = state.w[r.k]?2.5:1;
+    var v = +card.getAttribute('data-p-'+r.k);
+    sum += wt*Math.abs(state.u[r.k]-v); tot += wt*100;
+  });
+  return Math.round(100 - (sum/tot)*100);
+}
+var cards=$$('#cards .card'), leer=$('#leer');
+function render(){
+  var list=cards.map(function(c){return {c:c, s:score(c), d:+c.getAttribute('data-d')};});
+  list.sort(function(a,b){return b.s-a.s;});
+  var sichtbar=0;
+  list.forEach(function(o,i){
+    var ok = state.dauer===null || (state.dauer===99 ? o.d>12 : o.d<=state.dauer);
+    o.c.style.display = ok?'':'none';
+    o.c.style.order = i;
+    if(ok) sichtbar++;
+    var b=o.c.querySelector('[data-match]');
+    b.textContent=o.s+' %';
+    b.className='match'+(o.s>=78?' high':'');
+  });
+  if(leer) leer.style.display = sichtbar?'none':'';
+}
+$('#sliders').addEventListener('input',function(ev){
+  var t=ev.target;
+  if(t.getAttribute('data-k')) state.u[t.getAttribute('data-k')]=+t.value;
+  if(t.getAttribute('data-w')) state.w[t.getAttribute('data-w')]=t.checked;
+  render();
+});
+$$('#filters .chip').forEach(function(b){
+  b.addEventListener('click',function(){
+    var v=b.getAttribute('data-v');
+    state.dauer = v==='' ? null : +v;
+    $$('#filters .chip').forEach(function(c){c.setAttribute('aria-pressed', c===b);});
+    render();
+  });
+});
+$('#reset').addEventListener('click',function(){
+  for(var k in START){state.u[k]=START[k];state.w[k]=false;}
+  state.dauer=null;
+  $$('#sliders input[type=range]').forEach(function(i){i.value=START[i.getAttribute('data-k')];});
+  $$('#sliders input[type=checkbox]').forEach(function(i){i.checked=false;});
+  $$('#filters .chip').forEach(function(c,i){c.setAttribute('aria-pressed', i===0);});
+  $$('.slider').forEach(function(s){s.className='slider';});
+  render();
+});
+
+/* --- Impuls des Tages --- */
+var items=$$('.qitem'), N=items.length;
+function tagIndex(){
+  var d=new Date(), s=new Date(d.getFullYear(),0,0);
+  return Math.floor((d-s)/86400000) % N;
+}
+var qi=tagIndex();
+function zeigeQ(){ items.forEach(function(li,i){li.className='qitem'+(i===qi?' on':'');}); }
+zeigeQ();
+$('#qnext').addEventListener('click',function(){qi=(qi+1)%N;zeigeQ();});
+$('#qtoday').addEventListener('click',function(){qi=tagIndex();zeigeQ();});
+$('#qall').addEventListener('click',function(){
+  var alle = items[0].className.indexOf('on')>-1 && items[1].className.indexOf('on')>-1;
+  if(alle){zeigeQ(); this.textContent='Alle Impulse zeigen';}
+  else{items.forEach(function(li){li.className='qitem on';}); this.textContent='Nur den von heute';}
+});
+
+/* --- Tabelle sortieren --- */
+var tb=$('#tbl'), asc=true, lastK=-1;
+$$('#tbl th').forEach(function(th,ci){
+  th.addEventListener('click',function(){
+    asc = (lastK===ci) ? !asc : true; lastK=ci;
+    var body=tb.tBodies[0], rows=[].slice.call(body.rows);
+    rows.sort(function(a,b){
+      var x=a.cells[ci], y=b.cells[ci];
+      var xs=x.getAttribute('data-sort'), ys=y.getAttribute('data-sort');
+      var c = (xs!==null && ys!==null) ? (+xs - +ys)
+            : x.textContent.trim().localeCompare(y.textContent.trim(),'de');
+      return asc?c:-c;
+    });
+    rows.forEach(function(r){body.appendChild(r);});
+  });
+});
+
+/* --- Deep-Link aus der Morgenmail: ?regler=ferne&impuls=12 --- */
+(function(){
+  var p=new URLSearchParams(location.search);
+  var r=p.get('regler'), q=p.get('impuls');
+  if(q!==null && !isNaN(+q)){ qi=(+q)%N; zeigeQ(); show('impulse'); }
+  if(r){
+    var box=document.querySelector('[data-slider="'+r+'"]');
+    if(box){
+      show('regler');
+      box.className='slider focus';
+      setTimeout(function(){box.scrollIntoView({behavior:'smooth',block:'center'});},250);
+    }
+  }
+})();
+render();
+</script>
+</body>
+</html>

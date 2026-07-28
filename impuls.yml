@@ -1,0 +1,34 @@
+name: Morgen-Impuls
+
+on:
+  schedule:
+    # 05:00 UTC = 07:00 MESZ (Sommerzeit) bzw. 06:00 MEZ (Winterzeit).
+    # Für 07:00 im Winter auf "0 6 * * *" umstellen.
+    - cron: "0 5 * * *"
+  workflow_dispatch:        # erlaubt manuelles Auslösen im Actions-Tab
+
+jobs:
+  impuls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: SMTP-Konfiguration aus Secrets erzeugen
+        run: |
+          cat > smtp_config.json <<EOF
+          {
+            "smtp_server": "${{ secrets.SMTP_SERVER }}",
+            "smtp_port": "${{ secrets.SMTP_PORT }}",
+            "smtp_user": "${{ secrets.SMTP_USER }}",
+            "smtp_password": "${{ secrets.SMTP_PASSWORD }}",
+            "from_email": "${{ secrets.FROM_EMAIL }}",
+            "to_emails": ${{ secrets.TO_EMAILS }}
+          }
+          EOF
+
+      - name: Impuls verschicken
+        run: python3 impuls_mail.py
