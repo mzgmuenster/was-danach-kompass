@@ -1281,7 +1281,7 @@ $('#reset').addEventListener('click',function(){
 /* --- Impuls des Tages --- */
 var items=$$('.qitem'), N=items.length;
 function tagIndex(){
-  var start=new Date(2026,6,29);
+  var start=new Date(2026,6,28);
   var d=new Date(); d.setHours(0,0,0,0);
   return Math.max(0, Math.round((d-start)/86400000)) % N;
 }

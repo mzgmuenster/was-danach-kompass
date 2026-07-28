@@ -445,7 +445,7 @@ IMPULSE = [
 
 FRISTEN = {
  "abitur": "2027-05-15",
- "start": "2026-07-29",
+ "start": "2026-07-28",
  "fenster": [
   {
    "von": "2026-07-01",
