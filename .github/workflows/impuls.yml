@@ -1,16 +1,23 @@
 name: Morgen-Impuls
+
 on:
   schedule:
-    - cron: "0 5 * * *"
-  workflow_dispatch:
+    # 05:17 UTC = 07:17 MESZ. Bewusst eine krumme Minute: GitHub verschiebt oder
+    # verwirft geplante Laeufe zur vollen Stunde haeufig wegen Ueberlast.
+    # Fuer den Winter auf "17 6 * * *" umstellen.
+    - cron: "17 5 * * *"
+  workflow_dispatch:        # erlaubt manuelles Auslösen im Actions-Tab
+
 jobs:
   impuls:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: SMTP-Konfiguration aus Secrets erzeugen
         env:
           SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
@@ -32,5 +39,6 @@ jobs:
           open("smtp_config.json", "w").write(json.dumps(cfg, ensure_ascii=False))
           print("Empfaenger:", cfg["to_emails"])
           PY
+
       - name: Impuls verschicken
         run: python3 impuls_mail.py
