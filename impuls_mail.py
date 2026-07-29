@@ -1155,7 +1155,8 @@ def baue_mail(d, idx):
         <tr><td style="padding:0 0 9px">
           <a href="{APP_URL}?i={idx}&a={j}" style="display:block;padding:15px 17px;
              background:#1c2231;border:1px solid #39445a;border-radius:14px;
-             color:#f2f5f9;text-decoration:none;font:600 16px/1.35 {SANS}">{o['t']}</a>
+             color:#f2f5f9;text-decoration:none;font:600 16px/1.35 {SANS}">
+             <span style="float:right;color:#2dd4bf;font-weight:800">&rsaquo;</span>{o['t']}</a>
         </td></tr>""" for j, o in enumerate(q["optionen"]))
 
     fenster = aktives_fenster(d)
@@ -1212,10 +1213,13 @@ def baue_mail(d, idx):
         <tr><td>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{knoepfe}</table>
         </td></tr>
-        <tr><td style="padding:8px 0 0;font:14px/1.5 {SANS};color:#7d8899">
-          <a href="{APP_URL}?i={idx}" style="color:#2dd4bf;text-decoration:none">Eigene Antwort</a>
+        <tr><td style="padding:4px 0 0;font:13.5px/1.5 {SANS};color:#7d8899">
+          Antippen speichert die Antwort und öffnet den Kompass.
+        </td></tr>
+        <tr><td style="padding:12px 0 0;font:14px/1.5 {SANS};color:#7d8899">
+          <a href="{APP_URL}?i={idx}" style="color:#2dd4bf;text-decoration:none">Eigenen Text schreiben</a>
           &nbsp;·&nbsp;
-          <a href="{APP_URL}#auswertung" style="color:#2dd4bf;text-decoration:none">Auswertung</a>
+          <a href="{APP_URL}#auswertung" style="color:#2dd4bf;text-decoration:none">Auswertung ansehen</a>
         </td></tr>
 {fristzeile}
       </table>
@@ -1228,7 +1232,9 @@ def baue_mail(d, idx):
     text = f"Frage {idx+1} von {len(IMPULSE)} — noch {tage} Tage bis zum Abi\n\n{q['frage']}\n\n"
     for j, o in enumerate(q["optionen"]):
         text += f"  {o['t']}\n  {APP_URL}?i={idx}&a={j}\n\n"
-    text += f"Eigene Antwort: {APP_URL}?i={idx}\nAuswertung: {APP_URL}#auswertung\n"
+    text += ("Antippen speichert die Antwort und oeffnet den Kompass.\n\n"
+             f"Eigenen Text schreiben: {APP_URL}?i={idx}\n"
+             f"Auswertung ansehen: {APP_URL}#auswertung\n")
     if fenster:
         text += f"\nFrist laeuft: {fenster['titel']}\n"
     return html_body, text
