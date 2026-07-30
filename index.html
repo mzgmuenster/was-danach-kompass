@@ -1101,7 +1101,7 @@ $('#loeschen').addEventListener('click',function(){
 /* ---------- Aufruf aus der Mail: ?i=7&a=2 ---------- */
 (function(){
   var p=new URLSearchParams(location.search);
-  var i=p.get('i'), a=p.get('a'), r=p.get('regler');
+  var i=p.get('i'), a=p.get('a'), r=p.get('regler'), frei=p.get('frei');
   var bestaetigt=false;
   if(i!==null&&!isNaN(+i)){
     qi=(+i)%N;
@@ -1112,6 +1112,14 @@ $('#loeschen').addEventListener('click',function(){
   }
   zeigeFrage(bestaetigt);
   render();
+  if(frei){
+    show('heute');
+    setTimeout(function(){
+      var t=$('#frei');
+      if(t){ t.scrollIntoView({behavior:'smooth',block:'center'}); t.focus(); }
+    }, 320);
+    return;
+  }
   if(r){
     var box=document.querySelector('[data-slider="'+r+'"]');
     if(box){show('regler');box.className='slider focus';
