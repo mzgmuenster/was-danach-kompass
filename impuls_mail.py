@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-impuls_mail.py — schickt jeden Morgen eine Frage per E-Mail.
+impuls_mail.py — verschickt jeden Morgen eine Frage.
 
-Die vier Antwortmoeglichkeiten sind Links. Ein Tipp darauf oeffnet den
-Kompass, speichert die Antwort dort lokal und zeigt die naechste Frage.
-Kein Server, keine Datenbank: die Antworten liegen in Jakobs Browser.
+Jede Person bekommt eine eigene Mail mit eigenem Startdatum. Es gibt zwei
+Rollen:
+
+  schueler  bekommt die Frage direkt
+  eltern    bekommt dieselbe Frage als "Was glaubst du, was <Kind> antwortet?"
+
+Ablauf je Person, gerechnet ab ihrem Startdatum:
+  Tag  1-30   je eine Frage
+  Tag  31     Spiegelung — keine Frage mehr, Hinweis auf die Auswertung
+  Tag  32     Abschluss — Einladung zum Gespraech, danach keine Mails mehr
+
+Die Antworten liegen ausschliesslich im Browser der jeweiligen Person.
+Weder der Versand noch ein Server sehen sie. Eltern und Kind sehen die
+Antworten des anderen nicht — der Vergleich passiert im Gespraech.
 
 Diese Fassung ist eigenstaendig: keine data/-Dateien noetig.
 
 Aufruf:
-    python3 impuls_mail.py            # verschickt
-    python3 impuls_mail.py --test     # schreibt vorschau.html, verschickt nichts
-    python3 impuls_mail.py --tag 5    # erzwingt Frage 6
+    python3 impuls_mail.py                 # verschickt
+    python3 impuls_mail.py --test          # schreibt Vorschauen, verschickt nichts
+    python3 impuls_mail.py --test --tag 12 # erzwingt Tag 12 fuer die Vorschau
 """
 import json, os, sys, smtplib, pathlib, datetime
 from email.mime.text import MIMEText
@@ -62,7 +73,8 @@ IMPULSE = [
      "ruhe"
     ]
    }
-  ]
+  ],
+  "phase": "start"
  },
  {
   "frage": "Was hast du zuletzt recherchiert, ohne dass jemand es von dir wollte?",
@@ -96,7 +108,8 @@ IMPULSE = [
      "weite"
     ]
    }
-  ]
+  ],
+  "phase": "start"
  },
  {
   "frage": "Willst du im nächsten Jahr eher gebraucht werden oder eher frei sein?",
@@ -132,208 +145,8 @@ IMPULSE = [
      "offen"
     ]
    }
-  ]
- },
- {
-  "frage": "Wie viel Struktur brauchst du, um nicht zu versacken?",
-  "regler": "struktur",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Viel — ohne Plan mache ich nichts",
-    "tag": [
-     "struktur"
-    ]
-   },
-   {
-    "t": "Etwas Rahmen, den Rest selbst",
-    "tag": [
-     "struktur",
-     "frei"
-    ]
-   },
-   {
-    "t": "Wenig — ich organisiere mich gern selbst",
-    "tag": [
-     "frei"
-    ]
-   },
-   {
-    "t": "Weiß ich nicht, nie ausprobiert",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Wie viel Geld brauchst du im Monat, um zufrieden zu sein?",
-  "regler": "geld",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Unter 500 €",
-    "tag": [
-     "sinn"
-    ]
-   },
-   {
-    "t": "500 bis 1000 €",
-    "tag": [
-     "sinn",
-     "geld"
-    ]
-   },
-   {
-    "t": "Über 1000 €",
-    "tag": [
-     "geld"
-    ]
-   },
-   {
-    "t": "Nie ausgerechnet",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Interessieren dich an Finanzen die Zahlen oder die Menschen?",
-  "regler": "beruf",
-  "link": "https://www.bundesbank.de/de/service/schule-und-bildung",
-  "linktext": "Bundesbank für Einsteiger",
-  "optionen": [
-   {
-    "t": "Die Zahlen und Systeme",
-    "tag": [
-     "beruf",
-     "allein"
-    ]
-   },
-   {
-    "t": "Die Menschen und Gespräche",
-    "tag": [
-     "beruf",
-     "menschen"
-    ]
-   },
-   {
-    "t": "Beides gleich",
-    "tag": [
-     "beruf"
-    ]
-   },
-   {
-    "t": "Eigentlich keins von beidem",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Könntest du drei Monate lang jeden Tag mit Fremden sprechen?",
-  "regler": "menschen",
-  "link": "https://www.auslandsjob.de/work-and-travel/",
-  "linktext": "Work & Travel",
-  "optionen": [
-   {
-    "t": "Ja, das reizt mich sogar",
-    "tag": [
-     "menschen",
-     "tempo"
-    ]
-   },
-   {
-    "t": "Ginge, wäre aber anstrengend",
-    "tag": [
-     "menschen"
-    ]
-   },
-   {
-    "t": "Lieber nicht",
-    "tag": [
-     "allein",
-     "ruhe"
-    ]
-   },
-   {
-    "t": "Nur mit jemandem, den ich kenne",
-    "tag": [
-     "allein",
-     "struktur"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Team von zwanzig oder allein mit einer Aufgabe?",
-  "regler": "menschen",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Team",
-    "tag": [
-     "menschen"
-    ]
-   },
-   {
-    "t": "Allein",
-    "tag": [
-     "allein"
-    ]
-   },
-   {
-    "t": "Kleine Gruppe, drei bis vier",
-    "tag": [
-     "menschen",
-     "ruhe"
-    ]
-   },
-   {
-    "t": "Wechselnd",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Was ist schlimmer: Langeweile oder Überforderung?",
-  "regler": "tempo",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Langeweile",
-    "tag": [
-     "tempo"
-    ]
-   },
-   {
-    "t": "Überforderung",
-    "tag": [
-     "ruhe"
-    ]
-   },
-   {
-    "t": "Beides gleich schlimm",
-    "tag": [
-     "offen"
-    ]
-   },
-   {
-    "t": "Überforderung mag ich sogar",
-    "tag": [
-     "tempo",
-     "frei"
-    ]
-   }
-  ]
+  ],
+  "phase": "start"
  },
  {
   "frage": "Welches Land isst so, wie du gerne isst?",
@@ -369,7 +182,8 @@ IMPULSE = [
      "kultur"
     ]
    }
-  ]
+  ],
+  "phase": "oeffnen"
  },
  {
   "frage": "Was magst du an Games wirklich?",
@@ -403,42 +217,43 @@ IMPULSE = [
      "ruhe"
     ]
    }
-  ]
+  ],
+  "phase": "oeffnen"
  },
  {
-  "frage": "Was ist dein Sport — und könntest du damit ein Jahr Geld verdienen?",
-  "regler": "sport",
-  "link": "https://www.sportjugend-nrw.de/",
-  "linktext": "FSJ im Sport",
+  "frage": "Was war das Letzte, bei dem du die Zeit vergessen hast?",
+  "regler": "",
+  "link": "",
+  "linktext": "",
   "optionen": [
    {
-    "t": "Ja, das wäre ein Traum",
+    "t": "Etwas am Rechner",
     "tag": [
-     "sport",
-     "sinn"
+     "beruf",
+     "allein"
     ]
    },
    {
-    "t": "Vielleicht, nie drüber nachgedacht",
+    "t": "Sport oder draußen",
     "tag": [
-     "sport",
-     "offen"
+     "sport"
     ]
    },
    {
-    "t": "Sport ja, aber nicht als Job",
+    "t": "Mit Freunden",
     "tag": [
-     "sport",
-     "ruhe"
+     "menschen"
     ]
    },
    {
-    "t": "Sport ist mir nicht so wichtig",
+    "t": "Etwas gebaut oder gekocht",
     "tag": [
-     "offen"
+     "kultur",
+     "allein"
     ]
    }
-  ]
+  ],
+  "phase": "oeffnen"
  },
  {
   "frage": "Afrika, Asien oder Amerika — wohin zuerst?",
@@ -473,7 +288,112 @@ IMPULSE = [
      "sport"
     ]
    }
-  ]
+  ],
+  "phase": "oeffnen"
+ },
+ {
+  "frage": "Was ist dein Sport — und könntest du damit ein Jahr Geld verdienen?",
+  "regler": "sport",
+  "link": "https://www.sportjugend-nrw.de/",
+  "linktext": "FSJ im Sport",
+  "optionen": [
+   {
+    "t": "Ja, das wäre ein Traum",
+    "tag": [
+     "sport",
+     "sinn"
+    ]
+   },
+   {
+    "t": "Vielleicht, nie drüber nachgedacht",
+    "tag": [
+     "sport",
+     "offen"
+    ]
+   },
+   {
+    "t": "Sport ja, aber nicht als Job",
+    "tag": [
+     "sport",
+     "ruhe"
+    ]
+   },
+   {
+    "t": "Sport ist mir nicht so wichtig",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "oeffnen"
+ },
+ {
+  "frage": "Team von zwanzig oder allein mit einer Aufgabe?",
+  "regler": "menschen",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Team",
+    "tag": [
+     "menschen"
+    ]
+   },
+   {
+    "t": "Allein",
+    "tag": [
+     "allein"
+    ]
+   },
+   {
+    "t": "Kleine Gruppe, drei bis vier",
+    "tag": [
+     "menschen",
+     "ruhe"
+    ]
+   },
+   {
+    "t": "Wechselnd",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "oeffnen"
+ },
+ {
+  "frage": "Was ist schlimmer: Langeweile oder Überforderung?",
+  "regler": "tempo",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Langeweile",
+    "tag": [
+     "tempo"
+    ]
+   },
+   {
+    "t": "Überforderung",
+    "tag": [
+     "ruhe"
+    ]
+   },
+   {
+    "t": "Beides gleich schlimm",
+    "tag": [
+     "offen"
+    ]
+   },
+   {
+    "t": "Überforderung mag ich sogar",
+    "tag": [
+     "tempo",
+     "frei"
+    ]
+   }
+  ],
+  "phase": "oeffnen"
  },
  {
   "frage": "Wie viel Heimweh verträgst du?",
@@ -506,75 +426,76 @@ IMPULSE = [
      "offen"
     ]
    }
-  ]
+  ],
+  "phase": "oeffnen"
  },
  {
-  "frage": "Was interessiert dich an Geld?",
-  "regler": "beruf",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Zu verstehen, wie es funktioniert",
-    "tag": [
-     "beruf"
-    ]
-   },
-   {
-    "t": "Es zu vermehren",
-    "tag": [
-     "geld",
-     "beruf"
-    ]
-   },
-   {
-    "t": "Frei davon zu sein",
-    "tag": [
-     "frei",
-     "sinn"
-    ]
-   },
-   {
-    "t": "Ehrlich gesagt wenig",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Wann hast du zuletzt etwas ohne Anleitung von Anfang bis Ende gemacht?",
+  "frage": "Wie viel Struktur brauchst du, um nicht zu versacken?",
   "regler": "struktur",
   "link": "",
   "linktext": "",
   "optionen": [
    {
-    "t": "Kürzlich, mache ich oft",
-    "tag": [
-     "frei"
-    ]
-   },
-   {
-    "t": "Ist eine Weile her",
+    "t": "Viel — ohne Plan mache ich nichts",
     "tag": [
      "struktur"
     ]
    },
    {
-    "t": "Fällt mir gerade nichts ein",
+    "t": "Etwas Rahmen, den Rest selbst",
     "tag": [
      "struktur",
-     "offen"
+     "frei"
     ]
    },
    {
-    "t": "Ständig, meist am Rechner",
+    "t": "Wenig — ich organisiere mich gern selbst",
     "tag": [
-     "frei",
-     "beruf"
+     "frei"
+    ]
+   },
+   {
+    "t": "Weiß ich nicht, nie ausprobiert",
+    "tag": [
+     "offen"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
+ },
+ {
+  "frage": "Wie viel Geld brauchst du im Monat, um zufrieden zu sein?",
+  "regler": "geld",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Unter 500 €",
+    "tag": [
+     "sinn"
+    ]
+   },
+   {
+    "t": "500 bis 1000 €",
+    "tag": [
+     "sinn",
+     "geld"
+    ]
+   },
+   {
+    "t": "Über 1000 €",
+    "tag": [
+     "geld"
+    ]
+   },
+   {
+    "t": "Nie ausgerechnet",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "konkretisieren"
  },
  {
   "frage": "Wie gut kannst du allein sein?",
@@ -608,42 +529,44 @@ IMPULSE = [
      "offen"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
  },
  {
-  "frage": "Willst du nach dem Jahr sofort studieren oder erst arbeiten?",
-  "regler": "beruf",
-  "link": "https://www.hochschulstart.de/",
-  "linktext": "Fristen ansehen",
+  "frage": "Könntest du drei Monate lang jeden Tag mit Fremden sprechen?",
+  "regler": "menschen",
+  "link": "https://www.auslandsjob.de/work-and-travel/",
+  "linktext": "Work & Travel",
   "optionen": [
    {
-    "t": "Sofort studieren",
+    "t": "Ja, das reizt mich sogar",
     "tag": [
-     "beruf",
+     "menschen",
+     "tempo"
+    ]
+   },
+   {
+    "t": "Ginge, wäre aber anstrengend",
+    "tag": [
+     "menschen"
+    ]
+   },
+   {
+    "t": "Lieber nicht",
+    "tag": [
+     "allein",
+     "ruhe"
+    ]
+   },
+   {
+    "t": "Nur mit jemandem, den ich kenne",
+    "tag": [
+     "allein",
      "struktur"
-    ]
-   },
-   {
-    "t": "Erst arbeiten und Geld verdienen",
-    "tag": [
-     "geld",
-     "beruf"
-    ]
-   },
-   {
-    "t": "Ausbildung statt Studium",
-    "tag": [
-     "beruf",
-     "struktur"
-    ]
-   },
-   {
-    "t": "Noch völlig offen",
-    "tag": [
-     "offen"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
  },
  {
   "frage": "Bist du eher jemand, der plant, oder jemand, der loszieht?",
@@ -678,75 +601,43 @@ IMPULSE = [
      "offen"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
  },
  {
-  "frage": "Was war das Letzte, bei dem du die Zeit vergessen hast?",
-  "regler": "",
-  "link": "",
-  "linktext": "",
+  "frage": "Interessieren dich an Finanzen die Zahlen oder die Menschen?",
+  "regler": "beruf",
+  "link": "https://www.bundesbank.de/de/service/schule-und-bildung",
+  "linktext": "Bundesbank für Einsteiger",
   "optionen": [
    {
-    "t": "Etwas am Rechner",
+    "t": "Die Zahlen und Systeme",
     "tag": [
      "beruf",
      "allein"
     ]
    },
    {
-    "t": "Sport oder draußen",
+    "t": "Die Menschen und Gespräche",
     "tag": [
-     "sport"
-    ]
-   },
-   {
-    "t": "Mit Freunden",
-    "tag": [
+     "beruf",
      "menschen"
     ]
    },
    {
-    "t": "Etwas gebaut oder gekocht",
+    "t": "Beides gleich",
     "tag": [
-     "kultur",
-     "allein"
-    ]
-   }
-  ]
- },
- {
-  "frage": "Wärst du bereit, ein Jahr weniger Geld zu haben als deine Freunde?",
-  "regler": "geld",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Ja, wenn es sich lohnt",
-    "tag": [
-     "sinn",
-     "frei"
-    ]
-   },
-   {
-    "t": "Ungern",
-    "tag": [
-     "geld"
-    ]
-   },
-   {
-    "t": "Nein, ich will verdienen",
-    "tag": [
-     "geld",
      "beruf"
     ]
    },
    {
-    "t": "Darüber denke ich nicht nach",
+    "t": "Eigentlich keins von beidem",
     "tag": [
      "offen"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
  },
  {
   "frage": "Wie wichtig ist dir, dass am anderen Ende jemand auf dich wartet?",
@@ -781,7 +672,113 @@ IMPULSE = [
      "offen"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
+ },
+ {
+  "frage": "Wie viel Ungewissheit hältst du aus, ohne schlecht zu schlafen?",
+  "regler": "tempo",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Ziemlich viel",
+    "tag": [
+     "frei",
+     "tempo"
+    ]
+   },
+   {
+    "t": "Etwas, aber nicht dauerhaft",
+    "tag": [
+     "struktur"
+    ]
+   },
+   {
+    "t": "Wenig, ich brauche Sicherheit",
+    "tag": [
+     "struktur",
+     "ruhe"
+    ]
+   },
+   {
+    "t": "Noch nie erlebt",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "konkretisieren"
+ },
+ {
+  "frage": "Was interessiert dich an Geld?",
+  "regler": "beruf",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Zu verstehen, wie es funktioniert",
+    "tag": [
+     "beruf"
+    ]
+   },
+   {
+    "t": "Es zu vermehren",
+    "tag": [
+     "geld",
+     "beruf"
+    ]
+   },
+   {
+    "t": "Frei davon zu sein",
+    "tag": [
+     "frei",
+     "sinn"
+    ]
+   },
+   {
+    "t": "Ehrlich gesagt wenig",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "konkretisieren"
+ },
+ {
+  "frage": "Wann hast du zuletzt etwas ohne Anleitung von Anfang bis Ende gemacht?",
+  "regler": "struktur",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Kürzlich, mache ich oft",
+    "tag": [
+     "frei"
+    ]
+   },
+   {
+    "t": "Ist eine Weile her",
+    "tag": [
+     "struktur"
+    ]
+   },
+   {
+    "t": "Fällt mir gerade nichts ein",
+    "tag": [
+     "struktur",
+     "offen"
+    ]
+   },
+   {
+    "t": "Ständig, meist am Rechner",
+    "tag": [
+     "frei",
+     "beruf"
+    ]
+   }
+  ],
+  "phase": "konkretisieren"
  },
  {
   "frage": "Könntest du dir vorstellen, mit den Händen zu arbeiten?",
@@ -817,7 +814,114 @@ IMPULSE = [
      "kultur"
     ]
    }
-  ]
+  ],
+  "phase": "konkretisieren"
+ },
+ {
+  "frage": "Was hältst du davon, ein halbes Jahr lang früh aufzustehen?",
+  "regler": "struktur",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Kein Problem",
+    "tag": [
+     "struktur",
+     "sport"
+    ]
+   },
+   {
+    "t": "Wenn es sein muss",
+    "tag": [
+     "struktur"
+    ]
+   },
+   {
+    "t": "Klingt furchtbar",
+    "tag": [
+     "frei",
+     "ruhe"
+    ]
+   },
+   {
+    "t": "Kommt auf den Grund an",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "zuspitzen"
+ },
+ {
+  "frage": "Wärst du bereit, ein Jahr weniger Geld zu haben als deine Freunde?",
+  "regler": "geld",
+  "link": "",
+  "linktext": "",
+  "optionen": [
+   {
+    "t": "Ja, wenn es sich lohnt",
+    "tag": [
+     "sinn",
+     "frei"
+    ]
+   },
+   {
+    "t": "Ungern",
+    "tag": [
+     "geld"
+    ]
+   },
+   {
+    "t": "Nein, ich will verdienen",
+    "tag": [
+     "geld",
+     "beruf"
+    ]
+   },
+   {
+    "t": "Darüber denke ich nicht nach",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "zuspitzen"
+ },
+ {
+  "frage": "Willst du nach dem Jahr sofort studieren oder erst arbeiten?",
+  "regler": "beruf",
+  "link": "https://www.hochschulstart.de/",
+  "linktext": "Fristen ansehen",
+  "optionen": [
+   {
+    "t": "Sofort studieren",
+    "tag": [
+     "beruf",
+     "struktur"
+    ]
+   },
+   {
+    "t": "Erst arbeiten und Geld verdienen",
+    "tag": [
+     "geld",
+     "beruf"
+    ]
+   },
+   {
+    "t": "Ausbildung statt Studium",
+    "tag": [
+     "beruf",
+     "struktur"
+    ]
+   },
+   {
+    "t": "Noch völlig offen",
+    "tag": [
+     "offen"
+    ]
+   }
+  ],
+  "phase": "zuspitzen"
  },
  {
   "frage": "Wie viele Menschen kennst du, die beruflich mit Geld zu tun haben?",
@@ -851,7 +955,8 @@ IMPULSE = [
      "menschen"
     ]
    }
-  ]
+  ],
+  "phase": "zuspitzen"
  },
  {
   "frage": "Was wäre schön genug, um im September 2027 dafür aufzustehen?",
@@ -887,41 +992,8 @@ IMPULSE = [
      "weite"
     ]
    }
-  ]
- },
- {
-  "frage": "Was hältst du davon, ein halbes Jahr lang früh aufzustehen?",
-  "regler": "struktur",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Kein Problem",
-    "tag": [
-     "struktur",
-     "sport"
-    ]
-   },
-   {
-    "t": "Wenn es sein muss",
-    "tag": [
-     "struktur"
-    ]
-   },
-   {
-    "t": "Klingt furchtbar",
-    "tag": [
-     "frei",
-     "ruhe"
-    ]
-   },
-   {
-    "t": "Kommt auf den Grund an",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
+  ],
+  "phase": "zuspitzen"
  },
  {
   "frage": "Was würde dich im Rückblick ärgern, wenn du es nicht gemacht hättest?",
@@ -956,41 +1028,8 @@ IMPULSE = [
      "sinn"
     ]
    }
-  ]
- },
- {
-  "frage": "Wie viel Ungewissheit hältst du aus, ohne schlecht zu schlafen?",
-  "regler": "tempo",
-  "link": "",
-  "linktext": "",
-  "optionen": [
-   {
-    "t": "Ziemlich viel",
-    "tag": [
-     "frei",
-     "tempo"
-    ]
-   },
-   {
-    "t": "Etwas, aber nicht dauerhaft",
-    "tag": [
-     "struktur"
-    ]
-   },
-   {
-    "t": "Wenig, ich brauche Sicherheit",
-    "tag": [
-     "struktur",
-     "ruhe"
-    ]
-   },
-   {
-    "t": "Noch nie erlebt",
-    "tag": [
-     "offen"
-    ]
-   }
-  ]
+  ],
+  "phase": "zuspitzen"
  },
  {
   "frage": "Wenn dein Jahr einen Titel hätte — welchen?",
@@ -1024,7 +1063,8 @@ IMPULSE = [
      "geld"
     ]
    }
-  ]
+  ],
+  "phase": "zuspitzen"
  },
  {
   "frage": "Was ist der kleinste Schritt, den du diese Woche machen könntest?",
@@ -1057,7 +1097,8 @@ IMPULSE = [
      "weite"
     ]
    }
-  ]
+  ],
+  "phase": "zuspitzen"
  }
 ]
 
@@ -1116,16 +1157,45 @@ FRISTEN = {
   }
  ]
 }
+
+EMPFAENGER = {
+ "kind": "Jakob",
+ "personen": [
+  {
+   "mail": "jakobmzg@gmail.com",
+   "start": "2026-07-28",
+   "rolle": "schueler"
+  },
+  {
+   "mail": "mzg@muenster.de",
+   "start": "2026-07-31",
+   "rolle": "eltern"
+  },
+  {
+   "mail": "maikeguate@web.de",
+   "start": "2026-07-31",
+   "rolle": "eltern"
+  }
+ ]
+}
 # ----------------------------------------------------------------------
 
+# Liegt eine empfaenger.json neben dem Skript, hat sie Vorrang.
+# So laesst sich der Verteiler aendern, ohne dieses Skript anzufassen.
+try:
+    EMPFAENGER = json.loads((ROOT / 'empfaenger.json').read_text(encoding='utf-8'))
+except FileNotFoundError:
+    pass
+
 APP_URL = "https://mzgmuenster.github.io/was-danach-kompass/"
-
 SANS = "Helvetica,Arial,sans-serif"
-
-
 MERKDATEI = ROOT / "zuletzt.txt"
 
+TAG_SPIEGELUNG = len(IMPULSE)      # 0-basiert: nach der letzten Frage
+TAG_ABSCHLUSS = len(IMPULSE) + 1
 
+
+# ---------------------------------------------------------------- Datum
 def heute():
     if BERLIN:
         return datetime.datetime.now(BERLIN).date()
@@ -1133,7 +1203,6 @@ def heute():
 
 
 def schon_verschickt(d):
-    """Wurde heute schon eine Mail verschickt? Steht in zuletzt.txt im Repo."""
     try:
         return MERKDATEI.read_text(encoding="utf-8").strip() == d.isoformat()
     except FileNotFoundError:
@@ -1145,24 +1214,15 @@ def vermerken(d):
 
 
 def manuell_gestartet():
-    """Per Knopf ausgeloest (workflow_dispatch) oder mit --jetzt aufgerufen."""
     return os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch" or "--jetzt" in sys.argv
 
 
-def startdatum():
-    return datetime.date.fromisoformat(FRISTEN.get("start", "2026-07-28"))
-
-
-def tag_nr(d):
-    return (d - startdatum()).days
-
-
-def impuls_index(d):
-    return max(0, tag_nr(d)) % len(IMPULSE)
+def tage_bis_abi(d):
+    return (datetime.date.fromisoformat(FRISTEN["abitur"]) - d).days
 
 
 def aktives_fenster(d):
-    """Nur die dringenden Fenster ('hot') landen in der Mail — sonst wird es zu viel Text."""
+    """Nur dringende Fenster ('hot') und erst ab der zuspitzenden Phase."""
     treffer = [f for f in FRISTEN["fenster"]
                if f.get("stufe") == "hot"
                and datetime.date.fromisoformat(f["von"]) <= d <= datetime.date.fromisoformat(f["bis"])]
@@ -1171,47 +1231,11 @@ def aktives_fenster(d):
     return treffer[d.toordinal() % len(treffer)]
 
 
-def tage_bis_abi(d):
-    return (datetime.date.fromisoformat(FRISTEN["abitur"]) - d).days
-
-
-def baue_mail(d, idx):
-    q = IMPULSE[idx]
-    tage = tage_bis_abi(d)
-
-    knoepfe = "".join(f"""
-        <tr><td style="padding:0 0 9px">
-          <a href="{APP_URL}?i={idx}&a={j}" style="display:block;padding:15px 17px;
-             background:#1c2231;border:1px solid #39445a;border-radius:14px;
-             color:#f2f5f9;text-decoration:none;font:600 16px/1.35 {SANS}">
-             <span style="float:right;color:#2dd4bf;font-weight:800">&rsaquo;</span>{o['t']}</a>
-        </td></tr>""" for j, o in enumerate(q["optionen"]))
-
-    fenster = aktives_fenster(d)
-    fristzeile = ""
-    if fenster:
-        rest = (datetime.date.fromisoformat(fenster["bis"]) - d).days
-        fristzeile = f"""
-      <tr><td style="padding:14px 0 0">
-        <div style="background:#241a1e;border:1px solid #5c2b32;border-radius:12px;
-             padding:12px 15px;font:14px/1.5 {SANS};color:#fda4af">
-          <b style="color:#fecdd3">Frist läuft:</b> {fenster['titel']} — noch {rest} Tage.
-        </div>
-      </td></tr>"""
-
-    willkommen = ""
-    if tag_nr(d) == 0:
-        willkommen = f"""
-      <tr><td style="padding:0 0 18px">
-        <div style="background:#13231f;border:1px solid #1f4f48;border-radius:14px;
-             padding:15px 17px;font:15px/1.55 {SANS};color:#aeb9c9">
-          Ab heute kommt jeden Morgen eine Frage — 30 Stück bis zum Abi.
-          Antippen genügt, dauert zehn Sekunden. Am Ende zeigt dir der Kompass, was sich abzeichnet.
-          Wenn es nervt: sag Bescheid, dann ist es weg.
-        </div>
-      </td></tr>"""
-
-    html_body = f"""<!DOCTYPE html>
+# ---------------------------------------------------------------- Bausteine
+def rahmen(inhalt, kopfzeile, eltern):
+    marke = ("was danach? <span style=\"color:#2dd4bf\">Kompass</span>"
+             + ("<span style=\"color:#a78bfa\"> · Eltern</span>" if eltern else ""))
+    return f"""<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"></head>
@@ -1219,60 +1243,169 @@ def baue_mail(d, idx):
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0d1017">
 <tr><td align="center" style="padding:24px 14px 40px">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px">
-
     <tr><td style="padding:0 0 16px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
         <td width="30" valign="bottom" style="padding-right:10px">
           <img src="{APP_URL}jakob.png" width="26" height="32" alt=""
                style="display:block;border:0;outline:none"></td>
-        <td valign="bottom" style="font:800 15px {SANS};color:#f2f5f9;letter-spacing:-.02em">
-          was danach? <span style="color:#2dd4bf">Kompass</span></td>
-        <td valign="bottom" align="right" style="font:700 12px {SANS};color:#7d8899">
-          Frage {idx+1}/{len(IMPULSE)} &middot; noch {tage} Tage</td>
+        <td valign="bottom" style="font:800 15px {SANS};color:#f2f5f9;letter-spacing:-.02em">{marke}</td>
+        <td valign="bottom" align="right" style="font:700 12px {SANS};color:#7d8899">{kopfzeile}</td>
       </tr></table>
     </td></tr>
-
     <tr><td style="background:#161b26;border:1px solid #28303f;border-radius:18px;padding:24px 22px">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-{willkommen}
-        <tr><td style="padding:0 0 18px;font:800 25px/1.24 {SANS};color:#f2f5f9;letter-spacing:-.025em">
-          {q['frage']}
-        </td></tr>
-        <tr><td>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{knoepfe}</table>
-        </td></tr>
-        <tr><td style="padding:0 0 4px">
-          <a href="{APP_URL}?i={idx}&frei=1" style="display:block;padding:15px 17px;
-             background:#12161f;border:1px dashed #39445a;border-radius:14px;
-             color:#7d8899;text-decoration:none;font:15px/1.4 {SANS}">Eigene Antwort schreiben …</a>
-        </td></tr>
-        <tr><td style="padding:10px 0 0;font:13px/1.5 {SANS};color:#5f6b7a">
-          Antippen speichert und öffnet den Kompass.
-        </td></tr>
-{fristzeile}
-      </table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{inhalt}</table>
     </td></tr>
-
   </table>
 </td></tr></table>
 </body></html>"""
 
-    text = f"Frage {idx+1} von {len(IMPULSE)} — noch {tage} Tage bis zum Abi\n\n{q['frage']}\n\n"
-    for j, o in enumerate(q["optionen"]):
-        text += f"  {o['t']}\n  {APP_URL}?i={idx}&a={j}\n\n"
-    text += ("Antippen speichert und oeffnet den Kompass.\n\n"
-             f"Eigene Antwort schreiben: {APP_URL}?i={idx}&frei=1\n")
+
+def knopf(text, ziel, hell=False):
+    if hell:
+        stil = "background:#2dd4bf;border:1px solid #2dd4bf;color:#07110f"
+    else:
+        stil = "background:#1c2231;border:1px solid #39445a;color:#f2f5f9"
+    return f"""
+        <tr><td style="padding:0 0 9px">
+          <a href="{ziel}" style="display:block;padding:15px 17px;{stil};
+             border-radius:14px;text-decoration:none;font:600 16px/1.35 {SANS}">
+             <span style="float:right;font-weight:800">&rsaquo;</span>{text}</a>
+        </td></tr>"""
+
+
+# ---------------------------------------------------------------- Mailarten
+def mail_frage(d, tag, eltern, kind):
+    q = IMPULSE[tag]
+    r = "&r=e" if eltern else ""
+    kopf = f"Frage {tag+1}/{len(IMPULSE)} &middot; noch {tage_bis_abi(d)} Tage"
+
+    knoepfe = "".join(knopf(o["t"], f"{APP_URL}?i={tag}&a={j}{r}")
+                      for j, o in enumerate(q["optionen"]))
+
+    if eltern:
+        einleitung = f"""
+        <tr><td style="padding:0 0 6px;font:700 13px {SANS};color:#a78bfa;
+             letter-spacing:.09em;text-transform:uppercase">Was glaubst du, was {kind} antwortet?</td></tr>"""
+        hinweis = f"Deine Tipps bleiben auf diesem Gerät. {kind} sieht sie nicht — und du seine Antworten auch nicht."
+    else:
+        einleitung = ""
+        hinweis = "Antippen speichert und öffnet den Kompass."
+
+    fenster = aktives_fenster(d) if q.get("phase") == "zuspitzen" else None
+    frist = ""
     if fenster:
-        text += f"\nFrist laeuft: {fenster['titel']}\n"
-    return html_body, text
+        rest = (datetime.date.fromisoformat(fenster["bis"]) - d).days
+        frist = f"""
+        <tr><td style="padding:14px 0 0">
+          <div style="background:#241a1e;border:1px solid #5c2b32;border-radius:12px;
+               padding:12px 15px;font:14px/1.5 {SANS};color:#fda4af">
+            <b style="color:#fecdd3">Frist läuft:</b> {fenster['titel']} — noch {rest} Tage.
+          </div>
+        </td></tr>"""
+
+    gefragt = ("&bdquo;" + q["frage"] + "&ldquo;") if eltern else q["frage"]
+    feldtext = "Notiz schreiben …" if eltern else "Eigene Antwort schreiben …"
+    inhalt = f"""{einleitung}
+        <tr><td style="padding:0 0 18px;font:800 25px/1.24 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {gefragt}</td></tr>
+        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{knoepfe}</table></td></tr>
+        <tr><td style="padding:0 0 4px">
+          <a href="{APP_URL}?i={tag}&frei=1{r}" style="display:block;padding:15px 17px;
+             background:#12161f;border:1px dashed #39445a;border-radius:14px;
+             color:#7d8899;text-decoration:none;font:15px/1.4 {SANS}">{feldtext}</a>
+        </td></tr>
+        <tr><td style="padding:10px 0 0;font:13px/1.5 {SANS};color:#5f6b7a">{hinweis}</td></tr>{frist}"""
+
+    betreff = ("Für Eltern: " if eltern else "") + q["frage"]
+    text = f"Frage {tag+1} von {len(IMPULSE)}\n\n"
+    if eltern:
+        text += f"Was glaubst du, was {kind} antwortet?\n\n"
+    text += q["frage"] + "\n\n"
+    for j, o in enumerate(q["optionen"]):
+        text += f"  {o['t']}\n  {APP_URL}?i={tag}&a={j}{r}\n\n"
+    text += f"Eigene Antwort: {APP_URL}?i={tag}&frei=1{r}\n"
+    return rahmen(inhalt, kopf, eltern), text, betreff
 
 
-def sende(html_body, text, betreff):
-    cfg = json.loads((ROOT / "smtp_config.json").read_text(encoding="utf-8"))
+def mail_spiegelung(d, eltern, kind):
+    r = "?r=e" if eltern else ""
+    if eltern:
+        titel = "30 Tage sind durch."
+        rumpf = (f"Du hast dreißig Mal geraten, was {kind} antwortet. Jetzt steht in deiner Auswertung, "
+                 f"welches Bild dabei entstanden ist.<br><br>Der interessante Teil kommt aber erst danach: "
+                 f"{kind} hat eine eigene Auswertung. Nicht um zu prüfen, wer richtig lag — sondern um die "
+                 f"Stellen zu finden, an denen sich beides unterscheidet.")
+    else:
+        titel = "Das waren die 30 Fragen."
+        rumpf = ("Deine Auswertung ist fertig. Sie sagt dir nicht, was du tun sollst — sie zeigt, was in "
+                 "deinen Antworten immer wieder vorkam, wo du dir widersprochen hast und was gar nicht "
+                 "auftauchte.<br><br>Zehn Minuten. Danach kannst du sie wegklicken oder jemandem zeigen.")
+
+    inhalt = f"""
+        <tr><td style="padding:0 0 14px;font:800 26px/1.22 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {titel}</td></tr>
+        <tr><td style="padding:0 0 20px;font:16px/1.6 {SANS};color:#aeb9c9">{rumpf}</td></tr>
+        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          {knopf("Auswertung ansehen", APP_URL + r + ("&" if r else "?") + "auswertung=1", hell=True)}
+        </table></td></tr>
+        <tr><td style="padding:8px 0 0;font:13px/1.5 {SANS};color:#5f6b7a">
+          Morgen kommt noch eine letzte Mail, danach ist Schluss.</td></tr>"""
+    text = (f"{titel}\n\n{rumpf}\n\n"
+            f"Auswertung: {APP_URL}{r}{'&' if r else '?'}auswertung=1\n").replace("<br>", "\n")
+    return rahmen(inhalt, "Spiegelung", eltern), text, titel
+
+
+def mail_abschluss(d, eltern, kind):
+    r = "?r=e" if eltern else ""
+    if eltern:
+        titel = "Und jetzt: reden."
+        rumpf = (f"Das war die letzte Mail. Kein Ergebnis, keine Empfehlung — das war nie der Zweck.<br><br>"
+                 f"Wenn du magst, such dir einen ruhigen Moment mit {kind} und stellt euch gegenseitig "
+                 f"drei Fragen: Was hat dich an deiner Auswertung überrascht? Wo lag sie daneben? "
+                 f"Und was hättest du vor einem Monat anders beantwortet?<br><br>"
+                 f"Zeigen muss niemand etwas. Erzählen reicht.")
+    else:
+        titel = "Das war's."
+        rumpf = ("Keine weiteren Mails. Der Kompass bleibt aber offen — deine Antworten, die Regler, "
+                 "die 22 Wege und alle Fristen sind weiterhin da, so lange du willst.<br><br>"
+                 "Wenn du in den nächsten Wochen einen einzigen Schritt machst, dann am besten den, "
+                 "der in deiner letzten Antwort stand. Nicht den größten. Den kleinsten.")
+
+    inhalt = f"""
+        <tr><td style="padding:0 0 14px;font:800 26px/1.22 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {titel}</td></tr>
+        <tr><td style="padding:0 0 20px;font:16px/1.6 {SANS};color:#aeb9c9">{rumpf}</td></tr>
+        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          {knopf("Kompass öffnen", APP_URL + r)}
+        </table></td></tr>"""
+    text = f"{titel}\n\n{rumpf}\n\nKompass: {APP_URL}{r}\n".replace("<br>", "\n")
+    return rahmen(inhalt, "Abschluss", eltern), text, titel
+
+
+# ---------------------------------------------------------------- Versand
+def baue_fuer(person, d, erzwungener_tag=None):
+    """Gibt (html, text, betreff) zurueck — oder None, wenn heute nichts ansteht."""
+    start = datetime.date.fromisoformat(person["start"])
+    tag = (d - start).days if erzwungener_tag is None else erzwungener_tag
+    eltern = person.get("rolle") == "eltern"
+    kind = EMPFAENGER.get("kind", "dein Kind")
+
+    if tag < 0:
+        return None
+    if tag < len(IMPULSE):
+        return mail_frage(d, tag, eltern, kind)
+    if tag == TAG_SPIEGELUNG:
+        return mail_spiegelung(d, eltern, kind)
+    if tag == TAG_ABSCHLUSS:
+        return mail_abschluss(d, eltern, kind)
+    return None
+
+
+def sende(empfaenger, html_body, text, betreff, cfg):
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = betreff
+    msg["Subject"] = betreff if len(betreff) <= 70 else betreff[:67].rsplit(" ", 1)[0] + " …"
     msg["From"] = cfg["from_email"]
-    msg["To"] = ", ".join(cfg["to_emails"])
+    msg["To"] = empfaenger
     msg["Date"] = formatdate(localtime=True)
     msg.attach(MIMEText(text, "plain", "utf-8"))
     msg.attach(MIMEText(html_body, "html", "utf-8"))
@@ -1280,37 +1413,47 @@ def sende(html_body, text, betreff):
         s.starttls()
         s.login(cfg["smtp_user"], cfg["smtp_password"])
         s.send_message(msg)
-    print(f"Mail verschickt an {msg['To']}")
 
 
 def main():
     d = heute()
-
-    if not manuell_gestartet() and schon_verschickt(d):
-        print(f"Fuer {d.isoformat()} wurde bereits eine Mail verschickt — Automatiklauf faellt aus.")
-        return
-
-    idx = impuls_index(d)
+    testlauf = "--test" in sys.argv
+    erzwungen = None
     if "--tag" in sys.argv:
-        idx = int(sys.argv[sys.argv.index("--tag") + 1]) % len(IMPULSE)
+        erzwungen = int(sys.argv[sys.argv.index("--tag") + 1])
 
-    html_body, text = baue_mail(d, idx)
-    betreff = IMPULSE[idx]["frage"]
-    if tag_nr(d) == 0:
-        betreff = "Ab heute: jeden Morgen eine Frage"
-    if len(betreff) > 70:
-        betreff = betreff[:67].rsplit(" ", 1)[0] + " …"
-
-    if "--test" in sys.argv:
-        (ROOT / "vorschau.html").write_text(html_body, encoding="utf-8")
-        print(f"Frage {idx+1}/{len(IMPULSE)} — Betreff: {betreff}")
-        print(f"Frist: {(aktives_fenster(d) or {}).get('titel', 'keine')}")
-        print("vorschau.html geschrieben, nichts verschickt.")
+    if not testlauf and not manuell_gestartet() and schon_verschickt(d):
+        print(f"Fuer {d.isoformat()} wurde bereits verschickt — Automatiklauf faellt aus.")
         return
 
-    sende(html_body, text, betreff)
-    vermerken(d)
-    print(f"Versand fuer {d.isoformat()} vermerkt.")
+    cfg = None
+    if not testlauf:
+        cfg = json.loads((ROOT / "smtp_config.json").read_text(encoding="utf-8"))
+
+    verschickt = 0
+    for person in EMPFAENGER["personen"]:
+        gebaut = baue_fuer(person, d, erzwungen)
+        if gebaut is None:
+            print(f"  {person['mail']}: heute nichts")
+            continue
+        html_body, text, betreff = gebaut
+        if testlauf:
+            name = f"vorschau-{person['rolle']}.html"
+            (ROOT / name).write_text(html_body, encoding="utf-8")
+            print(f"  {person['mail']}: {betreff[:58]}  -> {name}")
+        else:
+            sende(person["mail"], html_body, text, betreff, cfg)
+            print(f"  {person['mail']}: verschickt")
+        verschickt += 1
+
+    if testlauf:
+        print(f"{verschickt} Vorschauen geschrieben, nichts verschickt.")
+        return
+    if verschickt:
+        vermerken(d)
+        print(f"{verschickt} Mails verschickt, {d.isoformat()} vermerkt.")
+    else:
+        print("Heute stand fuer niemanden etwas an.")
 
 
 if __name__ == "__main__":
