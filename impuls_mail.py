@@ -14,10 +14,16 @@ Aufruf:
     python3 impuls_mail.py --test     # schreibt vorschau.html, verschickt nichts
     python3 impuls_mail.py --tag 5    # erzwingt Frage 6
 """
-import json, sys, smtplib, pathlib, datetime
+import json, os, sys, smtplib, pathlib, datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import formatdate
+
+try:
+    from zoneinfo import ZoneInfo
+    BERLIN = ZoneInfo("Europe/Berlin")
+except Exception:
+    BERLIN = None
 
 ROOT = pathlib.Path(__file__).parent
 # --- Inhalte, eingebettet von bundle.py -------------------------------
@@ -1117,8 +1123,30 @@ APP_URL = "https://mzgmuenster.github.io/was-danach-kompass/"
 SANS = "Helvetica,Arial,sans-serif"
 
 
+MERKDATEI = ROOT / "zuletzt.txt"
+
+
 def heute():
+    if BERLIN:
+        return datetime.datetime.now(BERLIN).date()
     return datetime.date.today()
+
+
+def schon_verschickt(d):
+    """Wurde heute schon eine Mail verschickt? Steht in zuletzt.txt im Repo."""
+    try:
+        return MERKDATEI.read_text(encoding="utf-8").strip() == d.isoformat()
+    except FileNotFoundError:
+        return False
+
+
+def vermerken(d):
+    MERKDATEI.write_text(d.isoformat() + "\n", encoding="utf-8")
+
+
+def manuell_gestartet():
+    """Per Knopf ausgeloest (workflow_dispatch) oder mit --jetzt aufgerufen."""
+    return os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch" or "--jetzt" in sys.argv
 
 
 def startdatum():
@@ -1258,6 +1286,11 @@ def sende(html_body, text, betreff):
 
 def main():
     d = heute()
+
+    if not manuell_gestartet() and schon_verschickt(d):
+        print(f"Fuer {d.isoformat()} wurde bereits eine Mail verschickt — Automatiklauf faellt aus.")
+        return
+
     idx = impuls_index(d)
     if "--tag" in sys.argv:
         idx = int(sys.argv[sys.argv.index("--tag") + 1]) % len(IMPULSE)
@@ -1275,7 +1308,10 @@ def main():
         print(f"Frist: {(aktives_fenster(d) or {}).get('titel', 'keine')}")
         print("vorschau.html geschrieben, nichts verschickt.")
         return
+
     sende(html_body, text, betreff)
+    vermerken(d)
+    print(f"Versand fuer {d.isoformat()} vermerkt.")
 
 
 if __name__ == "__main__":
