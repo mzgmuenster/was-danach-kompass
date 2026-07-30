@@ -8,6 +8,9 @@ on:
     - cron: "17 5 * * *"
   workflow_dispatch:        # erlaubt manuelles Auslösen im Actions-Tab
 
+permissions:
+  contents: write        # noetig, damit der Lauf zuletzt.txt zurueckschreiben darf
+
 jobs:
   impuls:
     runs-on: ubuntu-latest
@@ -41,4 +44,18 @@ jobs:
           PY
 
       - name: Impuls verschicken
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: python3 impuls_mail.py
+
+      - name: Versand vermerken
+        run: |
+          if [ -n "$(git status --porcelain zuletzt.txt)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add zuletzt.txt
+            git commit -m "Versand vermerkt"
+            git push
+          else
+            echo "Nichts zu vermerken."
+          fi
