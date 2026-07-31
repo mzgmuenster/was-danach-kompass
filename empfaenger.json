@@ -2,7 +2,7 @@
  "kind": "Jakob",
  "personen": [
   {"mail": "jakobmzg@gmail.com", "start": "2026-07-28", "rolle": "schueler"},
-  {"mail": "mzg@muenster.de", "start": "2026-07-31", "rolle": "eltern"},
-  {"mail": "maikeguate@web.de", "start": "2026-07-31", "rolle": "eltern"}
+  {"mail": "mzg@muenster.de", "start": "2026-07-28", "rolle": "eltern"},
+  {"mail": "maikeguate@web.de", "start": "2026-07-28", "rolle": "eltern"}
  ]
 }
