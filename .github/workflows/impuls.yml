@@ -50,11 +50,11 @@ jobs:
 
       - name: Versand vermerken
         run: |
-          if [ -n "$(git status --porcelain zuletzt.txt)" ]; then
+          if [ -n "$(git status --porcelain zuletzt.txt lauf.txt)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add zuletzt.txt
-            git commit -m "Versand vermerkt"
+            git add zuletzt.txt lauf.txt
+            git commit -m "Versand und Lebenszeichen vermerkt"
             git push
           else
             echo "Nichts zu vermerken."
