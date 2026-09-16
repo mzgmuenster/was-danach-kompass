@@ -1194,6 +1194,16 @@ MERKDATEI = ROOT / "zuletzt.txt"
 TAG_SPIEGELUNG = len(IMPULSE)      # 0-basiert: nach der letzten Frage
 TAG_ABSCHLUSS = len(IMPULSE) + 1
 
+# Nachklang: feste Termine nach dem Ende des Zyklus.
+#   rueckruf    — erinnert an die Auswertung, nennt die laufenden Fristen
+#   sortierung  — laedt zur Reihenfolge-Ansicht ein
+#   brief       — erinnert an den Brief, den sich Jakob selbst geschrieben hat
+TERMINE = [
+    {"datum": "2026-09-16", "art": "rueckruf"},
+    {"datum": "2026-09-25", "art": "sortierung"},
+    {"datum": "2027-02-01", "art": "brief"},
+]
+
 
 # ---------------------------------------------------------------- Datum
 def heute():
@@ -1383,12 +1393,133 @@ def mail_abschluss(d, eltern, kind):
 
 
 # ---------------------------------------------------------------- Versand
-def baue_fuer(person, d, erzwungener_tag=None):
+def offene_fristen(d):
+    """Alle heute laufenden dringenden Fenster, das naechste Ende zuerst."""
+    treffer = []
+    for f in FRISTEN["fenster"]:
+        von = datetime.date.fromisoformat(f["von"])
+        bis = datetime.date.fromisoformat(f["bis"])
+        if f.get("stufe") == "hot" and von <= d <= bis:
+            treffer.append((f, (bis - d).days))
+    treffer.sort(key=lambda x: x[1])
+    return treffer
+
+
+def mail_rueckruf(d, eltern, kind):
+    r = "?r=e" if eltern else ""
+    ziel = APP_URL + r + ("&" if r else "?") + "auswertung=1"
+    fristen = offene_fristen(d)
+    zeilen = "".join(
+        f"""<tr><td style="padding:0 0 7px;font:14.5px/1.5 {SANS};color:#fda4af">
+              <b style="color:#fecdd3">{f['titel']}</b> — noch {rest} Tage</td></tr>"""
+        for f, rest in fristen)
+    fristblock = f"""
+        <tr><td style="padding:4px 0 20px">
+          <div style="background:#241a1e;border:1px solid #5c2b32;border-radius:12px;padding:14px 16px">
+            <div style="font:700 11px/1.4 {SANS};letter-spacing:.09em;text-transform:uppercase;
+                 color:#fda4af;padding-bottom:8px">Was gerade läuft</div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{zeilen}</table>
+          </div>
+        </td></tr>""" if fristen else ""
+
+    if eltern:
+        titel = "Eure Auswertung ist noch da."
+        rumpf = (f"Seit drei Wochen kommt nichts mehr — mit Absicht. Aber genau jetzt entscheidet sich "
+                 f"mehr als in den vier Monaten danach.<br><br>"
+                 f"Falls ihr noch nicht draufgeschaut habt: eure Tipps stehen noch da, {kind}s Antworten "
+                 f"auch. Zehn Minuten, dann wisst ihr, worüber sich ein Gespräch lohnt.")
+    else:
+        titel = "Deine Auswertung ist noch da."
+        rumpf = ("Seit drei Wochen kommt nichts mehr — so war es gedacht. Trotzdem ein kurzer Anstupser, "
+                 "denn in den nächsten Wochen läuft die Zeit, in der sich tatsächlich etwas entscheidet.<br><br>"
+                 "Deine Antworten und deine Auswertung sind noch da. Zehn Minuten draufschauen, mehr nicht.")
+
+    inhalt = f"""
+        <tr><td style="padding:0 0 14px;font:800 26px/1.22 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {titel}</td></tr>
+        <tr><td style="padding:0 0 20px;font:16px/1.6 {SANS};color:#aeb9c9">{rumpf}</td></tr>
+{fristblock}
+        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          {knopf("Auswertung ansehen", ziel, hell=True)}
+        </table></td></tr>"""
+    text = f"{titel}\n\n{rumpf}\n\nAuswertung: {ziel}\n".replace("<br>", "\n")
+    if fristen:
+        text += "\nWas gerade laeuft:\n" + "".join(
+            f"- {f['titel']} — noch {rest} Tage\n" for f, rest in fristen)
+    return rahmen(inhalt, "Nachklang", eltern), text, titel
+
+
+def mail_sortierung(d, eltern, kind):
+    r = "r=e&" if eltern else ""
+    ziel = f"{APP_URL}?{r}sortieren=1"
+    if eltern:
+        titel = "Nicht entscheiden. Sortieren."
+        rumpf = (f"Im Kompass gibt es ab heute eine neue Ansicht. Sie fragt nicht, was {kind} werden soll, "
+                 f"sondern nur: was zuerst.<br><br>"
+                 f"Zehn Wege, vier Fächer — jetzt, diesen Herbst, irgendwann, nie. {kind} bekommt dieselbe "
+                 f"Einladung. Sortiert getrennt und vergleicht danach. Die Stellen, an denen ihr "
+                 f"auseinanderliegt, sind die interessanten.")
+        knopftext = "Sortieren"
+    else:
+        titel = "Nicht entscheiden. Nur sortieren."
+        rumpf = ("Im Kompass gibt es ab heute eine neue Ansicht. Sie fragt nicht, was du werden willst — "
+                 "sondern nur, was du dir zuerst anschauen magst.<br><br>"
+                 "Zehn Wege, ausgesucht nach deinen Antworten. Acht, die zu dir passen, und zwei, die "
+                 "bewusst nicht passen. Du schiebst sie in vier Fächer: <b>jetzt</b>, <b>diesen Herbst</b>, "
+                 "<b>irgendwann</b>, <b>nie</b>.<br><br>"
+                 "Das „Nie“ ist ausdrücklich erlaubt und der wichtigste Knopf: Wer etwas wegwerfen darf, "
+                 "nimmt den Rest ernster. Am Ende steht eine Seite, die du behalten oder jemandem zeigen "
+                 "kannst. Zwanzig Minuten.")
+        knopftext = "Reihenfolge festlegen"
+
+    inhalt = f"""
+        <tr><td style="padding:0 0 14px;font:800 26px/1.22 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {titel}</td></tr>
+        <tr><td style="padding:0 0 22px;font:16px/1.6 {SANS};color:#aeb9c9">{rumpf}</td></tr>
+        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          {knopf(knopftext, ziel, hell=True)}
+        </table></td></tr>
+        <tr><td style="padding:8px 0 0;font:13px/1.5 {SANS};color:#5f6b7a">
+          Nichts davon wird gespeichert oder verschickt. Es bleibt auf deinem Gerät.</td></tr>"""
+    text = f"{titel}\n\n{rumpf}\n\n{knopftext}: {ziel}\n".replace("<br>", "\n")
+    return rahmen(inhalt, "Reihenfolge", eltern), text, titel
+
+
+def mail_brief(d, eltern, kind):
+    ziel = f"{APP_URL}?brief=1"
+    titel = "Du hast dir mal etwas aufgeschrieben."
+    rumpf = ("Im September hast du dir einen kurzen Brief an dich selbst geschrieben — an den Jakob "
+             "im Februar. Der bist du jetzt.<br><br>"
+             "Er liegt noch auf deinem Gerät. Lies ihn, und schau nach, was aus dem einen Schritt "
+             "geworden ist, den du dir damals vorgenommen hattest.<br><br>"
+             "Falls nichts daraus geworden ist: auch gut. Dann ist heute ein passender Tag.")
+    inhalt = f"""
+        <tr><td style="padding:0 0 14px;font:800 26px/1.22 {SANS};color:#f2f5f9;letter-spacing:-.025em">
+          {titel}</td></tr>
+        <tr><td style="padding:0 0 22px;font:16px/1.6 {SANS};color:#aeb9c9">{rumpf}</td></tr>
+        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          {knopf("Brief öffnen", ziel, hell=True)}
+        </table></td></tr>"""
+    text = f"{titel}\n\n{rumpf}\n\nBrief: {ziel}\n".replace("<br>", "\n")
+    return rahmen(inhalt, "Februar", eltern), text, titel
+
+
+def baue_fuer(person, d, erzwungener_tag=None, erzwungener_art=None):
     """Gibt (html, text, betreff) zurueck — oder None, wenn heute nichts ansteht."""
     start = datetime.date.fromisoformat(person["start"])
     tag = (d - start).days if erzwungener_tag is None else erzwungener_tag
     eltern = person.get("rolle") == "eltern"
     kind = EMPFAENGER.get("kind", "dein Kind")
+
+    # Feste Nachklang-Termine gehen vor der Tageslogik
+    for t in TERMINE:
+        if erzwungener_art == t["art"] or (erzwungener_art is None and t["datum"] == d.isoformat()):
+            if t["art"] == "rueckruf":
+                return mail_rueckruf(d, eltern, kind)
+            if t["art"] == "sortierung":
+                return mail_sortierung(d, eltern, kind)
+            if t["art"] == "brief":
+                return None if eltern else mail_brief(d, eltern, kind)
 
     if tag < 0:
         return None
@@ -1421,6 +1552,9 @@ def main():
     erzwungen = None
     if "--tag" in sys.argv:
         erzwungen = int(sys.argv[sys.argv.index("--tag") + 1])
+    art = None
+    if "--art" in sys.argv:
+        art = sys.argv[sys.argv.index("--art") + 1]
 
     if not testlauf and not manuell_gestartet() and schon_verschickt(d):
         print(f"Fuer {d.isoformat()} wurde bereits verschickt — Automatiklauf faellt aus.")
@@ -1432,13 +1566,13 @@ def main():
 
     verschickt = 0
     for person in EMPFAENGER["personen"]:
-        gebaut = baue_fuer(person, d, erzwungen)
+        gebaut = baue_fuer(person, d, erzwungen, art)
         if gebaut is None:
             print(f"  {person['mail']}: heute nichts")
             continue
         html_body, text, betreff = gebaut
         if testlauf:
-            name = f"vorschau-{person['rolle']}.html"
+            name = f"vorschau-{art or 'tag'}-{person['rolle']}.html"
             (ROOT / name).write_text(html_body, encoding="utf-8")
             print(f"  {person['mail']}: {betreff[:58]}  -> {name}")
         else:
@@ -1449,6 +1583,13 @@ def main():
     if testlauf:
         print(f"{verschickt} Vorschauen geschrieben, nichts verschickt.")
         return
+    # Lebenszeichen: GitHub schaltet geplante Ablaeufe ab, wenn 60 Tage lang
+    # nichts im Repository passiert. Zwischen Zyklusende und dem Februar-Brief
+    # waere das der Fall — deshalb am 1. und 15. jedes Monats ein Eintrag.
+    if d.day in (1, 15):
+        (ROOT / "lauf.txt").write_text(d.isoformat() + "\n", encoding="utf-8")
+        print(f"Lebenszeichen fuer {d.isoformat()} gesetzt.")
+
     if verschickt:
         vermerken(d)
         print(f"{verschickt} Mails verschickt, {d.isoformat()} vermerkt.")

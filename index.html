@@ -203,6 +203,48 @@ td.name{font-weight:750;min-width:200px;color:var(--ink)}
 .qlist ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:15px}
 footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink-3);font-size:13.5px}
 @media print{nav.tabs,.filterrow,.qfoot{display:none}table{min-width:0;font-size:10px}}
+/* ---- Reihenfolge: sortieren statt entscheiden ---- */
+.sortkopf{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  flex-wrap:wrap;margin:0 0 14px}
+.sortzahl{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.sortliste{display:grid;gap:13px;margin:0 0 30px}
+.sortkarte{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 19px 15px;position:relative;overflow:hidden;transition:.16s}
+.sortkarte::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--kat,var(--a1))}
+.sortkarte.erledigt{border-color:var(--line-2);background:var(--card-2)}
+.sortkarte h4{margin:5px 0 4px;font-size:18px;letter-spacing:-.025em;font-weight:780;line-height:1.25}
+.sortkarte .ichkurz{margin:0 0 10px;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.sortkarte .sschritt{font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);
+  padding-top:10px;margin:0 0 13px}
+.sortkarte .sschritt b{color:var(--a1);font-weight:750}
+.ausreisser{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.11em;
+  text-transform:uppercase;color:#fbbf24;background:rgba(251,191,36,.12);
+  border:1px solid rgba(251,191,36,.32);border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:2px}
+.faecher{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(min-width:620px){.faecher{grid-template-columns:repeat(4,1fr)}}
+.fach{border:1px solid var(--line-2);background:transparent;color:var(--ink-2);
+  border-radius:11px;padding:10px 8px;font:700 13.5px var(--sans);cursor:pointer;transition:.13s}
+.fach:hover{border-color:var(--ink-3);color:var(--ink)}
+.fach[aria-pressed="true"]{color:#07110f;font-weight:800}
+.fach.f1[aria-pressed="true"]{background:#2dd4bf;border-color:#2dd4bf}
+.fach.f2[aria-pressed="true"]{background:#a3e635;border-color:#a3e635}
+.fach.f3[aria-pressed="true"]{background:#a78bfa;border-color:#a78bfa}
+.fach.f4[aria-pressed="true"]{background:#7d8899;border-color:#7d8899}
+.zus{background:linear-gradient(152deg,var(--card-2),var(--card));border:1px solid var(--line-2);
+  border-radius:var(--r);padding:26px 24px;box-shadow:var(--shadow)}
+.zus h3{margin:0 0 4px;font-size:22px;letter-spacing:-.03em;font-weight:800}
+.zusblock{margin:22px 0 0}
+.zusblock .zt{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:9px}
+.zusliste{list-style:none;padding:0;margin:0;display:grid;gap:7px}
+.zusliste li{font-size:15.5px;padding-left:15px;border-left:2px solid var(--zf,var(--line-2))}
+.zusliste li small{display:block;color:var(--ink-3);font-size:13.5px;margin-top:2px}
+.derschritt{background:rgba(45,212,191,.09);border:1px solid rgba(45,212,191,.3);
+  border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.55;color:#a7f3ea}
+.derschritt b{color:#d5faf5}
+.briefbox{margin-top:16px}
+.briefbox textarea{min-height:150px}
+.leerhinweis{color:var(--ink-3);font-size:15px;margin:0}
 </style>
 </head>
 <body>
@@ -232,6 +274,7 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:v
   <a href="#wege">Wege</a>
   <a href="#fristen">Fristen</a>
   <a href="#auswertung">Auswertung</a>
+  <a href="#reihenfolge">Reihenfolge</a>
 </nav>
 
 <section class="block" id="heute">
@@ -852,6 +895,23 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:v
   </div>
 </section>
 
+<section class="block" id="reihenfolge">
+  <h2>Nicht entscheiden. Sortieren.</h2>
+  <div class="hinweis"><b>Hier wird nichts festgelegt.</b> Du legst nur eine Reihenfolge fest:
+    Was schaue ich mir <em>jetzt</em> an, was <em>diesen Herbst</em>, was <em>irgendwann</em> —
+    und was <em>nie</em>. Das „Nie“ ist ausdrücklich erlaubt und der wichtigste Knopf von allen:
+    Wer etwas wegwerfen darf, nimmt den Rest ernster. Alles ist jederzeit änderbar.</div>
+
+  <div class="sortkopf">
+    <div class="sortzahl" id="sortstand"></div>
+    <div class="sortzahl" style="color:var(--ink-3)">Acht, die zu dir passen · zwei, die es nicht tun</div>
+  </div>
+
+  <div class="sortliste" id="sortliste"></div>
+
+  <div class="zus" id="zus"></div>
+</section>
+
 <footer>
   Stand: Juli 2026 · 30 Fragen · 22 Wege. Fristen ändern sich — die Links führen zur Quelle.<br>
   Alles nur Vorschläge. Nichts davon ist ein Plan.
@@ -882,11 +942,27 @@ if(ELTERN){
 
 /* ---------- Speicher (nur lokal) ---------- */
 function leer(){var w={};for(var k in START)w[k]=START[k];
-  return {antworten:{}, regler:w, wichtig:{}};}
+  return {antworten:{}, regler:w, wichtig:{}, sortierung:{}, brief:''};}
 var mem=null;
 function laden(){
-  try{var r=localStorage.getItem(KEY); if(r) return JSON.parse(r);}catch(err){}
-  return mem||leer();
+  var roh=null;
+  try{ roh=localStorage.getItem(KEY); }catch(err){}
+  if(!roh && mem) return mem;
+  var d=leer();
+  if(!roh) return d;
+  /* Gespeichertes auf die aktuelle Form heben — fehlende Felder brechen sonst die Seite */
+  try{
+    var o=JSON.parse(roh);
+    if(o && typeof o==='object'){
+      if(o.antworten && typeof o.antworten==='object') d.antworten=o.antworten;
+      if(o.regler && typeof o.regler==='object')
+        for(var k in d.regler){ if(typeof o.regler[k]==='number') d.regler[k]=o.regler[k]; }
+      if(o.wichtig && typeof o.wichtig==='object') d.wichtig=o.wichtig;
+      if(o.sortierung && typeof o.sortierung==='object') d.sortierung=o.sortierung;
+      if(typeof o.brief==='string') d.brief=o.brief;
+    }
+  }catch(err){}
+  return d;
 }
 function sichern(s){ mem=s; try{localStorage.setItem(KEY,JSON.stringify(s));}catch(err){} }
 var S=laden();
@@ -1155,6 +1231,243 @@ $('#loeschen').addEventListener('click',function(){
       return;}
   }
   show('heute');
+})();
+
+/* ================= Reihenfolge — sortieren statt entscheiden ================= */
+(function(){
+  var FAECHER = [
+    {k:'jetzt',      t:'Jetzt',         farbe:'#2dd4bf', cls:'f1'},
+    {k:'herbst',     t:'Diesen Herbst', farbe:'#a3e635', cls:'f2'},
+    {k:'irgendwann', t:'Irgendwann',    farbe:'#a78bfa', cls:'f3'},
+    {k:'nie',        t:'Nie',           farbe:'#7d8899', cls:'f4'}
+  ];
+  function st(){
+    if(!S.sortierung) S.sortierung = {};
+    if(typeof S.brief !== 'string') S.brief = '';
+    return S;
+  }
+  function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function entHtml(h){ var d=document.createElement('div'); d.innerHTML=h; return d.textContent.trim(); }
+
+  var ALLE = $$('#cards .card').map(function(c){
+    var sch = c.querySelector('.schritt').cloneNode(true);
+    var a = sch.querySelector('a'); if(a) a.parentNode.removeChild(a);
+    var stil = c.getAttribute('style') || '';
+    return {
+      i: +c.getAttribute('data-i'),
+      el: c,
+      titel: c.querySelector('h3').textContent.trim(),
+      kat: c.querySelector('.katlabel').textContent.trim(),
+      farbe: (stil.match(/--kat:\s*([^;]+)/) || [0,'#2dd4bf'])[1].trim(),
+      ich: c.querySelector('.ich').textContent.trim(),
+      schritt: sch.textContent.replace(/^\s*Erster Schritt:\s*/,'').trim()
+    };
+  });
+
+  /* acht passende plus zwei bewusste Ausreisser */
+  function auswahl(){
+    var bewertet = ALLE.map(function(w){ return {w:w, s:score(w.el), aus:false}; });
+    var absteigend = bewertet.slice().sort(function(a,b){ return b.s - a.s; });
+    var top = absteigend.slice(0,8);
+    var katsTop = {}; top.forEach(function(o){ katsTop[o.w.kat] = 1; });
+    var rest = absteigend.slice(8).sort(function(a,b){ return a.s - b.s; });
+    var aus = [];
+    rest.forEach(function(o){ if(aus.length < 1 && !katsTop[o.w.kat]) aus.push(o); });
+    rest.forEach(function(o){ if(aus.length < 2 && aus.indexOf(o) < 0) aus.push(o); });
+    aus.forEach(function(o){ o.aus = true; });
+    var liste = top.concat(aus);
+    var drin = {}; liste.forEach(function(o){ drin[o.w.i] = 1; });
+    var Z = st();
+    ALLE.forEach(function(w){
+      if(Z.sortierung[w.i] && !drin[w.i]) liste.push({w:w, s:score(w.el), aus:false});
+    });
+    return liste;
+  }
+
+  function zeigeSort(){
+    var Z = st(), liste = auswahl();
+    var fertig = liste.filter(function(o){ return Z.sortierung[o.w.i]; }).length;
+    $('#sortstand').textContent = fertig + ' von ' + liste.length + ' einsortiert';
+    $('#sortliste').innerHTML = liste.map(function(o){
+      var gew = Z.sortierung[o.w.i] || '';
+      return '<article class="sortkarte' + (gew ? ' erledigt' : '') + '" style="--kat:' + o.w.farbe + '">' +
+        '<div class="katlabel" style="color:' + o.w.farbe + '">' + esc(o.w.kat) +
+          (o.aus ? '<span class="ausreisser">Ausreißer</span>' : '') + '</div>' +
+        '<h4>' + esc(o.w.titel) + '</h4>' +
+        '<p class="ichkurz">' + esc(o.w.ich) + '</p>' +
+        '<p class="sschritt"><b>Erster Schritt:</b> ' + esc(o.w.schritt) + '</p>' +
+        '<div class="faecher">' + FAECHER.map(function(f){
+          return '<button class="fach ' + f.cls + '" data-w="' + o.w.i + '" data-f="' + f.k +
+                 '" aria-pressed="' + (gew === f.k) + '">' + f.t + '</button>';
+        }).join('') + '</div></article>';
+    }).join('');
+    $$('#sortliste .fach').forEach(function(b){
+      b.addEventListener('click', function(){
+        var w = b.getAttribute('data-w'), f = b.getAttribute('data-f'), Y = st();
+        if(Y.sortierung[w] === f) delete Y.sortierung[w]; else Y.sortierung[w] = f;
+        sichern(Y); zeigeSort();
+      });
+    });
+    zeigeZus();
+  }
+
+  function faecherInhalt(){
+    var Z = st(), pro = {};
+    FAECHER.forEach(function(f){ pro[f.k] = []; });
+    ALLE.forEach(function(w){ var f = Z.sortierung[w.i]; if(f && pro[f]) pro[f].push(w); });
+    return pro;
+  }
+
+  function zusText(){
+    var pro = faecherInhalt();
+    var t = 'WAS DANACH — meine Sortierung, ' + new Date().toLocaleDateString('de-DE') + '\n\n';
+    t += 'WAS IN MEINEN ANTWORTEN AUFFÄLLT\n' + spiegel().map(entHtml).join('\n') + '\n';
+    FAECHER.forEach(function(f){
+      if(!pro[f.k].length) return;
+      t += '\n' + f.t.toUpperCase() + '\n';
+      pro[f.k].forEach(function(w){
+        t += '- ' + w.titel + (f.k === 'nie' ? '' : '\n    ' + w.schritt) + '\n';
+      });
+    });
+    var erster = pro.jetzt[0] || pro.herbst[0];
+    if(erster) t += '\nDER EINE SCHRITT\n' + erster.titel + '\n' + erster.schritt + '\n';
+    if(st().brief) t += '\nBRIEF AN MICH IM FEBRUAR\n' + st().brief + '\n';
+    return t;
+  }
+
+  function kiText(){
+    var pro = faecherInhalt();
+    var t = ELTERN
+      ? ('Mein Kind macht im Mai 2027 Abitur. Ich habe 30 Fragen aus seiner Sicht beantwortet und\n' +
+         'anschließend zehn mögliche Wege in vier Fächer sortiert — so, wie ich glaube, dass er sie angehen sollte.\n\n')
+      : ('Ich bin 18 und mache im Mai 2027 Abitur. Ich habe 30 Fragen zu mir beantwortet und\n' +
+         'anschließend zehn mögliche Wege in vier Fächer sortiert: Jetzt, Diesen Herbst, Irgendwann, Nie.\n\n');
+    t += 'Bitte entscheide nichts für mich und empfiehl mir nicht, was ich tun soll.\n' +
+         'Stell mir stattdessen drei Rückfragen zu meiner Sortierung, und nenne eine andere mögliche\n' +
+         'Reihenfolge mit Begründung — besonders dort, wo meine Sortierung meinen Antworten widerspricht.\n' +
+         'Keine Rangliste, keine Top 3. Fließtext, höchstens zwölf Sätze.\n\n';
+    t += 'MEINE SORTIERUNG\n';
+    FAECHER.forEach(function(f){
+      t += f.t + ': ' + (pro[f.k].map(function(w){ return w.titel; }).join(' · ') || '—') + '\n';
+    });
+    t += '\nMEINE ANTWORTEN\n';
+    for(var i = 0; i < IMPULSE.length; i++){
+      var a = st().antworten[i];
+      if(!a || (a.a === undefined && !a.frei)) continue;
+      t += '- ' + IMPULSE[i].frage + ' -> ' +
+           ((a.a !== undefined && a.a !== null) ? IMPULSE[i].optionen[a.a].t : '(keine Auswahl)') +
+           (a.frei ? ' | Notiz: ' + a.frei : '') + '\n';
+    }
+    t += '\nMEINE REGLER (0-100)\n';
+    REGLER.forEach(function(r){ t += '- ' + r.t + ': ' + st().regler[r.k] + '\n'; });
+    return t;
+  }
+
+  function kopiere(text, knopf, erfolg){
+    var alt = knopf.textContent;
+    function ok(){ knopf.textContent = erfolg; setTimeout(function(){ knopf.textContent = alt; }, 4000); }
+    function fallback(){
+      var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);
+      ta.select(); try{ document.execCommand('copy'); }catch(err){} document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(ok, function(){ fallback(); ok(); });
+    } else { fallback(); ok(); }
+  }
+
+  function gespraech(){
+    if(ELTERN) return '';
+    return '<div class="zusblock"><div class="zt">Und dann</div><p class="leerhinweis">' +
+      'Der wirksamste Schritt steht nicht auf dieser Seite: <b>45 Minuten mit einem Erwachsenen ' +
+      'deiner Wahl</b> — ausdrücklich nicht deine Eltern. Jemand aus dem Verein, ein Onkel, ' +
+      'jemand der studiert, ein Nachbar, der einen Beruf hat, der dich interessiert. Du erzählst, ' +
+      'was hier steht. Der andere fragt nach. Mehr braucht es nicht.</p></div>';
+  }
+
+  function zeigeZus(){
+    var Z = st(), pro = faecherInhalt();
+    var anzahl = Object.keys(Z.sortierung).length;
+    if(anzahl < 3){
+      $('#zus').innerHTML = '<h3>Deine Zusammenfassung</h3>' +
+        '<p class="leerhinweis">Sortiere mindestens drei Wege ein — dann entsteht hier deine Seite: ' +
+        'deine Muster aus den 30 Fragen, deine Reihenfolge und der eine Schritt, mit dem du anfängst.</p>' +
+        gespraech();
+      return;
+    }
+    var bloecke = FAECHER.map(function(f){
+      if(!pro[f.k].length) return '';
+      return '<div class="zusblock"><div class="zt" style="color:' + f.farbe + '">' + f.t + '</div>' +
+        '<ul class="zusliste" style="--zf:' + f.farbe + '">' + pro[f.k].map(function(w){
+          return '<li>' + esc(w.titel) + (f.k === 'nie' ? '' : '<small>' + esc(w.schritt) + '</small>') + '</li>';
+        }).join('') + '</ul></div>';
+    }).join('');
+    var erster = pro.jetzt[0] || pro.herbst[0];
+    var schrittblock = erster
+      ? '<div class="zusblock"><div class="zt">Der eine Schritt</div><div class="derschritt"><b>' +
+        esc(erster.titel) + '</b><br>' + esc(erster.schritt) + '</div></div>' : '';
+
+    var briefblock = ELTERN
+      ? '<div class="zusblock"><div class="zt">Und dann</div><p class="leerhinweis">Das hier ist dein Bild. ' +
+        esc(KIND) + ' hat ein eigenes. Sucht euch einen ruhigen Moment und vergleicht — nicht um zu prüfen, ' +
+        'wer richtig lag, sondern um die Stellen zu finden, an denen sich beides unterscheidet.</p></div>'
+      : '<div class="zusblock briefbox"><div class="zt">Brief an dich im Februar</div>' +
+        '<p class="leerhinweis" style="margin-bottom:10px">Fünf Sätze reichen: was du dir heute vornimmst, ' +
+        'was du vermutlich aufschieben wirst, woran du erinnert werden willst. Der Text bleibt auf diesem ' +
+        'Gerät — am 1. Februar 2027 bekommst du eine Mail, die dich daran erinnert.</p>' +
+        '<textarea class="frei" id="briefeingabe" placeholder="Lieber Jakob im Februar, …">' +
+        esc(Z.brief || '') + '</textarea>' +
+        '<div class="qfoot"><a class="btn ghost" id="briefmail" href="#">Zusätzlich an mich selbst schicken</a>' +
+        '<span class="leerhinweis" style="font-size:13px">In Gmail lässt sich der Versand terminieren.</span></div></div>' +
+        gespraech();
+
+    $('#zus').innerHTML = '<h3>Deine Zusammenfassung</h3>' +
+      '<p class="leerhinweis">Stand: ' + new Date().toLocaleDateString('de-DE') + '</p>' +
+      '<div class="zusblock"><div class="zt">Was in deinen Antworten auffällt</div>' +
+        '<div class="spiegel">' + spiegel().join('') + '</div></div>' +
+      bloecke + schrittblock +
+      '<div class="qfoot"><button class="btn" id="zuskopieren">Zusammenfassung kopieren</button>' +
+      '<button class="btn ghost" id="sortki">Für die KI kopieren</button></div>' +
+      briefblock;
+
+    $('#zuskopieren').addEventListener('click', function(){
+      kopiere(zusText(), this, 'Kopiert — jetzt einfügen, wo du willst');
+    });
+    $('#sortki').addEventListener('click', function(){
+      kopiere(kiText(), this, 'Kopiert — in Claude oder ChatGPT einfügen');
+    });
+    var be = $('#briefeingabe');
+    if(be){
+      be.addEventListener('input', function(){ var Y = st(); Y.brief = this.value; sichern(Y); });
+      $('#briefmail').addEventListener('click', function(ev){
+        var txt = (st().brief || '').trim();
+        if(!txt){ ev.preventDefault(); this.textContent = 'Erst etwas schreiben'; 
+          var self = this; setTimeout(function(){ self.textContent = 'Zusätzlich an mich selbst schicken'; }, 2500);
+          return; }
+        this.href = 'mailto:?subject=' + encodeURIComponent('Brief an mich im Februar') +
+                    '&body=' + encodeURIComponent(txt + '\n\n— geschrieben am ' + new Date().toLocaleDateString('de-DE'));
+      });
+    }
+  }
+
+  if(ELTERN){
+    var h = $('#reihenfolge h2');
+    if(h) h.textContent = 'Was würdest du zuerst angehen?';
+    var hw = $('#reihenfolge .hinweis');
+    if(hw) hw.innerHTML = '<b>Hier wird nichts festgelegt.</b> Sortiere die Wege so, wie du glaubst, dass ' +
+      KIND + ' sie angehen sollte: <em>jetzt</em>, <em>diesen Herbst</em>, <em>irgendwann</em> — oder <em>nie</em>. ' +
+      'Deine Sortierung bleibt auf diesem Gerät. Der Vergleich passiert im Gespräch, nicht im System.';
+  }
+
+  zeigeSort();
+
+  var pp = new URLSearchParams(location.search);
+  if(pp.get('sortieren') || pp.get('brief')){
+    show('reihenfolge');
+    if(pp.get('brief')) setTimeout(function(){
+      var be = $('#briefeingabe');
+      if(be){ be.scrollIntoView({behavior:'smooth', block:'center'}); be.focus(); }
+    }, 350);
+  }
 })();
 </script>
 </body>
